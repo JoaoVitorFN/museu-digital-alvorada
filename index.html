@@ -1,14 +1,345 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Museu Digital — Alvorada d'Oeste</title><link rel="stylesheet" href="style.css"></head><body>
-<header><div class="brand"><b>AO</b><span><strong>Museu Digital</strong><small>Alvorada d'Oeste • RO</small></span></div><nav><a href="#inicio">Início</a><a href="#linha">Linha do tempo</a><a href="#mapa">Mapa</a><a href="#memorias">Memórias</a><a href="#galeria">Galeria</a></nav></header>
-<main>
-<section id="inicio" class="hero"><div><label>MEMÓRIA • HISTÓRIA • IDENTIDADE</label><h1>Uma viagem pela história de <em>Alvorada d'Oeste</em></h1><p>Um protótipo de museu digital para contar a formação, o desenvolvimento e as transformações do município.</p><a class="btn" href="#linha">Explorar a linha do tempo →</a></div><figure><img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Por_do_sol_em_alvorada_do_oeste.jpg" alt="Pôr do sol em Alvorada d'Oeste"><figcaption>Imagem de referência • Wikimedia Commons</figcaption></figure></section>
-<section class="intro"><div><label>O PROJETO</label><h2>Um pequeno museu que cabe na internet.</h2></div><p>A ideia é transformar a pesquisa histórica em uma experiência interativa. No trabalho final, os exemplos serão substituídos por informações verificadas, fotos de acervos e relatos autorizados.</p></section>
-<section id="linha" class="section"><div class="head"><div><label>EXPLORE POR DATA</label><h2>Linha do tempo</h2></div><p>Clique em cada marco para abrir detalhes. Os conteúdos demonstrativos abaixo usam dados iniciais encontrados em fontes públicas.</p></div><div class="timeline" id="timeline"></div><article id="detail" class="detail hidden"></article></section>
-<section id="mapa" class="section split"><div class="map"><span>📍</span><span>📍</span><span>📍</span><strong>MAPA HISTÓRICO</strong><small>Mockup — substituir pelo mapa real</small></div><div><label>ONDE A HISTÓRIA ACONTECEU</label><h2>Mapa histórico</h2><p>Na versão final, pontos da cidade poderão ser clicados para mostrar fotos, acontecimentos e informações de cada local.</p><div class="cards"><div><b>📍 Centro</b><small>Fotos e história do local</small></div><div><b>📍 Linha 52</b><small>Formação do povoado</small></div><div><b>📍 Outros locais</b><small>Adicionar conforme a pesquisa</small></div></div></div></section>
-<section class="section"><div class="head"><div><label>PASSADO × PRESENTE</label><h2>Alvorada através do tempo</h2></div><p>Na versão final, a pessoa poderá arrastar uma divisão entre uma fotografia antiga e uma atual do mesmo local.</p></div><div class="compare"><div><div class="fake old">FOTO HISTÓRICA</div><h3>Antes</h3><p>Local, ano e contexto.</p></div><b>→</b><div><div class="fake new">FOTO ATUAL</div><h3>Hoje</h3><p>Mesmo local fotografado atualmente.</p></div></div></section>
-<section id="memorias" class="section dark"><div class="head"><div><label>HISTÓRIA ORAL</label><h2>Memórias de Alvorada</h2></div><p>Relatos autorizados de moradores podem mostrar como era viver na cidade em diferentes épocas.</p></div><div class="memgrid"><article><i>“</i><p>Exemplo de depoimento. Aqui entraria um relato real, identificado e contextualizado, depois de uma entrevista.</p><small>Morador entrevistado • data da entrevista</small></article><article class="audio">▶ <span>Áudio de uma memória<br><small>recurso para a versão final</small></span></article></div></section>
-<section class="section"><div class="head"><div><label>QUEM FEZ PARTE</label><h2>Pessoas e histórias</h2></div><p>Perfis de pioneiros, moradores e personagens importantes, sempre baseados em fontes verificáveis.</p></div><div class="people"><article>👤<h3>Personagem histórico</h3><p>Breve biografia e contribuição local.</p></article><article>👤<h3>Morador entrevistado</h3><p>Memória pessoal relacionada a um período.</p></article><article>👤<h3>Outro personagem</h3><p>Informações documentadas e referências.</p></article></div></section>
-<section id="galeria" class="section"><div class="head"><div><label>IMAGENS E DOCUMENTOS</label><h2>Galeria</h2></div><p>Uma coleção organizada por período, tipo de documento ou local.</p></div><div class="gallery"><figure><img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Por_do_sol_em_alvorada_do_oeste.jpg" alt="Alvorada d'Oeste"><figcaption>Pôr do sol • Wikimedia Commons</figcaption></figure><figure><img src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Bandeira-alvoradadoeste.jpg" alt="Bandeira de Alvorada d'Oeste"><figcaption>Bandeira • Wikimedia Commons</figcaption></figure><figure><div class="doc">📜<br><small>DOCUMENTO HISTÓRICO</small></div><figcaption>Adicionar documento digitalizado</figcaption></figure></div></section>
-<section class="section sources"><div><label>TRANSPARÊNCIA</label><h2>Fontes</h2></div><div><p>O site final deve indicar a origem das informações e das imagens.</p><ul><li>Prefeitura de Alvorada d'Oeste — Histórico</li><li>IBGE e documentos oficiais</li><li>Acervos e entrevistas locais</li><li>Wikimedia Commons, quando a licença permitir</li></ul></div></section>
-</main><footer><b>Museu Digital de Alvorada d'Oeste</b><span>Protótipo escolar • revisar todo conteúdo antes da publicação</span></footer>
-<script>const items=[['1978','Linha 52','Início do povoamento e contexto da localidade.'],['1979','Formação do povoado','Moradores se organizaram para planejar a formação de um povoado; a Prefeitura registra a iniciativa de construção de uma escola para atender crianças da região.'],['1981','Mudança administrativa','A localidade deixou a condição de subdistrito e passou a ser distrito de Presidente Médici.'],['1986','Emancipação','Em 20 de maio de 1986 ocorreu a emancipação política e administrativa do município.'],['1989','Instalação','Em 1º de janeiro de 1989 ocorreu a instalação do município.'],['Hoje','Alvorada atual','A página final reunirá dados atuais, fotos e as principais transformações do município.']];const tl=document.querySelector('#timeline'),detail=document.querySelector('#detail');items.forEach((x,i)=>{const b=document.createElement('button');b.innerHTML='<b>'+x[0]+'</b><span>'+x[1]+'</span>';b.onclick=()=>{detail.classList.remove('hidden');detail.innerHTML='<label>MARCO HISTÓRICO</label><h3>'+x[0]+' — '+x[1]+'</h3><p>'+x[2]+'</p><small>Na versão final, esta área poderá conter fotos, documentos, mapa, curiosidades e links para a página completa.</small>';document.querySelectorAll('.timeline button').forEach(y=>y.classList.remove('active'));b.classList.add('active')};tl.appendChild(b)});</script></body></html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Museu Digital de Alvorada d’Oeste</title>
+  <meta name="description" content="Museu virtual escolar para explorar a história de Alvorada d’Oeste (RO): linha do tempo, mapa histórico, comparação antes e depois e galeria de documentos e fotografias.">
+  <meta name="theme-color" content="#453329">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23453329'/%3E%3Ctext x='32' y='45' font-size='38' text-anchor='middle' fill='%23F4EBDD' font-family='Georgia,serif'%3EM%3C/text%3E%3C/svg%3E">
+
+  <!-- Marca que o JavaScript está ativo e decide se a abertura aparece.
+       Links diretos (com #seção) e ?pular pulam a abertura.
+       Se o script.js não carregar em 6 s, a abertura é removida para não prender o visitante. -->
+  <script>
+    (function () {
+      var h = document.documentElement;
+      h.classList.add('js');
+      if (!location.hash && !/[?&]pular\b/.test(location.search)) {
+        h.classList.add('com-abertura');
+        setTimeout(function () {
+          if (!window.__museuPronto) { h.classList.remove('com-abertura'); }
+        }, 6000);
+      }
+    })();
+  </script>
+
+  <link rel="stylesheet" href="style.css">
+  <script src="data.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body id="inicio-pagina">
+
+  <a class="pular" href="#conteudo">Pular para o conteúdo</a>
+
+  <noscript>
+    <div class="aviso-noscript">
+      Este museu usa JavaScript para a linha do tempo, o mapa, o comparador e a galeria.
+      Ative o JavaScript no navegador para ver todo o conteúdo.
+    </div>
+  </noscript>
+
+  <!-- ====================== ABERTURA CINEMATOGRÁFICA ====================== -->
+  <div id="abertura" class="abertura" role="dialog" aria-modal="true" aria-labelledby="abertura-titulo">
+    <div class="abertura-fundo" aria-hidden="true">
+      <span class="folha papel" style="--x:-34vw;--y:-22vh;--r:-9deg;--s:1.15;--o:.55;--w:clamp(130px,19vw,250px);--d:.00s"></span>
+      <span class="folha foto"  style="--x:30vw;--y:-26vh;--r:7deg;--s:1;--o:.6;--w:clamp(120px,17vw,230px);--d:.15s"></span>
+      <span class="folha grade" style="--x:-38vw;--y:22vh;--r:5deg;--s:1.2;--o:.5;--w:clamp(140px,20vw,260px);--d:.30s"></span>
+      <span class="folha papel" style="--x:36vw;--y:20vh;--r:-6deg;--s:1.1;--o:.55;--w:clamp(130px,18vw,240px);--d:.45s"></span>
+      <span class="folha foto"  style="--x:-14vw;--y:-36vh;--r:-3deg;--s:.85;--o:.45;--w:clamp(100px,14vw,190px);--d:.60s"></span>
+      <span class="folha grade" style="--x:16vw;--y:34vh;--r:10deg;--s:.9;--o:.45;--w:clamp(110px,15vw,200px);--d:.75s"></span>
+      <span class="folha papel" style="--x:-2vw;--y:-4vh;--r:2deg;--s:1.6;--o:.18;--w:clamp(160px,24vw,320px);--d:.90s"></span>
+      <span class="luz"></span>
+      <span class="fita"></span>
+    </div>
+
+    <div class="abertura-conteudo">
+      <p class="abertura-sobre">Projeto escolar de memória e pesquisa histórica</p>
+      <p id="abertura-titulo" class="abertura-titulo">Museu Digital de Alvorada d’Oeste</p>
+      <p class="abertura-frase">Atravesse os registros do passado e conheça a história do nosso município.</p>
+      <button id="entrar" class="btn btn-grande" type="button">Entrar no museu</button>
+      <p class="abertura-aviso">Versão 1.0 · protótipo. A composição acima é ilustrativa; os conteúdos históricos ainda serão inseridos.</p>
+    </div>
+  </div>
+
+  <!-- ============================== SITE ============================== -->
+  <div id="site">
+
+    <header class="topo" id="topo" tabindex="-1">
+      <div class="conteiner topo-in">
+        <a class="marca" href="#inicio">
+          <span class="marca-sel" aria-hidden="true">M</span>
+          <span class="marca-txt">Museu Digital<small>de Alvorada d’Oeste</small></span>
+        </a>
+
+        <button id="menu-btn" class="menu-btn" type="button" aria-expanded="false" aria-controls="menu" aria-label="Abrir menu">
+          <span class="menu-btn-icone" aria-hidden="true">☰</span>
+          <span class="menu-btn-txt">Menu</span>
+        </button>
+
+        <nav id="menu" class="menu" aria-label="Navegação principal">
+          <ul>
+            <li><a href="#inicio">Início</a></li>
+            <li><a href="#linha-do-tempo">Linha do tempo</a></li>
+            <li><a href="#mapa-historico">Mapa histórico</a></li>
+            <li><a href="#antes-depois">Antes × Depois</a></li>
+            <li><a href="#galeria">Galeria</a></li>
+            <li><a href="#sobre">Sobre</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="conteudo" tabindex="-1">
+
+      <!-- ============================ INÍCIO ============================ -->
+      <section id="inicio" class="hero" aria-labelledby="hero-titulo">
+        <div class="conteiner">
+          <p class="faixa-proto"><span class="faixa-proto-icone" aria-hidden="true">!</span>
+            <span><strong>Versão 1.0 · protótipo.</strong> Os conteúdos marcados como “em preparação” são espaços reservados e ainda não são registros históricos verificados.</span>
+          </p>
+
+          <div class="hero-texto reveal">
+            <p class="eyebrow">Museu Digital de Alvorada d’Oeste</p>
+            <h1 id="hero-titulo" tabindex="-1">Explore a história e a evolução do município</h1>
+            <p class="lede">Um museu virtual para percorrer acontecimentos, lugares, fotografias e documentos de Alvorada d’Oeste, em Rondônia, e comparar como a paisagem mudou com o tempo.</p>
+            <div class="hero-acoes">
+              <a class="btn" href="#linha-do-tempo">Explorar a linha do tempo</a>
+              <a class="btn btn-sec" href="#galeria">Ver a galeria</a>
+            </div>
+            <div class="ornamento" aria-hidden="true"><span></span></div>
+          </div>
+
+          <ul class="atalhos reveal" aria-label="Seções do museu">
+            <li>
+              <a class="atalho" href="#linha-do-tempo">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v18"/><circle cx="7" cy="7" r="2"/><circle cx="7" cy="17" r="2"/><path d="M12 7h8M12 17h6"/></svg>
+                <strong>Linha do tempo</strong>
+                <span>Percorra os acontecimentos ano a ano.</span>
+              </a>
+            </li>
+            <li>
+              <a class="atalho" href="#mapa-historico">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+                <strong>Mapa histórico</strong>
+                <span>Explore lugares e a ocupação urbana.</span>
+              </a>
+            </li>
+            <li>
+              <a class="atalho" href="#antes-depois">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M12 4v16"/><path d="M9 10l-2 2 2 2M15 10l2 2-2 2"/></svg>
+                <strong>Antes × Depois</strong>
+                <span>Deslize para comparar duas épocas.</span>
+              </a>
+            </li>
+            <li>
+              <a class="atalho" href="#galeria">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="M4 18l5-5 4 4 3-3 4 4"/></svg>
+                <strong>Galeria</strong>
+                <span>Documentos, fotos, lugares e eventos.</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ========================= LINHA DO TEMPO ========================= -->
+      <section id="linha-do-tempo" class="secao secao-alt" aria-labelledby="tl-titulo">
+        <div class="conteiner">
+          <header class="secao-cab reveal">
+            <p class="eyebrow">01 · Linha do tempo</p>
+            <h2 id="tl-titulo">Linha do tempo</h2>
+            <p class="lede">Selecione um ano para ler o acontecimento. Use as setas do painel ou o teclado (↑ ↓) para avançar e voltar.</p>
+          </header>
+
+          <div class="tl reveal">
+            <div class="tl-trilho">
+              <div class="tl-lista" id="tl-lista" role="tablist" aria-orientation="vertical" aria-label="Anos da linha do tempo"></div>
+            </div>
+
+            <article class="tl-painel" id="tl-painel" role="tabpanel">
+              <div class="tl-corpo" id="tl-corpo">
+                <div class="tl-cab">
+                  <p class="aviso-ph" id="tl-aviso" hidden>
+                    <span class="aviso-ph-icone" aria-hidden="true">!</span>
+                    <span><strong>Conteúdo em preparação.</strong> Este é um espaço reservado, não um registro histórico verificado.</span>
+                  </p>
+                  <p class="tl-data" id="tl-data"></p>
+                  <h3 class="tl-titulo-ev" id="tl-titulo-ev"></h3>
+                </div>
+                <div class="tl-texto" id="tl-texto"></div>
+                <figure class="tl-figura" id="tl-figura"></figure>
+                <p class="fonte tl-fonte" id="tl-fonte"></p>
+              </div>
+
+              <div class="tl-controles">
+                <button class="seta" id="tl-ant" type="button" aria-label="Acontecimento anterior">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>
+                  <span class="rot">Anterior</span>
+                </button>
+                <p class="tl-contador" id="tl-contador" aria-hidden="true"></p>
+                <button class="seta" id="tl-prox" type="button" aria-label="Próximo acontecimento">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                  <span class="rot">Próximo</span>
+                </button>
+              </div>
+            </article>
+            <p class="sr-only" id="tl-status" role="status" aria-live="polite"></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================= MAPA HISTÓRICO ========================= -->
+      <section id="mapa-historico" class="secao" aria-labelledby="mapa-titulo">
+        <div class="conteiner">
+          <header class="secao-cab reveal">
+            <p class="eyebrow">02 · Mapa histórico</p>
+            <h2 id="mapa-titulo">Mapa histórico</h2>
+            <p class="lede">Toque ou clique em um ponto numerado para ver o local, sua descrição e a fonte da informação.</p>
+          </header>
+
+          <div class="mapa-layout reveal">
+            <div class="mapa-moldura">
+              <div class="mapa-area" id="mapa-area">
+                <p class="selo-demo" id="mapa-selo" hidden>Mapa demonstrativo — conteúdo ilustrativo</p>
+              </div>
+              <ul class="mapa-legenda" id="mapa-legenda" aria-label="Legenda do mapa"></ul>
+            </div>
+            <aside class="mapa-info" id="mapa-info" aria-live="polite" aria-label="Informações do ponto selecionado"></aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================== ANTES × DEPOIS ========================== -->
+      <section id="antes-depois" class="secao secao-alt" aria-labelledby="ad-titulo">
+        <div class="conteiner">
+          <header class="secao-cab reveal">
+            <p class="eyebrow">03 · Antes × Depois</p>
+            <h2 id="ad-titulo">Antes × Depois</h2>
+            <p class="lede">Arraste o divisor (ou use as setas ← → do teclado) para revelar o mesmo lugar em duas épocas.</p>
+          </header>
+
+          <div class="comp-bloco reveal">
+            <div class="comp-seletor" id="comp-seletor" role="group" aria-label="Escolher comparação" hidden></div>
+
+            <div class="comp" id="comp" style="--pos:50%">
+              <div class="comp-camada comp-depois" id="comp-depois"></div>
+              <div class="comp-camada comp-antes" id="comp-antes"></div>
+              <span class="comp-rotulo comp-rotulo-antes" id="comp-rot-antes"></span>
+              <span class="comp-rotulo comp-rotulo-depois" id="comp-rot-depois"></span>
+              <span class="comp-selo" id="comp-selo" hidden>Ilustração demonstrativa</span>
+              <button class="comp-alca" id="comp-alca" type="button" role="slider"
+                      aria-label="Divisor de comparação entre antes e depois"
+                      aria-orientation="horizontal" aria-valuemin="5" aria-valuemax="95" aria-valuenow="50">
+                <span class="comp-grip" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 7l-5 5 5 5M15 7l5 5-5 5"/></svg>
+                </span>
+              </button>
+            </div>
+
+            <p class="comp-local" id="comp-local"></p>
+            <div class="comp-legendas" id="comp-legendas"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================== GALERIA ============================== -->
+      <section id="galeria" class="secao" aria-labelledby="gal-titulo">
+        <div class="conteiner">
+          <header class="secao-cab reveal">
+            <p class="eyebrow">04 · Galeria</p>
+            <h2 id="gal-titulo">Galeria histórica</h2>
+            <p class="lede">Documentos, fotografias, lugares e eventos. Filtre por categoria e selecione um item para ampliá-lo.</p>
+          </header>
+
+          <div class="reveal">
+            <div class="filtros" id="gal-filtros" role="group" aria-label="Filtrar por categoria"></div>
+            <p class="gal-status" id="gal-status" role="status" aria-live="polite"></p>
+            <ul class="gal-grade" id="gal-grade"></ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- =============================== SOBRE =============================== -->
+      <section id="sobre" class="secao secao-alt" aria-labelledby="sobre-titulo">
+        <div class="conteiner">
+          <header class="secao-cab reveal">
+            <p class="eyebrow">05 · Sobre o museu e fontes</p>
+            <h2 id="sobre-titulo">Sobre o museu</h2>
+          </header>
+
+          <div class="sobre-grid reveal">
+            <div class="sobre-texto" id="sobre-texto"></div>
+
+            <div class="sobre-listas">
+              <section class="cartao" aria-labelledby="sobre-metodo-t">
+                <h3 id="sobre-metodo-t">Como o material foi reunido</h3>
+                <p id="sobre-metodo"></p>
+              </section>
+              <section class="cartao" aria-labelledby="sobre-ref-t">
+                <h3 id="sobre-ref-t">Referências de pesquisa</h3>
+                <ul class="lista-refs" id="sobre-refs"></ul>
+              </section>
+              <section class="cartao" aria-labelledby="sobre-cred-t">
+                <h3 id="sobre-cred-t">Créditos de fotografias e documentos</h3>
+                <ul class="lista-refs" id="sobre-creds"></ul>
+              </section>
+              <section class="cartao" aria-labelledby="sobre-agr-t">
+                <h3 id="sobre-agr-t">Agradecimentos</h3>
+                <ul class="lista-refs" id="sobre-agrs"></ul>
+              </section>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="rodape">
+      <div class="conteiner rodape-in">
+        <div>
+          <p class="rodape-nome">Museu Digital de Alvorada d’Oeste</p>
+          <p>Projeto escolar de pesquisa histórica e preservação da memória municipal.</p>
+        </div>
+        <div>
+          <p><a href="#sobre">Sobre o museu, referências e créditos</a></p>
+          <p class="rodape-peq">Versão 1.0 · protótipo · © <span id="ano-atual">2026</span></p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <button id="voltar-topo" class="voltar-topo" type="button" aria-label="Voltar ao topo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 15l6-6 6 6"/></svg>
+  </button>
+
+  <!-- Visualizador ampliado da galeria -->
+  <dialog id="visualizador" class="vis" aria-labelledby="vis-titulo">
+    <div class="vis-corpo">
+      <div class="vis-midia-col">
+        <div class="vis-midia" id="vis-midia"></div>
+        <button class="vis-zoom" id="vis-zoom" type="button" aria-pressed="false">Ampliar imagem</button>
+      </div>
+      <div class="vis-info">
+        <p class="aviso-ph" id="vis-aviso" hidden>
+          <span class="aviso-ph-icone" aria-hidden="true">!</span>
+          <span><strong>Conteúdo em preparação.</strong> Espaço reservado, não é um registro verificado.</span>
+        </p>
+        <p class="chip" id="vis-cat"></p>
+        <h3 id="vis-titulo"></h3>
+        <div id="vis-desc" class="vis-desc"></div>
+        <dl class="vis-meta" id="vis-meta"></dl>
+        <p class="fonte" id="vis-fonte"></p>
+        <p id="vis-arquivo" class="vis-arquivo"></p>
+        <div class="vis-nav">
+          <button class="btn btn-sec" id="vis-ant" type="button">← Anterior</button>
+          <button class="btn btn-sec" id="vis-prox" type="button">Próximo →</button>
+        </div>
+      </div>
+      <button class="vis-fechar" id="vis-fechar" type="button" aria-label="Fechar visualização">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+  </dialog>
+
+</body>
+</html>

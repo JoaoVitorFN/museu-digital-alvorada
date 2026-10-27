@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Ilustração demonstrativa em sépia de uma paisagem genérica">
+  <defs>
+    <linearGradient id="ceu" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E4D1AE"/>
+      <stop offset="1" stop-color="#F4EBDD"/>
+    </linearGradient>
+    <g id="arvore">
+      <rect x="-7" y="0" width="14" height="52" fill="#6B4A33"/>
+      <circle cx="0" cy="-10" r="38" fill="#7C5C3D"/>
+      <circle cx="-26" cy="14" r="26" fill="#86653F"/>
+      <circle cx="26" cy="14" r="26" fill="#86653F"/>
+    </g>
+  </defs>
+
+  <rect width="1600" height="900" fill="url(#ceu)"/>
+  <circle cx="1230" cy="170" r="66" fill="#E0C99B"/>
+
+  <!-- colinas ao fundo -->
+  <path d="M0 520 C 200 465, 380 505, 560 480 S 980 445, 1200 490 S 1500 500, 1600 478 L1600 580 L0 580 Z" fill="#CDB48F"/>
+  <path d="M0 548 C 260 515, 520 545, 800 525 S 1340 520, 1600 540 L1600 600 L0 600 Z" fill="#BFA27A"/>
+
+  <!-- chão e estrada de terra -->
+  <rect y="560" width="1600" height="340" fill="#B9946B"/>
+  <polygon points="690,900 910,900 835,560 785,560" fill="#DCC7A3"/>
+  <polygon points="760,900 800,900 812,560 808,560" fill="#C9B08C" opacity=".6"/>
+
+  <!-- árvores genéricas -->
+  <use href="#arvore" transform="translate(170 640) scale(1.25)"/>
+  <use href="#arvore" transform="translate(390 600) scale(.95)"/>
+  <use href="#arvore" transform="translate(560 585) scale(.7)"/>
+  <use href="#arvore" transform="translate(1330 650) scale(1.3)"/>
+  <use href="#arvore" transform="translate(1500 600) scale(.9)"/>
+
+  <!-- uma única construção simples -->
+  <rect x="1000" y="585" width="130" height="78" fill="#E9DABF" stroke="#805D43" stroke-width="4"/>
+  <polygon points="988,588 1065,534 1142,588" fill="#805D43"/>
+  <rect x="1048" y="618" width="32" height="45" fill="#6B4A33"/>
+
+  <!-- marca d'água: deixa claro que NÃO é uma fotografia histórica -->
+  <g transform="rotate(-12 800 450)" font-family="Georgia, 'Times New Roman', serif" text-anchor="middle" fill="#453329">
+    <text x="800" y="430" font-size="92" font-weight="700" opacity=".2">ILUSTRAÇÃO DEMONSTRATIVA</text>
+    <text x="800" y="520" font-size="46" opacity=".2">não é fotografia histórica</text>
+  </g>
+  <rect width="1600" height="900" fill="#805D43" opacity=".07"/>
+</svg>

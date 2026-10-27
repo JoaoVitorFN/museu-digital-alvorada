@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" role="img" aria-label="Mapa esquemático demonstrativo, sem valor geográfico">
+  <defs>
+    <filter id="papel" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="4" result="n"/>
+      <feColorMatrix in="n" values="0 0 0 0 .4  0 0 0 0 .3  0 0 0 0 .2  0 0 0 .35 0"/>
+    </filter>
+    <pattern id="grade" width="100" height="100" patternUnits="userSpaceOnUse">
+      <path d="M100 0H0V100" fill="none" stroke="#805D43" stroke-opacity=".22" stroke-width="1.5"/>
+    </pattern>
+  </defs>
+
+  <rect width="1200" height="900" fill="#EADBBE"/>
+  <rect width="1200" height="900" filter="url(#papel)" opacity=".6"/>
+  <rect width="1200" height="900" fill="url(#grade)"/>
+
+  <!-- moldura dupla -->
+  <rect x="22" y="22" width="1156" height="856" fill="none" stroke="#805D43" stroke-width="4"/>
+  <rect x="34" y="34" width="1132" height="832" fill="none" stroke="#805D43" stroke-width="1.5"/>
+
+  <!-- regiões ilustrativas (formas abstratas, sem relação com o território real) -->
+  <g fill="#B58B62" fill-opacity=".16" stroke="#805D43" stroke-width="2.5" stroke-dasharray="14 10" stroke-linejoin="round">
+    <path d="M150 200 Q 210 130 360 160 Q 470 190 450 300 Q 430 420 290 430 Q 150 430 130 320 Z"/>
+    <path d="M560 130 Q 700 90 820 150 Q 910 210 860 300 Q 790 380 650 350 Q 540 320 530 230 Z"/>
+    <path d="M400 480 Q 520 430 650 470 Q 760 500 740 600 Q 710 700 560 700 Q 410 690 380 590 Z"/>
+    <path d="M780 560 Q 880 520 990 560 Q 1070 600 1040 690 Q 990 760 880 750 Q 780 730 760 650 Z"/>
+  </g>
+  <g font-family="Georgia, 'Times New Roman', serif" fill="#453329" font-size="26" text-anchor="middle" opacity=".7">
+    <text x="290" y="392">região ilustrativa A</text>
+    <text x="695" y="338">região ilustrativa B</text>
+    <text x="560" y="668">região ilustrativa C</text>
+    <text x="905" y="722">região ilustrativa D</text>
+  </g>
+
+  <!-- bússola decorativa -->
+  <g transform="translate(1040 190)" stroke="#453329" fill="none">
+    <circle r="62" stroke-width="3"/>
+    <circle r="50" stroke-width="1" stroke-opacity=".6"/>
+    <path d="M0 -78 L12 0 L0 78 L-12 0 Z" fill="#B58B62" fill-opacity=".55" stroke-width="2"/>
+    <path d="M-78 0 L0 -12 L78 0 L0 12 Z" fill="#805D43" fill-opacity=".35" stroke-width="2"/>
+    <text y="-92" font-family="Georgia, serif" font-size="30" font-weight="700" text-anchor="middle" fill="#453329" stroke="none">N</text>
+  </g>
+
+  <!-- cartela de título -->
+  <g transform="translate(70 760)">
+    <rect width="560" height="90" fill="#F4EBDD" stroke="#805D43" stroke-width="3"/>
+    <rect x="6" y="6" width="548" height="78" fill="none" stroke="#805D43" stroke-width="1"/>
+    <text x="280" y="42" font-family="Georgia, 'Times New Roman', serif" font-size="30" font-weight="700" text-anchor="middle" fill="#2C211A">MAPA DEMONSTRATIVO</text>
+    <text x="280" y="70" font-family="Georgia, 'Times New Roman', serif" font-size="19" text-anchor="middle" fill="#453329">Conteúdo ilustrativo — sem valor geográfico ou histórico</text>
+  </g>
+</svg>
