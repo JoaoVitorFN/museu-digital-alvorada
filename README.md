@@ -1,11 +1,7 @@
-# Museu Digital de Alvorada d’Oeste — Versão 1.0 (protótipo)
+# Museu Digital de Alvorada d’Oeste
 
 Site estático (HTML, CSS e JavaScript puros), sem framework, sem banco de dados e sem chaves de API.
 Funciona abrindo o `index.html` e publica direto no Netlify.
-
-> **Importante:** esta V1 foi criada do zero. O repositório
-> `JoaoVitorFN/museu-digital-alvorada` não estava acessível durante a criação, então **nada do que já existe lá foi lido ou alterado**.
-> Antes de copiar estes arquivos para o repositório, compare com o que já existe (veja "Juntar com o repositório").
 
 ## Arquivos
 
@@ -14,9 +10,9 @@ museu-digital-alvorada/
 ├── index.html      estrutura do site (abertura, menu, seções, visualizador)
 ├── style.css       visual, responsividade, animações e movimento reduzido
 ├── script.js       interações (lê os dados do data.js)
-├── data.js         TODO o conteúdo editável (textos, fotos, pontos do mapa, referências)
-├── images/         home/ timeline/ gallery/ maps/ before-after/
-└── documents/      PDFs e documentos de referência
+├── data.js         TODO o conteúdo editável (acervo, linha do tempo, mapa, comparações, sobre)
+├── images/         imagens do acervo, mapas etc. (crie as subpastas que precisar, ex.: images/acervo/)
+└── documents/      PDFs de documentos
 ```
 
 ## Rodar no computador
@@ -25,39 +21,48 @@ museu-digital-alvorada/
 - Ou, com servidor local (recomendado): `python3 -m http.server 8000` dentro da pasta e abra `http://localhost:8000`.
 - Para pular a abertura durante os testes: `http://localhost:8000/?pular`. Links com `#seção` também pulam a abertura.
 
+## Como o conteúdo é organizado
+
+O site só mostra o que tem conteúdo. Campo vazio não aparece, e uma seção sem nada cadastrado fica reduzida ao título e à descrição.
+Não há textos nem imagens de preenchimento.
+
+Fotografias e documentos são cadastrados **uma única vez**, no `acervo` do `data.js`. As outras seções apontam para eles pelo `id`:
+
+| Seção | O que mostra | Como se liga ao acervo |
+|---|---|---|
+| Galeria | todo o acervo, com filtros **Todos / Fotografias / Documentos** | automático |
+| Linha do tempo | um evento por ano, em ordem cronológica | `midia: ['id-1', 'id-2']` no evento |
+| Mapa histórico | mapa real com pontos clicáveis | `midia: [...]` em cada ponto |
+| Antes × Depois | divisor entre duas fotografias do mesmo lugar | `antes: 'id'` e `depois: 'id'` |
+
+"Lugar", "Evento" etc. não são mais filtros: entram como `etiquetas` do item (ex.: `etiquetas: ['Lugar']`).
+
 ## Como acrescentar conteúdo (só edite o `data.js`)
 
 | Quero... | Onde |
 |---|---|
-| Preencher um acontecimento | `linhaDoTempo` → troque os `[INSERIR ...]`, preencha `fonte` e mude `status` para `'verificado'` |
-| Acrescentar um ano | copie um bloco de `linhaDoTempo`, mude `id` e `ano` |
-| Colocar uma foto num evento | salve em `images/timeline/` e escreva `imagem: 'images/timeline/ev-1986.jpg'` (com `alt`, `legenda`, `credito`) |
-| Trocar o mapa demonstrativo | ponha o mapa real em `images/maps/`, mude `mapa.imagem`, `demonstrativo: false` e ajuste `x`/`y` (em %) de cada ponto |
-| Acrescentar um ponto no mapa | copie um bloco de `mapa.pontos` (use `eventoId` para ligar à linha do tempo) |
-| Usar fotos reais no Antes × Depois | troque os caminhos em `antesDepois`, preencha período, crédito e fonte, `demonstrativo: false` |
-| Acrescentar item na galeria | copie um bloco de `galeria.itens` (`categoria`: documentos, fotos, lugares ou eventos; `arquivo` aponta para um PDF em `documents/`) |
-| Referências, créditos, agradecimentos | `sobre` |
+| Cadastrar uma fotografia ou documento | `acervo`: copie o modelo comentado no topo da lista (`tipo`: `'fotografia'` ou `'documento'`) e coloque o arquivo em `images/` ou `documents/` |
+| Acrescentar ou ampliar um evento | `linhaDoTempo`: copie um bloco e mude `id` e `ano` (a ordem é automática). Campos opcionais: `data`, `local`, `midia`, `fonte`, `fonteUrl` |
+| Ligar uma foto a um evento | cadastre a foto no `acervo` e escreva o `id` dela em `midia` do evento |
+| Ativar o mapa | coloque o mapa ou a foto aérea em `images/maps/`, preencha `mapa.imagem` e `mapa.alt` e cadastre `pontos` (`x` e `y` em % da imagem) |
+| Ativar uma comparação Antes × Depois | cadastre as duas fotos no `acervo` e acrescente `{ id, local, antes, depois }` em `antesDepois` |
+| Referências, créditos e agradecimentos | `sobre` (cartões vazios não aparecem) |
 
-Regras: não escreva fato sem fonte; texto entre `[colchetes]` aparece destacado como espaço reservado;
-preencha sempre `credito` e `fonte`; use as fotos só com autorização de uso.
-As fotos devem ser JPG/WebP com no máximo uns 1600 px de largura, para o site carregar rápido no celular.
-
-## Juntar com o repositório
-
-1. Clone o repositório e crie uma branch: `git checkout -b v1-museu`.
-2. Compare os arquivos existentes com estes (`git diff --no-index pasta-antiga pasta-nova` ou o VS Code).
-3. Copie o que fizer sentido, sem apagar o que já funciona.
-4. Teste abrindo o site.
+Regras:
+- Não escreva fato sem fonte, e preencha sempre `credito` e `fonte` de fotografias e documentos.
+- Use fotos só com autorização de uso.
+- Fotos em JPG ou WebP, com no máximo uns 1600 px de largura, para carregar rápido no celular.
+- Ao acrescentar um item, confira no navegador (computador e celular) antes de salvar no GitHub.
 
 ## Salvar no GitHub
 
 ```
 git add .
-git commit -m "Adiciona versão 1.0 do museu digital"
+git commit -m "Adiciona fotografia ao evento de 1986"
 git push
 ```
 
-Uma alteração por vez, uma mensagem clara por commit (ex.: `Adiciona fotografia ao evento de 1986`).
+Uma alteração por vez, com uma mensagem clara por commit.
 Para desfazer uma alteração que deu problema: `git log --oneline`, ache o commit e rode `git revert <código>`.
 
 ## Publicar no Netlify
@@ -66,18 +71,13 @@ Para desfazer uma alteração que deu problema: `git log --oneline`, ache o comm
 2. **Build command:** deixe vazio. **Publish directory:** `.` (a raiz).
 3. Cada `git push` na branch publicada gera uma nova versão automaticamente.
 
-## O que foi testado e o que falta
+## Testes
 
 Testado de forma automática no Chromium (computador, 375 px e 320 px): abertura, menu e menu móvel, linha do tempo
-(clique, setas, teclado), mapa, comparador (mouse, toque e teclado), filtros e visualizador da galeria, voltar ao topo,
-imagens ausentes, movimento reduzido, ausência de rolagem horizontal e ausência de erros no console.
+(clique, setas, teclado, ordem cronológica, textos longos), seções sem conteúdo, mapa, comparador (mouse, toque e teclado),
+filtros e visualizador da galeria, voltar ao topo, imagens ausentes, movimento reduzido, ausência de rolagem horizontal
+e de erros no console. Os recursos que dependem de conteúdo (mapa, comparador, galeria, fotos nos eventos) foram testados
+com dados de teste temporários, que não fazem parte do site.
 
 Falta testar à mão: celular de verdade (Android/Chrome e iPhone/Safari), Firefox e Safari no computador,
 leitor de tela (NVDA/TalkBack/VoiceOver) e a velocidade em internet lenta.
-
-## Limites conhecidos da V1
-
-- O mapa é **demonstrativo**: a imagem é um esquema e as posições dos pontos não são coordenadas reais.
-- As imagens do Antes × Depois são **ilustrações genéricas** com marca d’água, não fotografias.
-- Os anos 1978, 1979, 1981, 1986, 1989 e Hoje são só a estrutura inicial e precisam ser revisados.
-- As fontes de letra são as do sistema (sem download externo). Se quiser, dá para trocar por uma fonte do Google Fonts depois.

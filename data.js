@@ -1,317 +1,197 @@
 /* =====================================================================
    MUSEU DIGITAL DE ALVORADA D’OESTE — DADOS EDITÁVEIS
    ---------------------------------------------------------------------
-   Este é o ÚNICO arquivo que precisa ser editado para trocar textos,
-   fotografias, documentos, pontos do mapa e referências.
-   O script.js apenas lê estes dados e desenha a página.
+   Este é o ÚNICO arquivo que precisa ser editado para acrescentar ou
+   corrigir conteúdo. O script.js apenas lê estes dados e desenha a página.
 
-   REGRAS DE OURO
-   1. Só escreva fatos históricos que tenham fonte. Se não tiver fonte,
-      deixe o registro com  status: 'placeholder'.
-   2. Quando um registro for verificado, troque para  status: 'verificado'
-      e preencha  fonte  (e  fonteUrl, se houver link).
-   3. Todo texto entre colchetes, como [INSERIR ...], aparece destacado
-      no site como espaço reservado.
-   4. Imagem vazia ('') mostra um espaço reservado. Para usar uma imagem,
-      coloque o arquivo na pasta images/ e escreva o caminho, por exemplo:
-      imagem: 'images/timeline/ev-1986.jpg'
-   5. Respeite direitos de uso: preencha sempre  credito  e  fonte.
+   COMO FUNCIONA
+   - O ACERVO guarda cada fotografia e cada documento UMA única vez.
+   - A linha do tempo, o mapa e o Antes × Depois apontam para itens do
+     acervo pelo  id  (campo  midia  ou  antes / depois).
+   - A galeria mostra todo o acervo, com filtros Todos / Fotografias /
+     Documentos.
+   Assim, uma mesma fotografia pode aparecer em várias seções sem ser
+   cadastrada de novo.
 
-   STATUS POSSÍVEIS
-   - 'placeholder' : espaço reservado, NÃO é registro histórico.
-   - 'verificado'  : conteúdo pesquisado e com fonte.
+   REGRAS
+   1. Só escreva fatos históricos que tenham fonte.
+   2. Campos vazios ('' ou []) simplesmente não aparecem no site.
+      Seção sem conteúdo fica reduzida ao título e à descrição.
+   3. Arquivos de imagem vão em  images/  e PDFs em  documents/.
+      Use caminhos relativos, por exemplo:  'images/acervo/foto-1982.jpg'
+   4. Preencha sempre  credito  e  fonte  das fotografias e documentos,
+      e respeite os direitos de uso.
+   5. Fotos: JPG ou WebP, com no máximo uns 1600 px de largura.
    ===================================================================== */
 
 window.MUSEU_DATA = {
 
   /* ===================================================================
+     ACERVO — fotografias e documentos
+     -------------------------------------------------------------------
+     Modelo de um item (copie, descomente e preencha):
+
+     {
+       id: 'foto-1982-praca',          // único, sem espaços nem acentos
+       tipo: 'fotografia',             // 'fotografia' ou 'documento'
+       titulo: 'Título do item',
+       descricao: 'Descrição. Parágrafos separados por \n\n.',
+       ano: '1982',                    // ou data completa em  data: '21 de janeiro de 1980'
+       local: 'Nome do lugar',
+       etiquetas: ['Lugar'],           // ex.: 'Lugar', 'Evento', 'Pessoa'. Aparecem como etiquetas.
+       imagem: 'images/acervo/foto-1982-praca.jpg',
+       alt: 'Descrição da imagem para quem não enxerga',
+       arquivo: 'documents/lei-103.pdf', // opcional: PDF do documento
+       autor: 'Quem produziu',
+       credito: 'Quem cedeu ou fotografou',
+       fonte: 'Acervo, livro, entrevista...',
+       fonteUrl: 'https://...'         // opcional
+     }
+     =================================================================== */
+  acervo: [],
+
+  /* ===================================================================
      LINHA DO TEMPO
-     Os anos abaixo são apenas a estrutura inicial da interface.
-     Revise datas e conteúdos antes da publicação definitiva.
-     Para acrescentar um ano, copie um bloco e mude o  id  e o  ano.
+     Os eventos são ordenados pelo  ano  automaticamente: pode acrescentar
+     em qualquer posição. Copie um bloco e mude  id  e  ano.
+     Campos opcionais: data, local, midia (lista de ids do acervo), fonte, fonteUrl.
      Parágrafos do texto podem ser separados com \n\n.
+     Os textos abaixo são marcos iniciais de pesquisa e só dizem o que já
+     foi levantado; ampliar cada um depende do material pesquisado.
      =================================================================== */
   linhaDoTempo: [
     {
-      id: 'ev-1978',
-      ano: '1978',
-      data: '',
-      titulo: '[INSERIR TÍTULO DO ACONTECIMENTO]',
-      texto: '[INSERIR TEXTO HISTÓRICO VERIFICADO]',
-      imagem: '',
-      alt: '',
-      legenda: '',
-      credito: '',
+      id: 'ev-1974',
+      ano: '1974',
+      titulo: 'Chegada de João Távora Filho à região',
+      texto: 'João Távora Filho chega à região de Presidente Médici.',
+      midia: [],
       fonte: '',
-      fonteUrl: '',
-      status: 'placeholder'
+      fonteUrl: ''
+    },
+    {
+      id: 'ev-1976',
+      ano: '1976',
+      titulo: 'Colonos se estabelecem na Linha 52',
+      texto: 'Colonos se estabelecem em uma área da Linha 52.',
+      midia: [],
+      fonte: '',
+      fonteUrl: ''
+    },
+    {
+      id: 'ev-1977',
+      ano: '1977',
+      titulo: 'Levantamento do INCRA',
+      texto: 'Um levantamento do INCRA é mencionado em entrevista de João Távora Filho.',
+      midia: [],
+      fonte: 'Entrevista de João Távora Filho',
+      fonteUrl: ''
     },
     {
       id: 'ev-1979',
       ano: '1979',
-      data: '',
-      titulo: '[INSERIR TÍTULO DO ACONTECIMENTO]',
-      texto: '[INSERIR TEXTO HISTÓRICO VERIFICADO]',
-      imagem: '',
-      alt: '',
-      legenda: '',
-      credito: '',
+      titulo: 'Organização dos colonos',
+      texto: 'Os colonos se organizam e tem início o processo de abertura da área para a formação do povoado.',
+      midia: [],
       fonte: '',
-      fonteUrl: '',
-      status: 'placeholder'
+      fonteUrl: ''
+    },
+    {
+      id: 'ev-1980',
+      ano: '1980',
+      data: '21 de janeiro de 1980',
+      titulo: 'Primeira missa campal',
+      texto: 'Em 21 de janeiro é celebrada a primeira missa campal, pelo Padre Romano.',
+      midia: [],
+      fonte: '',
+      fonteUrl: ''
     },
     {
       id: 'ev-1981',
       ano: '1981',
-      data: '',
-      titulo: '[INSERIR TÍTULO DO ACONTECIMENTO]',
-      texto: '[INSERIR TEXTO HISTÓRICO VERIFICADO]',
-      imagem: '',
-      alt: '',
-      legenda: '',
-      credito: '',
+      titulo: 'Escola Santa Ana',
+      texto: 'A história da Escola Santa Ana e a atuação de Zenaide Távora como primeira professora.',
+      midia: [],
       fonte: '',
-      fonteUrl: '',
-      status: 'placeholder'
+      fonteUrl: ''
+    },
+    {
+      id: 'ev-1982',
+      ano: '1982',
+      titulo: 'Registro fotográfico de Alvorada d’Oeste',
+      texto: 'Registro fotográfico de Alvorada d’Oeste identificado com este ano no acervo de Ovídio Amélio.',
+      midia: [],
+      fonte: 'Acervo de Ovídio Amélio',
+      fonteUrl: ''
     },
     {
       id: 'ev-1986',
       ano: '1986',
-      data: '',
-      titulo: '[INSERIR TÍTULO DO ACONTECIMENTO]',
-      texto: '[INSERIR TEXTO HISTÓRICO VERIFICADO]',
-      imagem: '',
-      alt: '',
-      legenda: '',
-      credito: '',
-      fonte: '',
-      fonteUrl: '',
-      status: 'placeholder'
-    },
-    {
-      id: 'ev-1989',
-      ano: '1989',
-      data: '',
-      titulo: '[INSERIR TÍTULO DO ACONTECIMENTO]',
-      texto: '[INSERIR TEXTO HISTÓRICO VERIFICADO]',
-      imagem: '',
-      alt: '',
-      legenda: '',
-      credito: '',
-      fonte: '',
-      fonteUrl: '',
-      status: 'placeholder'
-    },
-    {
-      id: 'ev-hoje',
-      ano: 'Hoje',
-      data: '',
-      titulo: '[INSERIR TÍTULO DO ACONTECIMENTO]',
-      texto: '[INSERIR TEXTO SOBRE A ALVORADA D’OESTE DE HOJE]',
-      imagem: '',
-      alt: '',
-      legenda: '',
-      credito: '',
-      fonte: '',
-      fonteUrl: '',
-      status: 'placeholder'
+      data: '20 de maio de 1986',
+      titulo: 'Criação oficial do município',
+      texto: 'O município é criado oficialmente pela Lei Estadual nº 103, de 20 de maio.',
+      midia: [],
+      fonte: 'Lei Estadual nº 103, de 20 de maio de 1986',
+      fonteUrl: ''
     }
   ],
 
   /* ===================================================================
      MAPA HISTÓRICO
-     Na V1 o mapa é DEMONSTRATIVO: a imagem é um esquema ilustrativo e as
-     posições (x, y, em % da imagem) NÃO são coordenadas geográficas.
-     Quando houver mapas reais, troque  imagem  e  demonstrativo: false,
-     e ajuste x/y de cada ponto sobre o mapa verdadeiro.
-     eventoId liga o ponto a um acontecimento da linha do tempo.
+     Enquanto  imagem  estiver vazia, a seção mostra apenas o título.
+     Para ativar: coloque o mapa cartográfico ou a fotografia aérea em
+     images/maps/ e preencha  imagem  e  alt. Em seguida, cadastre os
+     pontos sobre a imagem real.
+     x e y são a posição do ponto em % da largura e da altura da imagem
+     (0 = canto esquerdo/superior, 100 = canto direito/inferior).
+     midia: lista de ids do acervo. eventoId: liga o ponto a um evento
+     da linha do tempo.
+
+     Modelo de ponto:
+       { id: 'pt-igreja', nome: 'Nome do lugar', x: 42, y: 61, periodo: '1980',
+         descricao: 'Texto.', midia: ['foto-1980-missa'], eventoId: 'ev-1980',
+         fonte: '', fonteUrl: '' }
      =================================================================== */
   mapa: {
-    demonstrativo: true,
-    imagem: 'images/maps/mapa-demonstrativo.svg',
-    alt: 'Mapa esquemático demonstrativo, sem valor geográfico: grade, bússola e áreas ilustrativas.',
-    legenda: [
-      { tipo: 'ponto',  texto: 'Ponto de interesse (posição ilustrativa)' },
-      { tipo: 'ativo',  texto: 'Ponto selecionado' },
-      { tipo: 'espaco', texto: 'Contorno tracejado: conteúdo em preparação' }
-    ],
-    pontos: [
-      {
-        id: 'pt-1',
-        nome: '[LOCAL 1 — A DEFINIR]',
-        x: 24, y: 30,
-        periodo: '',
-        descricao: '[INSERIR DESCRIÇÃO E RELAÇÃO COM A HISTÓRIA MUNICIPAL]',
-        imagem: '', alt: '', credito: '', fonte: '', fonteUrl: '',
-        eventoId: 'ev-1978',
-        status: 'placeholder'
-      },
-      {
-        id: 'pt-2',
-        nome: '[LOCAL 2 — A DEFINIR]',
-        x: 58, y: 24,
-        periodo: '',
-        descricao: '[INSERIR DESCRIÇÃO E RELAÇÃO COM A HISTÓRIA MUNICIPAL]',
-        imagem: '', alt: '', credito: '', fonte: '', fonteUrl: '',
-        eventoId: 'ev-1981',
-        status: 'placeholder'
-      },
-      {
-        id: 'pt-3',
-        nome: '[LOCAL 3 — A DEFINIR]',
-        x: 45, y: 62,
-        periodo: '',
-        descricao: '[INSERIR DESCRIÇÃO E RELAÇÃO COM A HISTÓRIA MUNICIPAL]',
-        imagem: '', alt: '', credito: '', fonte: '', fonteUrl: '',
-        eventoId: 'ev-1986',
-        status: 'placeholder'
-      },
-      {
-        id: 'pt-4',
-        nome: '[LOCAL 4 — A DEFINIR]',
-        x: 74, y: 70,
-        periodo: '',
-        descricao: '[INSERIR DESCRIÇÃO E RELAÇÃO COM A HISTÓRIA MUNICIPAL]',
-        imagem: '', alt: '', credito: '', fonte: '', fonteUrl: '',
-        eventoId: 'ev-hoje',
-        status: 'placeholder'
-      }
-    ]
+    imagem: '',
+    alt: '',
+    credito: '',
+    fonte: '',
+    fonteUrl: '',
+    pontos: []
   },
 
   /* ===================================================================
      ANTES × DEPOIS
-     Cada item é um par de imagens do MESMO lugar, no mesmo enquadramento.
-     Na V1 as imagens são ilustrações demonstrativas (demonstrativo: true).
-     Para usar fotos reais: troque os caminhos, preencha período, local,
-     crédito e fonte, e coloque demonstrativo: false.
-     Se houver mais de um par, o site mostra um seletor.
-     =================================================================== */
-  antesDepois: [
-    {
-      id: 'ad-1',
-      demonstrativo: true,
-      local: '[INSERIR NOME DO LOCAL]',
-      antes: {
-        imagem: 'images/before-after/antes-demo.svg',
-        alt: 'Ilustração demonstrativa em tons de sépia de uma paisagem genérica, com estrada de terra, árvores e uma construção.',
-        periodo: '[INSERIR PERÍODO]',
-        credito: 'Ilustração demonstrativa criada para o protótipo do site',
-        fonte: '',
-        fonteUrl: ''
-      },
-      depois: {
-        imagem: 'images/before-after/depois-demo.svg',
-        alt: 'Ilustração demonstrativa colorida da mesma paisagem genérica, agora com estrada asfaltada e mais construções.',
-        periodo: '[INSERIR PERÍODO]',
-        credito: 'Ilustração demonstrativa criada para o protótipo do site',
-        fonte: '',
-        fonteUrl: ''
-      }
-    }
-  ],
+     Cada comparação junta DUAS fotografias do mesmo lugar, já cadastradas
+     no acervo, de preferência com o mesmo enquadramento. O período, o
+     crédito e a fonte de cada lado vêm do cadastro no acervo.
+     Enquanto a lista estiver vazia, a seção mostra apenas o título.
 
-  /* ===================================================================
-     GALERIA
-     categoria deve ser um dos ids de  categorias.
-     arquivo (opcional): caminho de um PDF em documents/ para abrir.
+     Modelo:
+       { id: 'ad-praca', local: 'Nome do lugar', descricao: 'Texto opcional.',
+         antes: 'foto-1982-praca', depois: 'foto-2025-praca' }
      =================================================================== */
-  galeria: {
-    categorias: [
-      { id: 'documentos', nome: 'Documentos' },
-      { id: 'fotos',      nome: 'Fotos' },
-      { id: 'lugares',    nome: 'Lugares' },
-      { id: 'eventos',    nome: 'Eventos' }
-    ],
-    itens: [
-      {
-        id: 'gal-doc-1', categoria: 'documentos',
-        titulo: '[INSERIR TÍTULO DO DOCUMENTO]',
-        resumo: '[INSERIR RESUMO CURTO]',
-        descricao: '[INSERIR DESCRIÇÃO DO DOCUMENTO]',
-        data: '', autor: '', credito: '', fonte: '', fonteUrl: '',
-        imagem: '', alt: '', arquivo: '', status: 'placeholder'
-      },
-      {
-        id: 'gal-doc-2', categoria: 'documentos',
-        titulo: '[INSERIR TÍTULO DO DOCUMENTO]',
-        resumo: '[INSERIR RESUMO CURTO]',
-        descricao: '[INSERIR DESCRIÇÃO DO DOCUMENTO]',
-        data: '', autor: '', credito: '', fonte: '', fonteUrl: '',
-        imagem: '', alt: '', arquivo: '', status: 'placeholder'
-      },
-      {
-        id: 'gal-foto-1', categoria: 'fotos',
-        titulo: '[INSERIR TÍTULO DA FOTOGRAFIA]',
-        resumo: '[INSERIR RESUMO CURTO]',
-        descricao: '[INSERIR DESCRIÇÃO DA FOTOGRAFIA]',
-        data: '', autor: '', credito: '', fonte: '', fonteUrl: '',
-        imagem: '', alt: '', arquivo: '', status: 'placeholder'
-      },
-      {
-        id: 'gal-foto-2', categoria: 'fotos',
-        titulo: '[INSERIR TÍTULO DA FOTOGRAFIA]',
-        resumo: '[INSERIR RESUMO CURTO]',
-        descricao: '[INSERIR DESCRIÇÃO DA FOTOGRAFIA]',
-        data: '', autor: '', credito: '', fonte: '', fonteUrl: '',
-        imagem: '', alt: '', arquivo: '', status: 'placeholder'
-      },
-      {
-        id: 'gal-lugar-1', categoria: 'lugares',
-        titulo: '[INSERIR NOME DO LUGAR]',
-        resumo: '[INSERIR RESUMO CURTO]',
-        descricao: '[INSERIR DESCRIÇÃO DO LUGAR]',
-        data: '', autor: '', credito: '', fonte: '', fonteUrl: '',
-        imagem: '', alt: '', arquivo: '', status: 'placeholder'
-      },
-      {
-        id: 'gal-lugar-2', categoria: 'lugares',
-        titulo: '[INSERIR NOME DO LUGAR]',
-        resumo: '[INSERIR RESUMO CURTO]',
-        descricao: '[INSERIR DESCRIÇÃO DO LUGAR]',
-        data: '', autor: '', credito: '', fonte: '', fonteUrl: '',
-        imagem: '', alt: '', arquivo: '', status: 'placeholder'
-      },
-      {
-        id: 'gal-evento-1', categoria: 'eventos',
-        titulo: '[INSERIR NOME DO EVENTO]',
-        resumo: '[INSERIR RESUMO CURTO]',
-        descricao: '[INSERIR DESCRIÇÃO DO EVENTO]',
-        data: '', autor: '', credito: '', fonte: '', fonteUrl: '',
-        imagem: '', alt: '', arquivo: '', status: 'placeholder'
-      },
-      {
-        id: 'gal-evento-2', categoria: 'eventos',
-        titulo: '[INSERIR NOME DO EVENTO]',
-        resumo: '[INSERIR RESUMO CURTO]',
-        descricao: '[INSERIR DESCRIÇÃO DO EVENTO]',
-        data: '', autor: '', credito: '', fonte: '', fonteUrl: '',
-        imagem: '', alt: '', arquivo: '', status: 'placeholder'
-      }
-    ]
-  },
+  antesDepois: [],
 
   /* ===================================================================
      SOBRE, REFERÊNCIAS E CRÉDITOS
-     Itens com status 'pendente' aparecem marcados como pendentes.
-     Não coloque referências que ainda não foram realmente consultadas.
+     Cartões sem conteúdo não aparecem.
      =================================================================== */
   sobre: {
     paragrafos: [
       'O Museu Digital de Alvorada d’Oeste é um projeto escolar de pesquisa histórica, desenvolvimento web e preservação da memória municipal.',
-      'Seu objetivo é reunir, organizar e divulgar a história de Alvorada d’Oeste, em Rondônia, em um espaço de consulta aberto a estudantes, moradores e visitantes.',
-      'Todo conteúdo marcado como “em preparação” ou “demonstrativo” é apenas um espaço reservado: ele ainda não é um registro histórico verificado.'
+      'Seu objetivo é reunir, organizar e divulgar a história de Alvorada d’Oeste, em Rondônia, em um espaço de consulta aberto a estudantes, moradores e visitantes.'
     ],
-    metodo: '[INSERIR: como a pesquisa foi feita — por exemplo, arquivos consultados, entrevistas, publicações e visitas]',
+    metodo: 'As informações apresentadas vêm de pesquisa histórica, entrevistas, documentos oficiais e acervos consultados.',
     referencias: [
-      { id: 'ref-1', titulo: '[INSERIR REFERÊNCIA CONSULTADA]', detalhe: '', url: '', status: 'pendente' },
-      { id: 'ref-2', titulo: '[INSERIR REFERÊNCIA CONSULTADA]', detalhe: '', url: '', status: 'pendente' }
+      { titulo: 'Entrevista de João Távora Filho', detalhe: '', url: '' },
+      { titulo: 'Acervo de Ovídio Amélio', detalhe: '', url: '' },
+      { titulo: 'Lei Estadual nº 103, de 20 de maio de 1986', detalhe: 'Criação do município', url: '' }
     ],
-    creditos: [
-      { id: 'cred-1', item: '[INSERIR FOTOGRAFIA OU DOCUMENTO]', credito: '[INSERIR AUTORIA, ACERVO OU INSTITUIÇÃO]', status: 'pendente' }
-    ],
-    agradecimentos: [
-      { id: 'agr-1', nome: '[INSERIR NOME DE PESSOA OU INSTITUIÇÃO]', status: 'pendente' }
-    ]
+    /* { item: 'Fotografia de 1982', credito: 'Acervo de Ovídio Amélio' } */
+    creditos: [],
+    /* { nome: 'Nome de pessoa ou instituição' } */
+    agradecimentos: []
   }
 };

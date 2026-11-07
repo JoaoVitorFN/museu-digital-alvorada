@@ -1,19 +1,23 @@
 /* =====================================================================
    MUSEU DIGITAL DE ALVORADA D’OESTE — INTERAÇÕES
    Este arquivo só LÊ os dados de data.js (window.MUSEU_DATA) e monta a
-   página. Para trocar textos, fotos ou pontos do mapa, edite o data.js.
+   página. Para acrescentar ou corrigir conteúdo, edite o data.js.
+
+   Regra de exibição: cada seção só mostra o que tem conteúdo. Campo
+   vazio não aparece e seção sem conteúdo fica reduzida ao título.
 
    Índice
    1. Utilitários
-   2. Abertura cinematográfica
-   3. Menu responsivo
-   4. Linha do tempo
-   5. Mapa histórico
-   6. Antes × Depois
-   7. Galeria e visualizador
-   8. Sobre, referências e créditos
-   9. Voltar ao topo e animações de entrada
-   10. Inicialização
+   2. Acervo (fotografias e documentos compartilhados entre as seções)
+   3. Abertura cinematográfica
+   4. Menu responsivo
+   5. Linha do tempo
+   6. Mapa histórico
+   7. Antes × Depois
+   8. Galeria e visualizador
+   9. Sobre, referências e créditos
+   10. Voltar ao topo e animações de entrada
+   11. Inicialização
    ===================================================================== */
 (function () {
   'use strict';
@@ -60,6 +64,12 @@
     container.replaceChildren(...filhos.flat(Infinity).filter((f) => f != null && f !== false));
   }
 
+  /** Como preencher(), mas esconde o elemento quando não sobra nada. */
+  function preencherOuOcultar(container, ...filhos) {
+    preencher(container, ...filhos);
+    container.hidden = container.childNodes.length === 0;
+  }
+
   /** Reinicia uma animação CSS de entrada em um elemento. */
   function reanimar(elemento, classe) {
     elemento.classList.remove(classe);
@@ -85,30 +95,44 @@
     return /^[\w\-./%]+$/.test(caminho) && !caminho.includes('..') ? caminho : '';
   }
 
-  /** Destaca trechos [ENTRE COLCHETES] como espaço reservado. */
-  function textoComMarcadores(texto) {
-    return String(texto == null ? '' : texto)
-      .split(/(\[[^\]]+\])/g)
-      .filter((parte) => parte !== '')
-      .map((parte) => (/^\[[^\]]+\]$/.test(parte) ? el('span', { class: 'ph-txt', text: parte }) : document.createTextNode(parte)));
-  }
-
   /** Quebra um texto em parágrafos (separados por linha em branco). */
   function paragrafos(texto) {
     return String(texto || '')
       .split(/\n\s*\n/)
       .filter((p) => p.trim() !== '')
-      .map((p) => el('p', null, textoComMarcadores(p.trim())));
+      .map((p) => el('p', null, p.trim()));
+  }
+
+  /** "Fonte: ..." (com link quando houver). Sem fonte, não devolve nada. */
+  function nosDaFonte(obj) {
+    if (!obj || !obj.fonte) return null;
+    const url = urlSegura(obj.fonteUrl);
+    return ['Fonte: ', url ? el('a', { href: url, target: '_blank', rel: 'noopener noreferrer', text: obj.fonte }) : obj.fonte];
+  }
+
+  /** "Crédito: ...". Sem crédito, não devolve nada. */
+  const nosDoCredito = (credito) => (credito ? ['Crédito: ', credito] : null);
+
+  /** Junta partes não vazias separando-as por " · ". */
+  function juntarPartes(...partes) {
+    const nos = [];
+    partes.filter(Boolean).forEach((parte, i) => {
+      if (i) nos.push(' · ');
+      nos.push(parte);
+    });
+    return nos;
+  }
+
+  /** Marca uma seção sem conteúdo: fica só o título, sem espaço sobrando. */
+  function secaoSemConteudo(id) {
+    const secao = document.getElementById(id);
+    if (secao) secao.classList.add('sem-conteudo');
   }
 
   const ICONES = {
     foto: '<path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="9" cy="10" r="1.7"/><path d="M4 18l5-5 4 4 3-3 4 4"/>',
-    documento: '<path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M10 12h5M10 16h5"/>',
-    lugar: '<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',
-    evento: '<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/>',
-    mapa: '<path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/>'
+    documento: '<path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M10 12h5M10 16h5"/>'
   };
-  const ICONE_DA_CATEGORIA = { documentos: 'documento', fotos: 'foto', lugares: 'lugar', eventos: 'evento' };
 
   function iconeSvg(nome) {
     const modelo = document.createElement('template');
@@ -116,53 +140,90 @@
     return modelo.content.firstElementChild;
   }
 
-  /** Espaço reservado visual quando não há imagem (ou ela falhou ao carregar). */
-  function espacoReservado(icone, rotulo) {
-    const texto = rotulo || '[IMAGEM A INSERIR]';
-    return el('div', { class: 'img-ph', role: 'img', 'aria-label': 'Espaço reservado: ' + texto }, iconeSvg(icone), el('span', { text: texto }));
+  /** Capa discreta (só um ícone) para um documento que não tem imagem de prévia. */
+  function capaSemImagem(tipo) {
+    return el('div', { class: 'capa', 'aria-hidden': 'true' }, iconeSvg(tipo === 'documento' ? 'documento' : 'foto'));
   }
 
   /**
-   * Cria uma imagem. Sem endereço, ou se o arquivo não carregar, mostra um
-   * espaço reservado em vez de uma área quebrada.
+   * Cria uma imagem. Se o arquivo não carregar, chama opcoes.aoErro(img);
+   * sem essa função, a imagem simplesmente é retirada (nunca fica um ícone quebrado).
    */
   function criarImagem(src, alt, opcoes) {
     const o = opcoes || {};
-    if (!src) return espacoReservado(o.icone, o.rotulo);
     const img = document.createElement('img');
     img.alt = alt || '';
     img.decoding = 'async';
     if (!o.imediata) img.loading = 'lazy';
     if (o.classe) img.className = o.classe;
     img.draggable = false;
-    img.addEventListener('error', () => {
-      if (img.parentNode) img.replaceWith(espacoReservado(o.icone, o.rotulo));
-    }, { once: true });
+    img.addEventListener('error', () => { if (o.aoErro) o.aoErro(img); else img.remove(); }, { once: true });
+    if (o.aoCarregar) img.addEventListener('load', () => o.aoCarregar(img), { once: true });
     img.src = src;
     return img;
   }
 
-  function avisoPlaceholder(mensagem) {
-    return el('p', { class: 'aviso-ph' },
-      el('span', { class: 'aviso-ph-icone', 'aria-hidden': 'true', text: '!' }),
-      el('span', null, el('strong', { text: 'Conteúdo em preparação. ' }), mensagem || 'Espaço reservado, não é um registro histórico verificado.'));
-  }
+  /* ------------------------------------------------------------------
+     2. ACERVO
+     Fotografias e documentos são cadastrados uma vez em data.js (acervo)
+     e usados pela galeria, pela linha do tempo, pelo mapa e pelo
+     Antes × Depois através do id.
+     ------------------------------------------------------------------ */
+  const TIPOS = [
+    { id: 'fotografia', nome: 'Fotografias', singular: 'Fotografia' },
+    { id: 'documento', nome: 'Documentos', singular: 'Documento' }
+  ];
+  const tipoDe = (item) => TIPOS.find((t) => t.id === item.tipo) || TIPOS[0];
 
-  /** "Fonte: ..." com link quando houver; marca como pendente quando faltar. */
-  function nosDaFonte(obj, textoSeVazio) {
-    const url = urlSegura(obj && obj.fonteUrl);
-    const fonte = obj && obj.fonte;
-    if (!fonte) return ['Fonte: ', textoSeVazio || el('span', { class: 'pendente', text: '[PENDENTE — inserir fonte]' })];
-    return ['Fonte: ', url ? el('a', { href: url, target: '_blank', rel: 'noopener noreferrer', text: fonte }) : textoComMarcadores(fonte)];
-  }
+  const ACERVO = (Array.isArray(DADOS.acervo) ? DADOS.acervo : [])
+    .filter((it) => it && it.id && it.titulo)
+    .map((it) => Object.assign({}, it, { tipo: tipoDe(it).id }));
+  const ACERVO_POR_ID = new Map(ACERVO.map((it) => [it.id, it]));
 
-  function nosDoCredito(credito, pendenteSeVazio) {
-    if (credito) return ['Crédito: ', textoComMarcadores(credito)];
-    return pendenteSeVazio ? ['Crédito: ', el('span', { class: 'pendente', text: '[PENDENTE]' })] : [];
+  const midiaDe = (ids) => (Array.isArray(ids) ? ids : []).map((id) => ACERVO_POR_ID.get(id)).filter(Boolean);
+  const periodoDe = (item) => item.data || item.ano || '';
+
+  // Funções que dependem de outros módulos (preenchidas mais abaixo).
+  const api = { irParaEvento: () => {}, abrirAcervo: () => {} };
+
+  /**
+   * Monta a mídia ligada a um evento ou ponto do mapa: fotografias viram
+   * figuras que abrem ampliadas ao clicar; documentos sem imagem viram botões.
+   */
+  function nosDeMidia(itens) {
+    const figuras = [];
+    const documentos = [];
+    itens.forEach((item) => {
+      if (item.imagem) {
+        figuras.push(el('figure', { class: 'fig' },
+          el('button', {
+            type: 'button', class: 'moldura moldura-botao', 'aria-label': 'Ampliar: ' + item.titulo,
+            onclick: () => api.abrirAcervo(item.id, itens)
+          }, criarImagem(item.imagem, item.alt || item.titulo, {
+            aoErro: (img) => {
+              const fig = img.closest('.fig');
+              const corpo = fig && fig.closest('.tl-corpo');
+              if (fig) fig.remove();
+              if (corpo && !corpo.querySelector('.fig')) corpo.classList.remove('com-midia');
+            }
+          })),
+          el('figcaption', null,
+            el('span', { class: 'fig-titulo', text: item.titulo }),
+            periodoDe(item) || item.local ? el('span', { class: 'fig-meta', text: [periodoDe(item), item.local].filter(Boolean).join(' · ') }) : null,
+            item.credito ? el('span', { class: 'cred' }, nosDoCredito(item.credito)) : null,
+            item.fonte ? el('span', { class: 'cred' }, nosDaFonte(item)) : null)));
+      } else {
+        documentos.push(el('button', {
+          type: 'button', class: 'btn btn-sec btn-doc',
+          onclick: () => api.abrirAcervo(item.id, itens)
+        }, 'Ver documento: ' + item.titulo));
+      }
+    });
+    return [figuras, documentos.length ? el('div', { class: 'docs-rel' }, documentos) : null];
   }
 
   /* ------------------------------------------------------------------
-     2. ABERTURA CINEMATOGRÁFICA
+     3. ABERTURA CINEMATOGRÁFICA
      ------------------------------------------------------------------ */
   function iniciarAbertura() {
     const html = document.documentElement;
@@ -193,7 +254,7 @@
   }
 
   /* ------------------------------------------------------------------
-     3. MENU RESPONSIVO
+     4. MENU RESPONSIVO
      ------------------------------------------------------------------ */
   function iniciarMenu() {
     const botao = $('#menu-btn');
@@ -222,60 +283,73 @@
   }
 
   /* ------------------------------------------------------------------
-     4. LINHA DO TEMPO
+     5. LINHA DO TEMPO
+     Os eventos são ordenados pelo ano; eventos sem ano numérico vão ao fim.
      ------------------------------------------------------------------ */
-  const api = { irParaEvento: () => {} }; // preenchido pela linha do tempo, usado pelo mapa
+  function ordenarEventos(lista) {
+    const chave = (ev) => {
+      const n = parseInt(ev.ano, 10);
+      return Number.isNaN(n) ? Infinity : n;
+    };
+    return lista
+      .filter((ev) => ev && ev.id && ev.ano && ev.titulo)
+      .map((ev, posicao) => ({ ev, posicao }))
+      .sort((a, b) => {
+        const ka = chave(a.ev);
+        const kb = chave(b.ev);
+        if (ka !== kb) return ka < kb ? -1 : 1;
+        return a.posicao - b.posicao;
+      })
+      .map((x) => x.ev);
+  }
+
+  const EVENTOS = ordenarEventos(Array.isArray(DADOS.linhaDoTempo) ? DADOS.linhaDoTempo : []);
 
   function iniciarLinhaDoTempo() {
-    const eventos = DADOS.linhaDoTempo || [];
     const lista = $('#tl-lista');
     const painel = $('#tl-painel');
-    if (!lista || !painel || eventos.length === 0) return;
+    if (!lista || !painel) return;
+    if (EVENTOS.length === 0) {
+      $('.tl').hidden = true;
+      secaoSemConteudo('linha-do-tempo');
+      return;
+    }
 
     const corpo = $('#tl-corpo');
     const botaoAnterior = $('#tl-ant');
     const botaoProximo = $('#tl-prox');
     const contador = $('#tl-contador');
     const status = $('#tl-status');
-    const total = eventos.length;
+    const total = EVENTOS.length;
     let atual = -1;
 
-    const abas = eventos.map((ev, i) => {
+    const abas = EVENTOS.map((ev, i) => {
       const aba = el('button', {
         type: 'button', role: 'tab', class: 'tl-marco', id: 'tl-aba-' + i,
         'aria-selected': 'false', 'aria-controls': 'tl-painel', tabindex: '-1',
         onclick: () => selecionar(i, { anunciar: true, rolar: true })
       },
       el('span', { class: 'tl-ponto', 'aria-hidden': 'true' }),
-      el('span', { class: 'tl-txt' },
-        el('span', { class: 'tl-ano', text: ev.ano }),
-        ev.status !== 'verificado' ? el('span', { class: 'tl-etiqueta', text: 'em preparação' }) : null));
+      el('span', { class: 'tl-txt' }, el('span', { class: 'tl-ano', text: ev.ano })));
       lista.append(aba);
       return aba;
     });
 
     function desenhar(ev) {
-      const emPreparacao = ev.status !== 'verificado';
-      $('#tl-aviso').hidden = !emPreparacao;
-      $('#tl-data').textContent = ev.data || ev.ano;
-      preencher($('#tl-titulo-ev'), textoComMarcadores(ev.titulo));
+      const itens = midiaDe(ev.midia);
+      $('#tl-data').textContent = [ev.data || ev.ano, ev.local].filter(Boolean).join(' · ');
+      $('#tl-titulo-ev').textContent = ev.titulo;
       preencher($('#tl-texto'), paragrafos(ev.texto));
-
-      const legenda = ev.legenda
-        ? textoComMarcadores(ev.legenda)
-        : (emPreparacao ? el('span', { class: 'ph-txt', text: '[INSERIR LEGENDA]' }) : null);
-      preencher($('#tl-figura'),
-        el('div', { class: 'moldura' }, criarImagem(ev.imagem, ev.alt || ev.titulo, { icone: 'foto', rotulo: '[INSERIR FOTOGRAFIA OU ILUSTRAÇÃO]' })),
-        el('figcaption', null, legenda, el('span', { class: 'cred' }, nosDoCredito(ev.credito, emPreparacao))));
-
-      preencher($('#tl-fonte'), nosDaFonte(ev));
+      preencherOuOcultar($('#tl-midia'), nosDeMidia(itens));
+      corpo.classList.toggle('com-midia', itens.some((it) => it.imagem));
+      preencherOuOcultar($('#tl-fonte'), nosDaFonte(ev));
     }
 
     function selecionar(i, opcoes) {
       const o = opcoes || {};
       if (i < 0 || i >= total) return;
       atual = i;
-      const ev = eventos[i];
+      const ev = EVENTOS[i];
 
       abas.forEach((aba, k) => {
         aba.setAttribute('aria-selected', String(k === i));
@@ -316,7 +390,7 @@
     });
 
     api.irParaEvento = function (id) {
-      const i = eventos.findIndex((ev) => ev.id === id);
+      const i = EVENTOS.findIndex((ev) => ev.id === id);
       if (i < 0) return;
       selecionar(i, { anunciar: true });
       $('#linha-do-tempo').scrollIntoView({ behavior: comportamentoRolagem(), block: 'start' });
@@ -326,36 +400,45 @@
   }
 
   /* ------------------------------------------------------------------
-     5. MAPA HISTÓRICO
+     6. MAPA HISTÓRICO
+     Sem imagem de mapa em data.js, a seção mostra só o título.
      ------------------------------------------------------------------ */
   function iniciarMapa() {
-    const cfg = DADOS.mapa;
+    const cfg = DADOS.mapa || {};
+    const conteudo = $('#mapa-conteudo');
+    const layout = $('#mapa-layout');
     const area = $('#mapa-area');
     const info = $('#mapa-info');
-    if (!cfg || !area || !info) return;
+    if (!conteudo || !layout || !area || !info) return;
 
-    const pontos = cfg.pontos || [];
-    $('#mapa-selo').hidden = !cfg.demonstrativo;
+    const semMapa = () => { conteudo.hidden = true; secaoSemConteudo('mapa-historico'); };
+    if (!cfg.imagem) { semMapa(); return; }
 
-    area.insertBefore(
-      criarImagem(cfg.imagem, cfg.alt, { classe: 'mapa-img', icone: 'mapa', rotulo: '[INSERIR IMAGEM DO MAPA]', imediata: true }),
-      area.firstChild);
+    const pontos = (Array.isArray(cfg.pontos) ? cfg.pontos : [])
+      .filter((p) => p && p.nome && Number.isFinite(parseFloat(p.x)) && Number.isFinite(parseFloat(p.y)));
 
-    const tiposDeLegenda = ['ponto', 'ativo', 'espaco'];
-    preencher($('#mapa-legenda'), (cfg.legenda || []).map((item) =>
-      el('li', null,
-        el('span', { class: 'leg-simbolo ' + (tiposDeLegenda.includes(item.tipo) ? item.tipo : 'ponto'), 'aria-hidden': 'true' }),
-        item.texto)));
+    area.prepend(criarImagem(cfg.imagem, cfg.alt || 'Mapa de Alvorada d’Oeste', { classe: 'mapa-img', imediata: true, aoErro: semMapa }));
+    conteudo.hidden = false;
 
-    function estadoVazio() {
-      preencher(info, el('p', { class: 'vazio', text: 'Selecione um ponto numerado no mapa para ver aqui o local, a descrição e a fonte.' }));
+    preencherOuOcultar($('#mapa-fonte'), juntarPartes(nosDoCredito(cfg.credito), nosDaFonte(cfg)));
+
+    // Sem pontos cadastrados: só o mapa, em largura total.
+    if (pontos.length === 0) {
+      layout.classList.add('sem-info');
+      info.hidden = true;
+      return;
     }
 
+    $('#mapa-dica').hidden = false;
+    preencherOuOcultar($('#mapa-legenda'),
+      el('li', null, el('span', { class: 'leg-simbolo', 'aria-hidden': 'true' }), 'Ponto de interesse'),
+      el('li', null, el('span', { class: 'leg-simbolo ativo', 'aria-hidden': 'true' }), 'Ponto selecionado'));
+
     const botoes = pontos.map((p, i) => {
-      const x = Math.min(100, Math.max(0, Number(p.x) || 0));
-      const y = Math.min(100, Math.max(0, Number(p.y) || 0));
+      const x = Math.min(100, Math.max(0, parseFloat(p.x)));
+      const y = Math.min(100, Math.max(0, parseFloat(p.y)));
       const botao = el('button', {
-        type: 'button', class: 'marcador' + (p.status === 'verificado' ? ' verificado' : ''),
+        type: 'button', class: 'marcador',
         style: 'left:' + x + '%;top:' + y + '%;--atraso:' + (i * 0.45) + 's',
         'aria-pressed': 'false', 'aria-controls': 'mapa-info',
         'aria-label': 'Ponto ' + (i + 1) + ': ' + p.nome,
@@ -367,24 +450,16 @@
 
     function selecionar(i) {
       const p = pontos[i];
-      const emPreparacao = p.status !== 'verificado';
       botoes.forEach((b, k) => b.setAttribute('aria-pressed', String(k === i)));
-
-      const indiceEvento = (DADOS.linhaDoTempo || []).findIndex((ev) => ev.id === p.eventoId);
-      const evento = indiceEvento >= 0 ? DADOS.linhaDoTempo[indiceEvento] : null;
+      const evento = EVENTOS.find((ev) => ev.id === p.eventoId);
+      const itens = midiaDe(p.midia);
 
       preencher(info,
-        emPreparacao ? avisoPlaceholder() : null,
-        p.periodo
-          ? el('p', { class: 'periodo', text: p.periodo })
-          : (emPreparacao ? el('p', { class: 'periodo' }, el('span', { class: 'ph-txt', text: '[INSERIR DATA OU PERÍODO]' })) : null),
-        el('h3', null, textoComMarcadores(p.nome)),
+        p.periodo ? el('p', { class: 'periodo', text: p.periodo }) : null,
+        el('h3', { text: p.nome }),
         paragrafos(p.descricao),
-        (p.imagem || emPreparacao)
-          ? el('div', { class: 'moldura' }, criarImagem(p.imagem, p.alt || p.nome, { icone: 'lugar', rotulo: '[INSERIR FOTOGRAFIA DO LOCAL]' }))
-          : null,
-        el('p', { class: 'credito' }, nosDoCredito(p.credito, emPreparacao)),
-        el('p', { class: 'fonte' }, nosDaFonte(p)),
+        itens.length ? el('div', { class: 'info-midia' }, nosDeMidia(itens)) : null,
+        p.fonte ? el('p', { class: 'fonte' }, nosDaFonte(p)) : null,
         evento ? el('button', {
           type: 'button', class: 'btn btn-sec link-evento',
           onclick: () => api.irParaEvento(evento.id)
@@ -392,17 +467,29 @@
       reanimar(info, 'entra');
     }
 
-    estadoVazio();
+    preencher(info, el('p', { class: 'vazio', text: 'Selecione um ponto numerado no mapa para ver aqui o local, a descrição e a fonte.' }));
   }
 
   /* ------------------------------------------------------------------
-     6. ANTES × DEPOIS
+     7. ANTES × DEPOIS
+     Cada comparação usa duas fotografias do acervo (campos antes/depois).
+     Sem comparações válidas, a seção mostra só o título.
      ------------------------------------------------------------------ */
   function iniciarComparador() {
-    const pares = DADOS.antesDepois || [];
+    const bloco = $('#comp-bloco');
     const comp = $('#comp');
     const alca = $('#comp-alca');
-    if (pares.length === 0 || !comp || !alca) return;
+    if (!bloco || !comp || !alca) return;
+
+    const pares = (Array.isArray(DADOS.antesDepois) ? DADOS.antesDepois : []).map((par) => {
+      const antes = par && ACERVO_POR_ID.get(par.antes);
+      const depois = par && ACERVO_POR_ID.get(par.depois);
+      if (!antes || !depois || !antes.imagem || !depois.imagem) return null;
+      return { local: par.local || antes.local || depois.local || '', descricao: par.descricao || '', antes, depois };
+    }).filter(Boolean);
+
+    if (pares.length === 0) { bloco.hidden = true; secaoSemConteudo('antes-depois'); return; }
+    bloco.hidden = false;
 
     const MIN = 5;
     const MAX = 95;
@@ -417,26 +504,32 @@
       alca.setAttribute('aria-valuetext', 'Imagem de antes visível em ' + p + '% da largura');
     }
 
-    function cartaoLegenda(titulo, lado, demonstrativo) {
+    // O comparador assume a proporção da fotografia (evita cortar ou esticar).
+    function ajustarProporcao(img) {
+      if (img.naturalWidth && img.naturalHeight) comp.style.setProperty('--razao', String(img.naturalWidth / img.naturalHeight));
+    }
+
+    function cartaoLegenda(rotulo, item) {
+      const periodo = periodoDe(item);
       return el('div', { class: 'comp-leg' },
-        el('h3', { text: titulo }),
-        el('p', null, 'Período: ', textoComMarcadores(lado.periodo || '[INSERIR PERÍODO]')),
-        el('p', null, nosDoCredito(lado.credito, true)),
-        el('p', { class: 'fonte' },
-          nosDaFonte(lado, demonstrativo ? 'não se aplica — ilustração demonstrativa, não é registro histórico.' : null)));
+        el('h3', { text: rotulo + (periodo ? ' · ' + periodo : '') }),
+        el('p', { class: 'comp-leg-titulo', text: item.titulo }),
+        paragrafos(item.descricao),
+        item.credito ? el('p', null, nosDoCredito(item.credito)) : null,
+        item.fonte ? el('p', { class: 'fonte' }, nosDaFonte(item)) : null);
     }
 
     function mostrarPar(i) {
       const par = pares[i];
-      preencher($('#comp-antes'), criarImagem(par.antes.imagem, par.antes.alt, { icone: 'foto', rotulo: '[INSERIR IMAGEM “ANTES”]', imediata: true }));
-      preencher($('#comp-depois'), criarImagem(par.depois.imagem, par.depois.alt, { icone: 'foto', rotulo: '[INSERIR IMAGEM “DEPOIS”]', imediata: true }));
-      $('#comp-rot-antes').textContent = 'Antes' + (par.antes.periodo ? ' · ' + par.antes.periodo : '');
-      $('#comp-rot-depois').textContent = 'Depois' + (par.depois.periodo ? ' · ' + par.depois.periodo : '');
-      $('#comp-selo').hidden = !par.demonstrativo;
-      preencher($('#comp-local'), 'Local: ', textoComMarcadores(par.local || '[INSERIR NOME DO LOCAL]'));
-      preencher($('#comp-legendas'),
-        cartaoLegenda('Antes', par.antes, par.demonstrativo),
-        cartaoLegenda('Depois', par.depois, par.demonstrativo));
+      preencher($('#comp-antes'), criarImagem(par.antes.imagem, par.antes.alt || par.antes.titulo, { imediata: true, aoCarregar: ajustarProporcao }));
+      preencher($('#comp-depois'), criarImagem(par.depois.imagem, par.depois.alt || par.depois.titulo, { imediata: true }));
+      const periodoAntes = periodoDe(par.antes);
+      const periodoDepois = periodoDe(par.depois);
+      $('#comp-rot-antes').textContent = 'Antes' + (periodoAntes ? ' · ' + periodoAntes : '');
+      $('#comp-rot-depois').textContent = 'Depois' + (periodoDepois ? ' · ' + periodoDepois : '');
+      preencherOuOcultar($('#comp-local'), par.local ? ['Local: ', par.local] : null);
+      preencherOuOcultar($('#comp-descricao'), paragrafos(par.descricao));
+      preencher($('#comp-legendas'), cartaoLegenda('Antes', par.antes), cartaoLegenda('Depois', par.depois));
       $$('button', $('#comp-seletor')).forEach((b, k) => b.setAttribute('aria-pressed', String(k === i)));
       definirPosicao(50);
     }
@@ -488,29 +581,34 @@
   }
 
   /* ------------------------------------------------------------------
-     7. GALERIA E VISUALIZADOR
+     8. GALERIA E VISUALIZADOR
+     Filtros: Todos, Fotografias e Documentos. Lugar, evento etc. aparecem
+     como etiquetas de cada item. Sem itens no acervo, só o título.
      ------------------------------------------------------------------ */
   function iniciarGaleria() {
-    const cfg = DADOS.galeria;
+    const conteudo = $('#gal-conteudo');
     const grade = $('#gal-grade');
     const filtros = $('#gal-filtros');
     const status = $('#gal-status');
     const vis = $('#visualizador');
-    if (!cfg || !grade || !filtros || !vis) return;
+    if (!conteudo || !grade || !filtros || !vis) return;
+    if (ACERVO.length === 0) { conteudo.hidden = true; secaoSemConteudo('galeria'); return; }
+    conteudo.hidden = false;
 
-    const categorias = cfg.categorias || [];
-    const itens = cfg.itens || [];
-    const nomeDaCategoria = (id) => (categorias.find((c) => c.id === id) || {}).nome || id;
     let filtro = 'todos';
     let visiveis = [];
+    let listaAtual = [];
     let indice = 0;
     let ultimoFoco = null;
 
-    const filtrados = () => (filtro === 'todos' ? itens : itens.filter((it) => it.categoria === filtro));
+    const filtrados = () => (filtro === 'todos' ? ACERVO : ACERVO.filter((it) => it.tipo === filtro));
+    const etiquetasDe = (item) => (Array.isArray(item.etiquetas) ? item.etiquetas.filter(Boolean) : []);
+    const miniatura = (item) => (item.imagem
+      ? criarImagem(item.imagem, item.alt || item.titulo, { aoErro: (img) => img.replaceWith(capaSemImagem(item.tipo)) })
+      : capaSemImagem(item.tipo));
 
     // --- filtros
-    const opcoes = [{ id: 'todos', nome: 'Todos' }].concat(categorias);
-    opcoes.forEach((c) => {
+    [{ id: 'todos', nome: 'Todos' }].concat(TIPOS).forEach((c) => {
       filtros.append(el('button', {
         type: 'button', class: 'filtro', 'data-filtro': c.id, 'aria-pressed': String(c.id === filtro),
         onclick: () => {
@@ -527,59 +625,78 @@
       preencher(grade, visiveis.map((item, i) =>
         el('li', { class: 'gal-item', style: '--i:' + i },
           el('button', { type: 'button', class: 'gal-cartao', 'data-id': item.id, onclick: () => abrir(item.id) },
-            el('div', { class: 'gal-thumb' },
-              criarImagem(item.imagem, item.alt || item.titulo, { icone: ICONE_DA_CATEGORIA[item.categoria], rotulo: '[IMAGEM A INSERIR]' })),
+            el('div', { class: 'gal-thumb' + (item.tipo === 'documento' ? ' doc' : '') }, miniatura(item)),
             el('div', { class: 'gal-info' },
-              el('span', { class: 'chip' + (item.status !== 'verificado' ? ' chip-ph' : ''), text: nomeDaCategoria(item.categoria) + (item.status !== 'verificado' ? ' · em preparação' : '') }),
-              el('h3', null, textoComMarcadores(item.titulo)),
-              el('p', null, textoComMarcadores(item.resumo || '')))))));
+              el('span', { class: 'chips' },
+                el('span', { class: 'chip', text: tipoDe(item).singular }),
+                etiquetasDe(item).map((t) => el('span', { class: 'etiqueta', text: t }))),
+              el('h3', { text: item.titulo }),
+              item.resumo ? el('p', { text: item.resumo }) : null,
+              periodoDe(item) || item.local ? el('p', { class: 'gal-meta', text: [periodoDe(item), item.local].filter(Boolean).join(' · ') }) : null)))));
       const n = visiveis.length;
-      status.textContent = n + (n === 1 ? ' item' : ' itens') + (filtro === 'todos' ? '' : ' em “' + nomeDaCategoria(filtro) + '”') + '.';
+      const nome = (TIPOS.find((t) => t.id === filtro) || {}).nome;
+      status.textContent = n === 0
+        ? 'Nenhum item nesta categoria.'
+        : n + (n === 1 ? ' item' : ' itens') + (nome ? ' em “' + nome + '”' : '') + '.';
     }
 
     // --- visualizador ampliado
+    const corpoVis = $('#vis-corpo');
+    const colunaMidia = $('#vis-midia-col');
     const midia = $('#vis-midia');
     const botaoZoom = $('#vis-zoom');
     const botaoAnterior = $('#vis-ant');
     const botaoProximo = $('#vis-prox');
 
-    function linhaMeta(dl, rotulo, valor, pendenteSeVazio) {
-      if (valor) dl.append(el('dt', { text: rotulo }), el('dd', null, textoComMarcadores(valor)));
-      else if (pendenteSeVazio) dl.append(el('dt', { text: rotulo }), el('dd', { class: 'pendente', text: '[PENDENTE]' }));
+    function linhaMeta(dl, rotulo, valor) {
+      if (valor) dl.append(el('dt', { text: rotulo }), el('dd', { text: valor }));
     }
 
     function mostrar() {
-      const item = visiveis[indice];
-      const emPreparacao = item.status !== 'verificado';
+      const item = listaAtual[indice];
 
       midia.classList.remove('ampliada');
       botaoZoom.setAttribute('aria-pressed', 'false');
       botaoZoom.textContent = 'Ampliar imagem';
-      botaoZoom.hidden = !item.imagem;
-      preencher(midia, criarImagem(item.imagem, item.alt || item.titulo, { icone: ICONE_DA_CATEGORIA[item.categoria], rotulo: '[IMAGEM OU DOCUMENTO A INSERIR]', imediata: true }));
-      midia.scrollTo(0, 0);
+      const temImagem = Boolean(item.imagem);
+      colunaMidia.hidden = !temImagem;
+      corpoVis.classList.toggle('sem-midia', !temImagem);
+      if (temImagem) {
+        preencher(midia, criarImagem(item.imagem, item.alt || item.titulo, {
+          imediata: true,
+          aoErro: () => { colunaMidia.hidden = true; corpoVis.classList.add('sem-midia'); }
+        }));
+        midia.scrollTo(0, 0);
+      } else {
+        preencher(midia);
+      }
 
-      $('#vis-aviso').hidden = !emPreparacao;
-      $('#vis-cat').textContent = nomeDaCategoria(item.categoria);
-      preencher($('#vis-titulo'), textoComMarcadores(item.titulo));
+      $('#vis-cat').textContent = tipoDe(item).singular;
+      preencher($('#vis-etiquetas'), etiquetasDe(item).map((t) => el('span', { class: 'etiqueta', text: t })));
+      $('#vis-titulo').textContent = item.titulo;
       preencher($('#vis-desc'), paragrafos(item.descricao));
 
       const meta = $('#vis-meta');
       meta.replaceChildren();
-      linhaMeta(meta, 'Data', item.data, emPreparacao);
-      linhaMeta(meta, 'Autor ou responsável', item.autor, emPreparacao);
-      linhaMeta(meta, 'Crédito', item.credito, emPreparacao);
+      linhaMeta(meta, 'Data', periodoDe(item));
+      linhaMeta(meta, 'Local', item.local);
+      linhaMeta(meta, 'Autor ou responsável', item.autor);
+      linhaMeta(meta, 'Crédito', item.credito);
 
-      preencher($('#vis-fonte'), nosDaFonte(item));
+      preencherOuOcultar($('#vis-fonte'), nosDaFonte(item));
       const arquivo = caminhoSeguro(item.arquivo);
-      preencher($('#vis-arquivo'), arquivo ? el('a', { href: arquivo, target: '_blank', rel: 'noopener noreferrer', text: 'Abrir o arquivo do documento' }) : null);
+      preencherOuOcultar($('#vis-arquivo'), arquivo ? el('a', { href: arquivo, target: '_blank', rel: 'noopener noreferrer', text: 'Abrir o arquivo do documento' }) : null);
 
+      const varios = listaAtual.length > 1;
+      $('.vis-nav', vis).hidden = !varios;
       botaoAnterior.setAttribute('aria-disabled', String(indice === 0));
-      botaoProximo.setAttribute('aria-disabled', String(indice === visiveis.length - 1));
+      botaoProximo.setAttribute('aria-disabled', String(indice === listaAtual.length - 1));
     }
 
-    function abrir(id) {
-      const i = visiveis.findIndex((it) => it.id === id);
+    // lista: itens pelos quais "Anterior/Próximo" navegam (padrão: a galeria filtrada)
+    function abrir(id, lista) {
+      listaAtual = Array.isArray(lista) && lista.length ? lista : visiveis;
+      const i = listaAtual.findIndex((it) => it.id === id);
       if (i < 0) return;
       indice = i;
       ultimoFoco = document.activeElement;
@@ -590,6 +707,7 @@
         document.body.classList.add('travado');
       }
     }
+    api.abrirAcervo = abrir;
 
     function fechar() {
       if (typeof vis.close === 'function') vis.close();
@@ -599,10 +717,7 @@
 
     function aoFechar() {
       document.body.classList.remove('travado');
-      const item = visiveis[indice];
-      const cartao = item && $('.gal-cartao[data-id="' + item.id + '"]', grade);
-      const alvo = cartao || ultimoFoco;
-      if (alvo && alvo.focus) alvo.focus({ preventScroll: true });
+      if (ultimoFoco && document.contains(ultimoFoco) && ultimoFoco.focus) ultimoFoco.focus({ preventScroll: true });
     }
 
     $('#vis-fechar').addEventListener('click', fechar);
@@ -610,10 +725,10 @@
     vis.addEventListener('click', (e) => { if (e.target === vis) fechar(); }); // clique fora fecha
 
     botaoAnterior.addEventListener('click', () => { if (indice > 0) { indice--; mostrar(); } });
-    botaoProximo.addEventListener('click', () => { if (indice < visiveis.length - 1) { indice++; mostrar(); } });
+    botaoProximo.addEventListener('click', () => { if (indice < listaAtual.length - 1) { indice++; mostrar(); } });
     vis.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowLeft' && indice > 0) { indice--; mostrar(); }
-      else if (e.key === 'ArrowRight' && indice < visiveis.length - 1) { indice++; mostrar(); }
+      else if (e.key === 'ArrowRight' && indice < listaAtual.length - 1) { indice++; mostrar(); }
     });
 
     botaoZoom.addEventListener('click', () => {
@@ -627,32 +742,41 @@
   }
 
   /* ------------------------------------------------------------------
-     8. SOBRE, REFERÊNCIAS E CRÉDITOS
+     9. SOBRE, REFERÊNCIAS E CRÉDITOS
+     Cartões sem conteúdo ficam escondidos.
      ------------------------------------------------------------------ */
   function iniciarSobre() {
     const sobre = DADOS.sobre;
     if (!sobre) return;
 
-    preencher($('#sobre-texto'), (sobre.paragrafos || []).map((p) => el('p', null, textoComMarcadores(p))));
-    preencher($('#sobre-metodo'), textoComMarcadores(sobre.metodo || '[INSERIR DESCRIÇÃO DO MÉTODO DE PESQUISA]'));
+    const lista = (valor) => (Array.isArray(valor) ? valor.filter(Boolean) : []);
+    const mostrarCartao = (id, temConteudo) => { $('#' + id).hidden = !temConteudo; };
 
-    const marcaPendente = (item) => (item.status === 'pendente' ? [' ', el('span', { class: 'chip chip-ph', text: 'pendente' })] : null);
+    preencher($('#sobre-texto'), lista(sobre.paragrafos).map((p) => el('p', { text: p })));
 
-    preencher($('#sobre-refs'), (sobre.referencias || []).map((r) => {
+    $('#sobre-metodo').textContent = sobre.metodo || '';
+    mostrarCartao('sobre-cartao-metodo', Boolean(sobre.metodo));
+
+    const refs = lista(sobre.referencias).filter((r) => r.titulo);
+    preencher($('#sobre-refs'), refs.map((r) => {
       const url = urlSegura(r.url);
       return el('li', null,
-        url ? el('a', { href: url, target: '_blank', rel: 'noopener noreferrer' }, textoComMarcadores(r.titulo)) : textoComMarcadores(r.titulo),
-        r.detalhe ? [' — ', textoComMarcadores(r.detalhe)] : null,
-        marcaPendente(r));
+        url ? el('a', { href: url, target: '_blank', rel: 'noopener noreferrer', text: r.titulo }) : r.titulo,
+        r.detalhe ? ' — ' + r.detalhe : null);
     }));
-    preencher($('#sobre-creds'), (sobre.creditos || []).map((c) =>
-      el('li', null, textoComMarcadores(c.item), ' — ', textoComMarcadores(c.credito), marcaPendente(c))));
-    preencher($('#sobre-agrs'), (sobre.agradecimentos || []).map((a) =>
-      el('li', null, textoComMarcadores(a.nome), marcaPendente(a))));
+    mostrarCartao('sobre-cartao-refs', refs.length > 0);
+
+    const creditos = lista(sobre.creditos).filter((c) => c.item && c.credito);
+    preencher($('#sobre-creds'), creditos.map((c) => el('li', { text: c.item + ' — ' + c.credito })));
+    mostrarCartao('sobre-cartao-creds', creditos.length > 0);
+
+    const agradecimentos = lista(sobre.agradecimentos).filter((a) => a.nome);
+    preencher($('#sobre-agrs'), agradecimentos.map((a) => el('li', { text: a.nome })));
+    mostrarCartao('sobre-cartao-agrs', agradecimentos.length > 0);
   }
 
   /* ------------------------------------------------------------------
-     9. VOLTAR AO TOPO E ANIMAÇÕES DE ENTRADA
+     10. VOLTAR AO TOPO E ANIMAÇÕES DE ENTRADA
      ------------------------------------------------------------------ */
   function iniciarVoltarAoTopo() {
     const botao = $('#voltar-topo');
@@ -686,7 +810,7 @@
   }
 
   /* ------------------------------------------------------------------
-     10. INICIALIZAÇÃO
+     11. INICIALIZAÇÃO
      Cada módulo é isolado: se um falhar, os outros continuam funcionando.
      ------------------------------------------------------------------ */
   function tentar(nome, funcao) {
