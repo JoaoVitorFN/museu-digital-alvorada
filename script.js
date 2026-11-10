@@ -110,6 +110,21 @@
     return ['Fonte: ', url ? el('a', { href: url, target: '_blank', rel: 'noopener noreferrer', text: obj.fonte }) : obj.fonte];
   }
 
+  /** Várias fontes ("fontes": [{fonte, fonteUrl}]) ou uma só ("fonte"). */
+  function nosDasFontes(obj) {
+    if (!obj) return null;
+    if (Array.isArray(obj.fontes) && obj.fontes.length) {
+      const nos = [];
+      obj.fontes.filter((f) => f && f.fonte).forEach((f, i) => {
+        if (i) nos.push(' · ');
+        const url = urlSegura(f.fonteUrl);
+        nos.push(url ? el('a', { href: url, target: '_blank', rel: 'noopener noreferrer', text: f.fonte }) : f.fonte);
+      });
+      return nos.length ? [obj.fontes.length > 1 ? 'Fontes: ' : 'Fonte: ', nos] : null;
+    }
+    return nosDaFonte(obj);
+  }
+
   /** "Crédito: ...". Sem crédito, não devolve nada. */
   const nosDoCredito = (credito) => (credito ? ['Crédito: ', credito] : null);
 
@@ -284,11 +299,11 @@
 
   /* ------------------------------------------------------------------
      5. LINHA DO TEMPO
-     Os eventos são ordenados pelo ano; eventos sem ano numérico vão ao fim.
+     Os eventos são ordenados pelo ano (ou por  ordem , quando o rótulo de ano não é um número, como “Anos 1980–90”); empates seguem a ordem de data.js.
      ------------------------------------------------------------------ */
   function ordenarEventos(lista) {
     const chave = (ev) => {
-      const n = parseInt(ev.ano, 10);
+      const n = typeof ev.ordem === 'number' ? ev.ordem : parseInt(ev.ano, 10);
       return Number.isNaN(n) ? Infinity : n;
     };
     return lista
@@ -325,24 +340,27 @@
 
     const abas = EVENTOS.map((ev, i) => {
       const aba = el('button', {
-        type: 'button', role: 'tab', class: 'tl-marco', id: 'tl-aba-' + i,
+        type: 'button', role: 'tab', class: 'tl-marco' + (ev.destaque ? ' destaque' : ''), id: 'tl-aba-' + i,
         'aria-selected': 'false', 'aria-controls': 'tl-painel', tabindex: '-1',
         onclick: () => selecionar(i, { anunciar: true, rolar: true })
       },
       el('span', { class: 'tl-ponto', 'aria-hidden': 'true' }),
-      el('span', { class: 'tl-txt' }, el('span', { class: 'tl-ano', text: ev.ano })));
+      el('span', { class: 'tl-txt' },
+        el('span', { class: 'tl-ano', text: ev.ano }),
+        ev.rotulo ? el('span', { class: 'tl-rotulo', text: ev.rotulo }) : null,
+        ev.destaque ? el('span', { class: 'tl-selo', text: 'Marco principal' }) : null));
       lista.append(aba);
       return aba;
     });
 
     function desenhar(ev) {
       const itens = midiaDe(ev.midia);
-      $('#tl-data').textContent = [ev.data || ev.ano, ev.local].filter(Boolean).join(' · ');
+      $('#tl-data').textContent = [ev.data || ev.ano, ev.aproximado ? 'data aproximada' : '', ev.local].filter(Boolean).join(' · ');
       $('#tl-titulo-ev').textContent = ev.titulo;
       preencher($('#tl-texto'), paragrafos(ev.texto));
       preencherOuOcultar($('#tl-midia'), nosDeMidia(itens));
       corpo.classList.toggle('com-midia', itens.some((it) => it.imagem));
-      preencherOuOcultar($('#tl-fonte'), nosDaFonte(ev));
+      preencherOuOcultar($('#tl-fonte'), nosDasFontes(ev));
     }
 
     function selecionar(i, opcoes) {
@@ -362,7 +380,7 @@
       botaoAnterior.setAttribute('aria-disabled', String(i === 0));
       botaoProximo.setAttribute('aria-disabled', String(i === total - 1));
       contador.textContent = (i + 1) + ' / ' + total;
-      if (o.anunciar) status.textContent = 'Acontecimento ' + (i + 1) + ' de ' + total + ': ' + ev.ano + '.';
+      if (o.anunciar) status.textContent = 'Acontecimento ' + (i + 1) + ' de ' + total + ': ' + ev.ano + (ev.rotulo ? ', ' + ev.rotulo : '') + '.';
       if (o.foco) abas[i].focus();
 
       // No celular, o painel fica abaixo da trilha: leva a tela até ele.
@@ -592,7 +610,9 @@
     const status = $('#gal-status');
     const vis = $('#visualizador');
     if (!conteudo || !grade || !filtros || !vis) return;
-    if (ACERVO.length === 0) { conteudo.hidden = true; secaoSemConteudo('galeria'); return; }
+    // Itens com  galeria: false  aparecem só onde são citados (linha do tempo, mapa...).
+    const GALERIA = ACERVO.filter((it) => it.galeria !== false);
+    if (GALERIA.length === 0) { conteudo.hidden = true; secaoSemConteudo('galeria'); return; }
     conteudo.hidden = false;
 
     let filtro = 'todos';
@@ -601,14 +621,14 @@
     let indice = 0;
     let ultimoFoco = null;
 
-    const filtrados = () => (filtro === 'todos' ? ACERVO : ACERVO.filter((it) => it.tipo === filtro));
+    const filtrados = () => (filtro === 'todos' ? GALERIA : GALERIA.filter((it) => it.tipo === filtro));
     const etiquetasDe = (item) => (Array.isArray(item.etiquetas) ? item.etiquetas.filter(Boolean) : []);
     const miniatura = (item) => (item.imagem
       ? criarImagem(item.imagem, item.alt || item.titulo, { aoErro: (img) => img.replaceWith(capaSemImagem(item.tipo)) })
       : capaSemImagem(item.tipo));
 
     // --- filtros
-    [{ id: 'todos', nome: 'Todos' }].concat(TIPOS).forEach((c) => {
+    [{ id: 'todos', nome: 'Todos' }].concat(TIPOS.filter((t) => GALERIA.some((it) => it.tipo === t.id))).forEach((c) => {
       filtros.append(el('button', {
         type: 'button', class: 'filtro', 'data-filtro': c.id, 'aria-pressed': String(c.id === filtro),
         onclick: () => {
@@ -631,7 +651,7 @@
                 el('span', { class: 'chip', text: tipoDe(item).singular }),
                 etiquetasDe(item).map((t) => el('span', { class: 'etiqueta', text: t }))),
               el('h3', { text: item.titulo }),
-              item.resumo ? el('p', { text: item.resumo }) : null,
+              (item.resumo || item.descricao) && !/\n/.test(item.resumo || item.descricao) ? el('p', { text: item.resumo || item.descricao }) : null,
               periodoDe(item) || item.local ? el('p', { class: 'gal-meta', text: [periodoDe(item), item.local].filter(Boolean).join(' · ') }) : null)))));
       const n = visiveis.length;
       const nome = (TIPOS.find((t) => t.id === filtro) || {}).nome;
