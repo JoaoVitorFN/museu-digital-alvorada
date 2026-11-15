@@ -91,7 +91,9 @@ window.MUSEU_DATA = {
     {"id": "foto-extracao-madeira", "tipo": "fotografia", "titulo": "Extração de madeira", "descricao": "Registro da extração de madeira na região, em data aproximada (entre o início dos anos 1980 e os anos 1990).", "ano": "Anos 1980–90 (aprox.)", "imagem": "images/acervo/33-extracao-madeira.jpg", "alt": "Fotografia antiga: Extração de madeira", "credito": "", "fonte": "", "galeria": false},
     {"id": "doc-jornal-o-alvorada-1998", "tipo": "documento", "titulo": "Jornal “O Alvorada”, maio de 1998", "descricao": "Recorte do jornal “O Alvorada” (Ano I, nº 2, 2ª quinzena de maio de 1998) sobre os 12 anos do município. O texto menciona a pavimentação da BR-429.", "ano": "1998", "imagem": "images/acervo/35-jornal-o-alvorada-1998.jpg", "alt": "Recorte de jornal: Jornal “O Alvorada”, maio de 1998", "credito": "", "fonte": ""},
     {"id": "foto-desfile-7-setembro-1984", "tipo": "fotografia", "titulo": "Desfile de 7 de Setembro", "descricao": "Desfile de 7 de Setembro de 1984.", "ano": "1984", "imagem": "images/acervo/37-desfile-7-de-setembro-1984.jpg", "alt": "Fotografia antiga: Desfile de 7 de Setembro", "credito": "", "fonte": "", "galeria": false},
-    {"id": "foto-professor-didi-1984", "tipo": "fotografia", "titulo": "Professor Geraldo Didi França", "descricao": "O professor Geraldo Didi França na Escola Monte Alegre, em 1984.", "ano": "1984", "imagem": "images/acervo/39-professor-didi-1984.jpg", "alt": "Fotografia antiga: Professor Geraldo Didi França", "credito": "", "fonte": "", "galeria": false}
+    {"id": "foto-professor-didi-1984", "tipo": "fotografia", "titulo": "Professor Geraldo Didi França", "descricao": "O professor Geraldo Didi França na Escola Monte Alegre, em 1984.", "ano": "1984", "imagem": "images/acervo/39-professor-didi-1984.jpg", "alt": "Fotografia antiga: Professor Geraldo Didi França", "credito": "", "fonte": "", "galeria": false},
+    {"id": "foto-satelite-2007", "tipo": "fotografia", "titulo": "Imagem de satélite de Alvorada d’Oeste", "descricao": "Imagem de satélite da área urbana de Alvorada d’Oeste e do entorno.", "ano": "2007", "data": "26 de maio de 2007", "imagem": "images/antes-depois/satelite-2007-05-26.png", "alt": "Imagem de satélite de Alvorada d’Oeste em 26 de maio de 2007: área urbana em quadras, cortada por uma avenida em diagonal, cercada por pastos, lavouras e matas", "credito": "", "fonte": "", "galeria": false},
+    {"id": "foto-satelite-2024", "tipo": "fotografia", "titulo": "Imagem de satélite de Alvorada d’Oeste", "descricao": "Imagem de satélite da mesma área, com enquadramento e orientação semelhantes aos da imagem de 2007.", "ano": "2024", "data": "16 de julho de 2024", "imagem": "images/antes-depois/satelite-2024-07-16.png", "alt": "Imagem de satélite de Alvorada d’Oeste em 16 de julho de 2024: a mesma área urbana em quadras, cortada por uma avenida em diagonal, cercada por pastos, lavouras e matas", "credito": "", "fonte": "", "galeria": false}
   ],
 
   /* ===================================================================
@@ -299,11 +301,50 @@ window.MUSEU_DATA = {
      crédito e a fonte de cada lado vêm do cadastro no acervo.
      Enquanto a lista estiver vazia, a seção mostra apenas o título.
 
+     Campos opcionais da comparação: titulo (no lugar de "Local: ..."),
+     intervalo (frase sobre o tempo entre os registros), creditos ([{rotulo, texto}]) e observacao (atribuição das imagens, logo abaixo da comparação) e dados
+     ({ titulo, tabela: [{ano, populacao, tipo}], notas: [], fontes: [{titulo, url}] }),
+     mostrados num bloco recolhível sob a comparação.
+
      Modelo:
        { id: 'ad-praca', local: 'Nome do lugar', descricao: 'Texto opcional.',
          antes: 'foto-1982-praca', depois: 'foto-2025-praca' }
      =================================================================== */
-  antesDepois: [],
+  antesDepois: [
+    {
+      id: 'ad-satelite-2007-2024',
+      titulo: 'Alvorada d’Oeste: 17 anos de transformações',
+      intervalo: 'Intervalo entre os registros: aproximadamente 17 anos.',
+      // Atribuição de cada imagem, conforme informada pelo Google Earth, exibida logo abaixo da comparação.
+      creditos: [
+        { rotulo: 'Antes', texto: 'Google Earth · CNES / Airbus.' },
+        { rotulo: 'Depois', texto: 'Google Earth · Airbus.' }
+      ],
+      observacao: 'As datas indicadas identificam os registros selecionados para comparação. As atribuições do Google Earth informam as datas disponíveis dos dados de imagem, que podem incluir imagens de datas desconhecidas.',
+      antes: 'foto-satelite-2007',
+      depois: 'foto-satelite-2024',
+      descricao: 'Entre maio de 2007 e julho de 2024, Alvorada d’Oeste passou por transformações que podem ser observadas nas imagens de satélite. O traçado geral das ruas e quadras permaneceu relativamente parecido, enquanto algumas vias receberam pavimentação, novas construções surgiram e a paisagem ao redor da área urbana se modificou.\n\nApesar dessas mudanças, a expansão da área urbanizada parece ter sido limitada quando comparada ao intervalo de 17 anos. Esse cenário também pode ser observado junto à redução da população municipal: segundo o IBGE, Alvorada d’Oeste passou de 16.853 habitantes em 2010 para 13.117 em 2022.\n\nA migração ajuda a compreender parte desse cenário. Entre 2017 e 2022, o município registrou mais pessoas saindo do que chegando, segundo estimativas elaboradas a partir dos dados do Censo 2022. A comparação revela não apenas as mudanças na paisagem, mas também os desafios de desenvolvimento e permanência da população no município.',
+      dados: {
+        titulo: 'Dados populacionais e fontes',
+        tabela: [
+          { ano: '2000', populacao: '19.820', tipo: 'Censo demográfico' },
+          { ano: '2007', populacao: '16.485', tipo: 'Contagem populacional do IBGE' },
+          { ano: '2010', populacao: '16.853', tipo: 'Censo demográfico' },
+          { ano: '2022', populacao: '13.117', tipo: 'Censo demográfico' }
+        ],
+        notas: [
+          'Os valores de 2000, 2010 e 2022 vêm de censos demográficos; o de 2007 vem da contagem populacional do IBGE, que não é um censo.',
+          'Migração (estimativa): entre 2017 e 2022, cerca de 1.505 pessoas saíram do município e 900 chegaram, com saldo migratório estimado em −605. São estimativas do Atlas da Migração Interna no Brasil, elaboradas a partir dos dados do Censo 2022, e não indicam os motivos das saídas.'
+        ],
+        fontes: [
+          { titulo: 'IBGE — Cidades e Estados: Alvorada d’Oeste', url: 'https://www.ibge.gov.br/cidades-e-estados/ro/alvorada-doeste.html' },
+          { titulo: 'IBGE — Sinopse preliminar do Censo Demográfico 2000', url: 'https://biblioteca.ibge.gov.br/visualizacao/periodicos/308/cd_2000_v7.pdf' },
+          { titulo: 'Governo de Rondônia — Indicadores Municipais 2011', url: 'https://observatorio.sepog.ro.gov.br/Uploads/IndicadoresMunicipais/2011/Alvorada%20do%20Oeste.pdf' },
+          { titulo: 'Atlas da Migração Interna no Brasil — Alvorada d’Oeste', url: 'https://atlas-da-migracao.github.io/municipio/alvorada-d-oeste-ro-1100346/' }
+        ]
+      }
+    }
+  ],
 
   /* ===================================================================
      SOBRE, REFERÊNCIAS E CRÉDITOS
@@ -321,6 +362,7 @@ window.MUSEU_DATA = {
       { titulo: 'Rondônia Dinâmica, 20 de maio de 2024', detalhe: 'Linha 52 e formação do povoado', url: '' },
       { titulo: 'Entrevista publicada no blog Zekatraca', detalhe: 'Reunião de 5 de agosto de 1979', url: '' },
       { titulo: 'Blog da Escola Santa Ana', detalhe: 'Início das atividades escolares', url: 'https://eeefmsantaana.blogspot.com' },
+      { titulo: 'Google — Diretrizes de uso de Google Maps, Google Earth e Street View', detalhe: 'Diretrizes oficiais sobre utilização de imagens, atribuição de créditos e condições de uso do conteúdo do Google Earth.', url: 'https://about.google/brand-resource-center/products-and-services/geo-guidelines/' },
       { titulo: 'Expressão Rondônia, 17 de abril de 2020', detalhe: 'Subestação da Energisa', url: '' },
       { titulo: 'Lei Estadual nº 103, de 20 de maio de 1986', detalhe: 'Criação do município', url: 'https://sapl.al.ro.leg.br/norma/626' }
     ],

@@ -459,6 +459,23 @@ html.com-abertura .abertura { display: flex; }
 .comp-alca:focus-visible .comp-grip { outline: 3px solid var(--tinta); outline-offset: 3px; box-shadow: 0 0 0 6px var(--papel), 0 3px 10px rgba(0, 0, 0, .4); }
 
 .comp-local { margin: 18px 0 8px; font-family: var(--serif); font-size: 1.25rem; font-weight: 700; }
+.comp-intervalo { margin: 10px 0 0; font-size: .95rem; font-style: italic; color: var(--tinta); text-align: center; }
+.comp-credito { margin: 4px 0 0; font-size: .85rem; color: var(--tinta); text-align: center; overflow-wrap: anywhere; }
+.comp-credito p { margin: 0; }
+.comp-credito strong { text-transform: uppercase; letter-spacing: .04em; font-size: .8rem; }
+.comp-obs { max-width: 68ch; margin: 8px auto 0; font-size: .8rem; line-height: 1.45; color: var(--tinta); opacity: .85; text-align: center; }
+.comp-dados { margin: 4px 0 20px; background: var(--papel-2); border: 1px solid var(--areia); border-radius: var(--raio); padding: 0 18px; }
+.comp-dados summary { cursor: pointer; padding: 14px 0; min-height: 44px; font-family: var(--serif); font-weight: 700; }
+.comp-dados[open] summary { border-bottom: 1px solid var(--areia); margin-bottom: 12px; }
+.comp-tabela { width: 100%; max-width: 560px; border-collapse: collapse; font-size: .95rem; }
+.comp-tabela caption { text-align: left; font-weight: 600; padding-bottom: 6px; }
+.comp-tabela th, .comp-tabela td { padding: 7px 10px 7px 0; border-bottom: 1px solid var(--areia); text-align: left; font-weight: 400; }
+.comp-tabela thead th, .comp-tabela tbody th { font-weight: 700; }
+.comp-tabela .num { text-align: right; padding-right: 18px; font-variant-numeric: tabular-nums; }
+.comp-nota { font-size: .92rem; line-height: 1.5; margin: 12px 0 0; max-width: 68ch; }
+.comp-fontes { padding: 8px 0 14px; }
+.comp-fontes h4 { margin: 12px 0 4px; font-size: .95rem; }
+.comp-fontes ul { margin: 0; padding-left: 1.2em; font-size: .9rem; line-height: 1.5; overflow-wrap: anywhere; }
 .comp-descricao { max-width: 68ch; margin-bottom: 8px; }
 .comp-leg-titulo { font-weight: 700; }
 .comp-legendas { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }

@@ -503,7 +503,7 @@
       const antes = par && ACERVO_POR_ID.get(par.antes);
       const depois = par && ACERVO_POR_ID.get(par.depois);
       if (!antes || !depois || !antes.imagem || !depois.imagem) return null;
-      return { local: par.local || antes.local || depois.local || '', descricao: par.descricao || '', antes, depois };
+      return { local: par.local || antes.local || depois.local || '', titulo: par.titulo || '', intervalo: par.intervalo || '', creditos: Array.isArray(par.creditos) ? par.creditos.filter((c) => c && c.texto) : [], observacao: par.observacao || '', descricao: par.descricao || '', dados: par.dados || null, antes, depois };
     }).filter(Boolean);
 
     if (pares.length === 0) { bloco.hidden = true; secaoSemConteudo('antes-depois'); return; }
@@ -537,6 +537,35 @@
         item.fonte ? el('p', { class: 'fonte' }, nosDaFonte(item)) : null);
     }
 
+    /** Bloco discreto e recolhível com tabela de dados, notas e fontes (links). */
+    function desenharDados(d) {
+      const caixa = $('#comp-dados');
+      const linhas = d && Array.isArray(d.tabela) ? d.tabela.filter((l) => l && l.ano) : [];
+      const notas = d && Array.isArray(d.notas) ? d.notas.filter(Boolean) : [];
+      const fontes = d && Array.isArray(d.fontes) ? d.fontes.filter((f) => f && f.titulo) : [];
+      if (!linhas.length && !notas.length && !fontes.length) { caixa.hidden = true; preencher(caixa); return; }
+      caixa.hidden = false;
+      preencher(caixa,
+        el('summary', { text: d.titulo || 'Dados e fontes' }),
+        linhas.length ? el('table', { class: 'comp-tabela' },
+          el('caption', { text: 'População de Alvorada d’Oeste' }),
+          el('thead', null, el('tr', null,
+            el('th', { scope: 'col', text: 'Ano' }),
+            el('th', { scope: 'col', class: 'num', text: 'População' }),
+            el('th', { scope: 'col', text: 'Tipo de dado' }))),
+          el('tbody', null, linhas.map((l) => el('tr', null,
+            el('th', { scope: 'row', text: l.ano }),
+            el('td', { class: 'num', text: l.populacao || '' }),
+            el('td', { text: l.tipo || '' }))))) : null,
+        notas.map((n) => el('p', { class: 'comp-nota', text: n })),
+        fontes.length ? el('div', { class: 'comp-fontes' },
+          el('h4', { text: 'Fontes' }),
+          el('ul', null, fontes.map((f) => {
+            const url = urlSegura(f.url);
+            return el('li', null, url ? el('a', { href: url, target: '_blank', rel: 'noopener noreferrer', text: f.titulo }) : f.titulo);
+          }))) : null);
+    }
+
     function mostrarPar(i) {
       const par = pares[i];
       preencher($('#comp-antes'), criarImagem(par.antes.imagem, par.antes.alt || par.antes.titulo, { imediata: true, aoCarregar: ajustarProporcao }));
@@ -545,7 +574,12 @@
       const periodoDepois = periodoDe(par.depois);
       $('#comp-rot-antes').textContent = 'Antes' + (periodoAntes ? ' · ' + periodoAntes : '');
       $('#comp-rot-depois').textContent = 'Depois' + (periodoDepois ? ' · ' + periodoDepois : '');
-      preencherOuOcultar($('#comp-local'), par.local ? ['Local: ', par.local] : null);
+      preencherOuOcultar($('#comp-intervalo'), par.intervalo || null);
+      preencherOuOcultar($('#comp-credito'), par.creditos.length
+        ? par.creditos.map((c) => el('p', null, c.rotulo ? el('strong', { text: c.rotulo + ': ' }) : null, c.texto)) : null);
+      preencherOuOcultar($('#comp-obs'), par.observacao || null);
+      preencherOuOcultar($('#comp-local'), par.titulo || (par.local ? ['Local: ', par.local] : null));
+      desenharDados(par.dados);
       preencherOuOcultar($('#comp-descricao'), paragrafos(par.descricao));
       preencher($('#comp-legendas'), cartaoLegenda('Antes', par.antes), cartaoLegenda('Depois', par.depois));
       $$('button', $('#comp-seletor')).forEach((b, k) => b.setAttribute('aria-pressed', String(k === i)));
