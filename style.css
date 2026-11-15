@@ -572,9 +572,9 @@ body.travado { overflow: hidden; }
 .rodape-peq { font-size: .85rem; opacity: .85; }
 
 .voltar-topo {
-  position: fixed; right: 18px; bottom: 18px; z-index: 500; width: 52px; height: 52px; padding: 0; display: grid; place-items: center;
+  position: fixed; right: 18px; top: calc(18px + env(safe-area-inset-top, 0px)); z-index: 500; width: 52px; height: 52px; padding: 0; display: grid; place-items: center;
   background: var(--tinta); color: var(--papel); border: 2px solid var(--couro); border-radius: 50%; box-shadow: 0 6px 16px rgba(0, 0, 0, .35);
-  opacity: 0; visibility: hidden; transform: translateY(12px);
+  opacity: 0; visibility: hidden; transform: translateY(-12px);
   transition: opacity .3s ease, transform .3s ease, visibility .3s, background-color .2s ease;
 }
 .voltar-topo svg { width: 26px; height: 26px; }
@@ -637,7 +637,7 @@ html.anim .reveal.visivel { opacity: 1; transform: none; }
   .tl-controles { flex-wrap: wrap; gap: 10px; padding: 12px 14px 16px; }
   .tl-contador { order: -1; width: 100%; text-align: center; white-space: nowrap; }
   .tl-controles .seta { flex: 1 1 0; padding: 0 10px; }
-  .voltar-topo { width: 46px; height: 46px; right: 12px; bottom: 12px; }
+  .voltar-topo { width: 46px; height: 46px; right: 12px; top: calc(12px + env(safe-area-inset-top, 0px)); }
 }
 
 @media (max-width: 420px) {
