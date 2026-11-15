@@ -859,7 +859,9 @@
           observador.unobserve(entrada.target);
         }
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -4% 0px' });
+    // threshold 0: basta tocar a área visível. Com 0.1, blocos muito altos (galeria no celular,
+    // com mais de 9000 px) nunca chegavam a 10% visível e ficavam transparentes.
+    }, { threshold: 0, rootMargin: '0px 0px -4% 0px' });
     $$('.reveal').forEach((alvo) => observador.observe(alvo));
   }
 
