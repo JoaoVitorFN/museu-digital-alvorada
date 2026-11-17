@@ -338,6 +338,7 @@ html.com-abertura .abertura { display: flex; }
 .tl-texto { max-width: 62ch; font-size: 1.08rem; overflow-wrap: break-word; }
 .tl-texto p { margin-bottom: 1.1em; }
 .tl-texto p:last-child { margin-bottom: 0; }
+.tl-texto .tl-verificar { margin-top: 1.1em; padding: 9px 12px; font-size: .9rem; line-height: 1.5; background: var(--papel-2); border-left: 3px solid var(--couro); border-radius: 0 var(--raio) var(--raio) 0; }
 
 /* mídia (fotografias e documentos) ligada a um evento ou a um ponto do mapa */
 .tl-midia { display: grid; gap: 22px; margin-top: 1.4em; align-content: start; }

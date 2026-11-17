@@ -69,28 +69,28 @@ window.MUSEU_DATA = {
     {"id": "foto-panorama-cidade", "tipo": "fotografia", "titulo": "Panorama da cidade", "descricao": "Panorama da cidade, provavelmente do início dos anos 2000.", "ano": "Início dos anos 2000 (aprox.)", "imagem": "images/acervo/10-panorama-cidade.jpg", "alt": "Fotografia antiga: Panorama da cidade", "credito": "", "fonte": ""},
     {"id": "foto-rua-centro", "tipo": "fotografia", "titulo": "Rua do centro", "descricao": "Registro de uma rua do centro da cidade. A data ainda não foi confirmada.", "imagem": "images/acervo/12-rua-centro.jpg", "alt": "Fotografia antiga: Rua do centro", "credito": "", "fonte": ""},
     {"id": "foto-centro-alvorada", "tipo": "fotografia", "titulo": "Centro de Alvorada", "descricao": "Registro do centro de Alvorada d’Oeste. A data ainda não foi confirmada.", "imagem": "images/acervo/13-centro-alvorada.jpg", "alt": "Fotografia antiga: Centro de Alvorada", "credito": "", "fonte": ""},
-    {"id": "foto-rua-terra-chuva", "tipo": "fotografia", "titulo": "Rua de terra em período chuvoso", "descricao": "Rua de terra em período chuvoso. A data ainda não foi confirmada.", "imagem": "images/acervo/14-rua-terra-chuva.jpg", "alt": "Fotografia antiga: Rua de terra em período chuvoso", "credito": "", "fonte": ""},
+    {"id": "foto-rua-terra-chuva", "tipo": "fotografia", "titulo": "Rua de terra em período chuvoso", "descricao": "Rua de terra em período chuvoso. A data ainda não foi confirmada. As fontes descrevem as ruas do povoado, nos primeiros anos, como de terra, empoeiradas na seca e enlameadas na chuva (Museu Virtual de Rondônia), mas não indicam a data desta foto.", "imagem": "images/acervo/14-rua-terra-chuva.jpg", "alt": "Fotografia antiga: Rua de terra em período chuvoso", "credito": "", "fonte": ""},
     {"id": "foto-registro-antigo", "tipo": "fotografia", "titulo": "Registro antigo", "descricao": "Fotografia antiga. Local, data e contexto ainda não foram confirmados.", "imagem": "images/acervo/16-registro-antigo.jpg", "alt": "Fotografia antiga: Registro antigo", "credito": "", "fonte": ""},
     {"id": "foto-joao-tavora-acervo", "tipo": "fotografia", "titulo": "João Távora e seu acervo", "descricao": "Registro recente de João Távora e de seu acervo.", "imagem": "images/acervo/20-joao-tavora-acervo.jpg", "alt": "Fotografia antiga: João Távora e seu acervo", "credito": "", "fonte": ""},
     {"id": "foto-atividades-economicas", "tipo": "fotografia", "titulo": "Atividades econômicas", "descricao": "Registro de atividades econômicas. Local e data ainda não confirmados.", "imagem": "images/acervo/21-atividades-economicas.jpg", "alt": "Fotografia antiga: Atividades econômicas", "credito": "", "fonte": "", "galeria": false},
-    {"id": "foto-ponte-rio-muqui", "tipo": "fotografia", "titulo": "Ponte sobre o Rio Muqui", "descricao": "Ponte sobre o Rio Muqui. A data ainda não foi confirmada.", "imagem": "images/acervo/26-ponte-rio-muqui.jpg", "alt": "Fotografia antiga: Ponte sobre o Rio Muqui", "credito": "", "fonte": ""},
+    {"id": "foto-ponte-rio-muqui", "tipo": "fotografia", "titulo": "Ponte sobre o Rio Muqui", "descricao": "Ponte sobre o Rio Muqui. A data ainda não foi confirmada. O Rio Muqui aparece nos relatos da ocupação da região.", "imagem": "images/acervo/26-ponte-rio-muqui.jpg", "alt": "Fotografia antiga: Ponte sobre o Rio Muqui", "credito": "", "fonte": ""},
     {"id": "foto-igreja-assembleia-de-deus", "tipo": "fotografia", "titulo": "Igreja Assembleia de Deus", "descricao": "Fotografia da Igreja Assembleia de Deus. A data ainda não foi confirmada.", "imagem": "images/acervo/27-igreja-assembleia-de-deus.jpg", "alt": "Fotografia antiga: Igreja Assembleia de Deus", "credito": "", "fonte": ""},
     {"id": "foto-travessia-balsa", "tipo": "fotografia", "titulo": "Travessia de balsa", "descricao": "Travessia de balsa entre Presidente Médici e Alvorada d’Oeste. A data exata ainda não foi confirmada.", "imagem": "images/acervo/29-travessia-balsa.jpg", "alt": "Fotografia antiga: Travessia de balsa", "credito": "", "fonte": ""},
-    {"id": "foto-estudantes-santa-ana", "tipo": "fotografia", "titulo": "Estudantes da Escola Santa Ana", "descricao": "Estudantes da Escola Santa Ana, provavelmente nos anos 1990.", "ano": "Provavelmente anos 1990", "imagem": "images/acervo/30-estudantes-santa-ana.jpg", "alt": "Fotografia antiga: Estudantes da Escola Santa Ana", "credito": "", "fonte": ""},
-    {"id": "foto-br-429-castanheiras", "tipo": "fotografia", "titulo": "BR-429 entre castanheiras", "descricao": "Trecho da BR-429 entre castanheiras. A data exata ainda não foi confirmada.", "imagem": "images/acervo/32-br-429-castanheiras.jpg", "alt": "Fotografia antiga: BR-429 entre castanheiras", "credito": "", "fonte": ""},
+    {"id": "foto-estudantes-santa-ana", "tipo": "fotografia", "titulo": "Estudantes da Escola Santa Ana", "descricao": "Estudantes da Escola Santa Ana, provavelmente nos anos 1990. A Escola Santa Ana teve início em 1979, segundo as fontes consultadas.", "ano": "Provavelmente anos 1990", "imagem": "images/acervo/30-estudantes-santa-ana.jpg", "alt": "Fotografia antiga: Estudantes da Escola Santa Ana", "credito": "", "fonte": ""},
+    {"id": "foto-br-429-castanheiras", "tipo": "fotografia", "titulo": "BR-429 entre castanheiras", "descricao": "Trecho da BR-429 entre castanheiras. A data exata ainda não foi confirmada. A BR-429 aparece nos relatos de 1980, quando João Távora pediu a estrada ao governador Jorge Teixeira (Museu Virtual de Rondônia), e no recorte de jornal de 1998 sobre a sua pavimentação.", "imagem": "images/acervo/32-br-429-castanheiras.jpg", "alt": "Fotografia antiga: BR-429 entre castanheiras", "credito": "", "fonte": ""},
     {"id": "foto-antiga-biblioteca", "tipo": "fotografia", "titulo": "Antiga biblioteca municipal", "descricao": "Antiga biblioteca municipal de Alvorada d’Oeste.", "imagem": "images/acervo/34-antiga-biblioteca.jpg", "alt": "Fotografia antiga: Antiga biblioteca municipal", "credito": "", "fonte": ""},
     {"id": "foto-centro-anos-1990", "tipo": "fotografia", "titulo": "Centro da cidade nos anos 1990", "descricao": "Vista do centro da cidade nos anos 1990.", "ano": "Anos 1990", "imagem": "images/acervo/36-centro-anos-1990.jpg", "alt": "Fotografia antiga: Centro da cidade nos anos 1990", "credito": "", "fonte": ""},
-    {"id": "foto-br-364-fim-anos-1970", "tipo": "fotografia", "titulo": "BR-364 no final dos anos 1970", "descricao": "Registro da BR-364 no final dos anos 1970.", "ano": "Final dos anos 1970", "imagem": "images/acervo/38-br-364-fim-anos-1970.jpg", "alt": "Fotografia antiga: BR-364 no final dos anos 1970", "credito": "", "fonte": ""},
-    {"id": "foto-escola-santa-ana-anos-2000", "tipo": "fotografia", "titulo": "Escola Santa Ana nos anos 2000", "descricao": "Escola Santa Ana nos anos 2000.", "ano": "Anos 2000", "imagem": "images/acervo/40-escola-santa-ana-anos-2000.jpg", "alt": "Fotografia antiga: Escola Santa Ana nos anos 2000", "credito": "", "fonte": ""},
+    {"id": "foto-br-364-fim-anos-1970", "tipo": "fotografia", "titulo": "BR-364 no final dos anos 1970", "descricao": "Registro da BR-364 no final dos anos 1970. Segundo o Museu Virtual de Rondônia, a abertura da BR-364, no fim dos anos 1960, trouxe colonos do Sul, do Sudeste e do Centro-Oeste para a região.", "ano": "Final dos anos 1970", "imagem": "images/acervo/38-br-364-fim-anos-1970.jpg", "alt": "Fotografia antiga: BR-364 no final dos anos 1970", "credito": "", "fonte": ""},
+    {"id": "foto-escola-santa-ana-anos-2000", "tipo": "fotografia", "titulo": "Escola Santa Ana nos anos 2000", "descricao": "Escola Santa Ana nos anos 2000. A Escola Santa Ana teve início em 1979, segundo as fontes consultadas.", "ano": "Anos 2000", "imagem": "images/acervo/40-escola-santa-ana-anos-2000.jpg", "alt": "Fotografia antiga: Escola Santa Ana nos anos 2000", "credito": "", "fonte": ""},
     {"id": "foto-vista-decadas-passadas", "tipo": "fotografia", "titulo": "Vista de Alvorada em décadas passadas", "descricao": "Vista de Alvorada d’Oeste em décadas passadas. A data exata ainda não foi confirmada.", "imagem": "images/acervo/41-vista-decadas-passadas.jpg", "alt": "Fotografia antiga: Vista de Alvorada em décadas passadas", "credito": "", "fonte": ""},
     {"id": "foto-comicio-1982", "tipo": "fotografia", "titulo": "Comício em Alvorada d’Oeste", "descricao": "Registro de um comício, identificado com o ano de 1982.", "ano": "1982", "imagem": "images/acervo/15-comicio-1982.jpg", "alt": "Fotografia antiga: Comício em Alvorada d’Oeste", "credito": "", "fonte": "", "galeria": false},
-    {"id": "foto-igreja-antiga-a", "tipo": "fotografia", "titulo": "Antiga igreja católica", "descricao": "Antiga igreja católica de Alvorada d’Oeste, em data aproximada (por volta de 1980).", "ano": "c. 1980", "imagem": "images/acervo/23-igreja-antiga-a.jpg", "alt": "Fotografia antiga: Antiga igreja católica", "credito": "", "fonte": "", "galeria": false},
-    {"id": "foto-igreja-antiga-b", "tipo": "fotografia", "titulo": "Antiga igreja católica", "descricao": "Outro registro da antiga igreja católica, em data aproximada (por volta de 1980).", "ano": "c. 1980", "imagem": "images/acervo/24-igreja-antiga-b.jpg", "alt": "Fotografia antiga: Antiga igreja católica", "credito": "", "fonte": "", "galeria": false},
+    {"id": "foto-igreja-antiga-a", "tipo": "fotografia", "titulo": "Antiga igreja católica", "descricao": "Antiga igreja católica de Alvorada d’Oeste, em data aproximada (por volta de 1980). A primeira missa campal do povoado foi em 21 de janeiro de 1980; a relação com esta construção não está confirmada.", "ano": "c. 1980", "imagem": "images/acervo/23-igreja-antiga-a.jpg", "alt": "Fotografia antiga: Antiga igreja católica", "credito": "", "fonte": "", "galeria": false},
+    {"id": "foto-igreja-antiga-b", "tipo": "fotografia", "titulo": "Antiga igreja católica", "descricao": "Outro registro da antiga igreja católica, em data aproximada (por volta de 1980). A primeira missa campal do povoado foi em 21 de janeiro de 1980; a relação com esta construção não está confirmada.", "ano": "c. 1980", "imagem": "images/acervo/24-igreja-antiga-b.jpg", "alt": "Fotografia antiga: Antiga igreja católica", "credito": "", "fonte": "", "galeria": false},
     {"id": "foto-mis-estudantil-1989", "tipo": "fotografia", "titulo": "Mis Estudantil", "descricao": "Registro do concurso Mis Estudantil, de 1989.", "ano": "1989", "imagem": "images/acervo/25-mis-estudantil-1989.jpg", "alt": "Fotografia antiga: Mis Estudantil", "credito": "", "fonte": "", "galeria": false},
     {"id": "foto-escola-santa-ana-anos-1980", "tipo": "fotografia", "titulo": "Escola Santa Ana (ilustração)", "descricao": "Fotografia provavelmente dos anos 1980 (data aproximada). Serve como ilustração histórica da escola, não como registro de 1979.", "ano": "Provavelmente anos 1980", "imagem": "images/acervo/31-escola-santa-ana-anos-1980.jpg", "alt": "Fotografia antiga: Escola Santa Ana", "credito": "", "fonte": "", "galeria": false},
     {"id": "foto-extracao-madeira", "tipo": "fotografia", "titulo": "Extração de madeira", "descricao": "Registro da extração de madeira na região, em data aproximada (entre o início dos anos 1980 e os anos 1990).", "ano": "Anos 1980–90 (aprox.)", "imagem": "images/acervo/33-extracao-madeira.jpg", "alt": "Fotografia antiga: Extração de madeira", "credito": "", "fonte": "", "galeria": false},
     {"id": "doc-jornal-o-alvorada-1998", "tipo": "documento", "titulo": "Jornal “O Alvorada”, maio de 1998", "descricao": "Recorte do jornal “O Alvorada” (Ano I, nº 2, 2ª quinzena de maio de 1998) sobre os 12 anos do município. O texto menciona a pavimentação da BR-429.", "ano": "1998", "imagem": "images/acervo/35-jornal-o-alvorada-1998.jpg", "alt": "Recorte de jornal: Jornal “O Alvorada”, maio de 1998", "credito": "", "fonte": ""},
-    {"id": "foto-desfile-7-setembro-1984", "tipo": "fotografia", "titulo": "Desfile de 7 de Setembro", "descricao": "Desfile de 7 de Setembro de 1984.", "ano": "1984", "imagem": "images/acervo/37-desfile-7-de-setembro-1984.jpg", "alt": "Fotografia antiga: Desfile de 7 de Setembro", "credito": "", "fonte": "", "galeria": false},
+    {"id": "foto-desfile-7-setembro-1984", "tipo": "fotografia", "titulo": "Desfile de 7 de Setembro", "descricao": "Desfile de 7 de Setembro de 1984. Outra fonte cita um desfile de 7 de Setembro de 1985; o ano ainda precisa ser conferido.", "ano": "1984", "imagem": "images/acervo/37-desfile-7-de-setembro-1984.jpg", "alt": "Fotografia antiga: Desfile de 7 de Setembro", "credito": "", "fonte": "", "galeria": false},
     {"id": "foto-professor-didi-1984", "tipo": "fotografia", "titulo": "Professor Geraldo Didi França", "descricao": "O professor Geraldo Didi França na Escola Monte Alegre, em 1984.", "ano": "1984", "imagem": "images/acervo/39-professor-didi-1984.jpg", "alt": "Fotografia antiga: Professor Geraldo Didi França", "credito": "", "fonte": "", "galeria": false},
     {"id": "foto-satelite-2007", "tipo": "fotografia", "titulo": "Imagem de satélite de Alvorada d’Oeste", "descricao": "Imagem de satélite da área urbana de Alvorada d’Oeste e do entorno.", "ano": "2007", "data": "26 de maio de 2007", "imagem": "images/antes-depois/satelite-2007-05-26.png", "alt": "Imagem de satélite de Alvorada d’Oeste em 26 de maio de 2007: área urbana em quadras, cortada por uma avenida em diagonal, cercada por pastos, lavouras e matas", "credito": "", "fonte": "", "galeria": false},
     {"id": "foto-satelite-2024", "tipo": "fotografia", "titulo": "Imagem de satélite de Alvorada d’Oeste", "descricao": "Imagem de satélite da mesma área, com enquadramento e orientação semelhantes aos da imagem de 2007.", "ano": "2024", "data": "16 de julho de 2024", "imagem": "images/antes-depois/satelite-2024-07-16.png", "alt": "Imagem de satélite de Alvorada d’Oeste em 16 de julho de 2024: a mesma área urbana em quadras, cortada por uma avenida em diagonal, cercada por pastos, lavouras e matas", "credito": "", "fonte": "", "galeria": false}
@@ -102,6 +102,7 @@ window.MUSEU_DATA = {
      em qualquer posição. Copie um bloco e mude  id  e  ano.
      Campos opcionais: data, local, midia (lista de ids do acervo), fonte, fonteUrl,
      fontes (lista de { fonte, fonteUrl } quando há mais de uma),
+     verificar (nota “A verificar” sobre divergências entre fontes),
      rotulo (subtítulo na trilha, útil quando há vários eventos no mesmo ano),
      aproximado: true (mostra "data aproximada"), destaque: true (marco principal),
      ordem (número usado só para ordenar quando  ano  é um texto, ex.: 'Anos 1980–90').
@@ -111,161 +112,170 @@ window.MUSEU_DATA = {
      =================================================================== */
   linhaDoTempo: [
     {
-      id: 'ev-1974',
-      ano: '1974',
-      titulo: 'Chegada de João Távora Filho à região',
-      texto: 'João Távora Filho chega à região de Presidente Médici.',
-      midia: [],
-      fonte: '',
-      fonteUrl: ''
-    },
-    {
-      id: 'ev-1976',
-      ano: '1976',
-      titulo: 'Colonos se estabelecem na Linha 52',
-      texto: 'Colonos se estabelecem em uma área da Linha 52, antes da formação do povoado.',
-      midia: [],
-      fonte: 'Rondônia Dinâmica, 20 de maio de 2024',
-      fonteUrl: ''
-    },
-    {
-      id: 'ev-1977',
-      ano: '1977',
-      titulo: 'Levantamento do INCRA',
-      texto: 'Um levantamento do INCRA é mencionado em entrevista de João Távora Filho.',
-      midia: [],
-      fonte: 'Entrevista de João Távora Filho',
-      fonteUrl: ''
-    },
-    {
-      id: 'ev-1979',
-      ano: '1979',
-      rotulo: 'Organização dos colonos',
-      titulo: 'Organização dos colonos e abertura da área',
-      texto: 'Em 1979, os colonos se organizam e tem início o processo de abertura da área para a formação do povoado.\n\nAs fontes consultadas citam duas datas de agosto: uma reunião em 5 de agosto de 1979, para iniciar a abertura, e a abertura da área para os primeiros lotes em 10 de agosto de 1979. Elas podem corresponder a etapas diferentes do mesmo processo, e a pesquisa ainda não definiu qual delas marca o início.',
+      id: "ev-1974",
+      ano: "1974",
+      rotulo: "Chegada de Távora",
+      titulo: "Chegada de João Távora Filho à região",
+      texto: "João Távora Filho chega a Presidente Médici, então distrito de Ji-Paraná, com a família. Segundo o relato publicado no blog Zekatraca, a chegada foi em 13 de agosto de 1974, e ele abriu uma bicicletaria na localidade.\n\nA chegada faz parte do movimento de ocupação da região: a abertura da BR-364, no fim dos anos 1960, atraiu migrantes do Sul, do Sudeste e do Centro-Oeste, e, a partir de meados dos anos 1970, colonos passaram a ocupar as terras entre os rios Muqui e Urupá, segundo o Museu Virtual de Rondônia. No mesmo relato, Távora conta que sonhava, desde menino, ter um sítio que um dia se tornaria uma cidade chamada Alvorada.",
+      verificar: "o Museu Virtual de Rondônia indica 1976, e não 1974, como o ano da chegada de Távora e da demarcação do sítio Alvorada. Mantém-se 1974, que consta no relato do próprio Távora, até a confirmação.",
       midia: [],
       fontes: [
-        { fonte: 'Rondônia Dinâmica, 20 de maio de 2024', fonteUrl: '' },
-        { fonte: 'Entrevista publicada no blog Zekatraca', fonteUrl: '' }
+        { fonte: "Entrevista de João Távora Filho (blog Zekatraca)", fonteUrl: "https://silviozekatraca.blogspot.com/2014/05/alvorad-doeste-o-sonho-de-um-pia.html" },
+        { fonte: "Museu Virtual de Rondônia", fonteUrl: "https://museuvirtualrondonia.com/alvorada-doeste" }
       ]
     },
     {
-      id: 'ev-1979-escola',
-      ano: '1979',
-      rotulo: 'Escola Santa Ana',
-      titulo: 'Início das atividades da Escola Santa Ana',
-      texto: 'As atividades da Escola Santa Ana começam em 1979, com 22 alunos, em ensino multisseriado e em instalações simples. Zenaide Távora é lembrada como a primeira professora.\n\nOs detalhes do relato de Zenaide Távora, como datas e locais, ainda estão sendo conferidos. Atenção: a fotografia ao lado é provavelmente dos anos 1980. Ela serve apenas como ilustração histórica da escola e não é um registro de 1979.',
-      midia: ['foto-escola-santa-ana-anos-1980'],
+      id: "ev-1976",
+      ano: "1976",
+      rotulo: "Colonos na Linha 52",
+      titulo: "Colonos se estabelecem na Linha 52",
+      texto: "Em 1976, segundo a Rondônia Dinâmica, colonos se estabelecem em uma área da Linha 52. É a ocupação que antecede o povoado: foi nessa região que, nos anos seguintes, os moradores se reuniram para escolher a área e abrir as primeiras quadras.\n\nEm 1977, de acordo com a entrevista de João Távora Filho, a região passa por um levantamento do INCRA. Ele afirma ter pressionado o órgão a vistoriar a área, serviço que, segundo o relato, o INCRA dizia não ter realizado.",
+      verificar: "as fontes divergem sobre quando a Linha 52 passou a ser ocupada: 1976 (Rondônia Dinâmica), 1977 (Museu Virtual de Rondônia) e 1978 (histórico da Prefeitura). Mantém-se 1976, data já validada no projeto.",
+      midia: [],
       fontes: [
-        { fonte: 'Blog da Escola Santa Ana (eeefmsantaana.blogspot.com)', fonteUrl: '' },
-        { fonte: 'Entrevista com Zenaide Távora', fonteUrl: '' }
+        { fonte: "Rondônia Dinâmica, 20 de maio de 2024", fonteUrl: "" },
+        { fonte: "Entrevista de João Távora Filho (blog Zekatraca)", fonteUrl: "https://silviozekatraca.blogspot.com/2014/05/alvorad-doeste-o-sonho-de-um-pia.html" },
+        { fonte: "Museu Virtual de Rondônia", fonteUrl: "https://museuvirtualrondonia.com/alvorada-doeste" },
+        { fonte: "Histórico da Prefeitura de Alvorada do Oeste", fonteUrl: "https://alvoradadooeste.ro.gov.br/municipio/historico" }
       ]
     },
     {
-      id: 'ev-1980',
-      ano: '1980',
-      data: '21 de janeiro de 1980',
-      rotulo: 'Primeira missa campal',
-      titulo: 'Primeira missa campal',
-      texto: 'Em 21 de janeiro é celebrada a primeira missa campal, pelo Padre Romano.',
+      id: "ev-1979",
+      ano: "1979",
+      rotulo: "Formação do povoado",
+      titulo: "Formação do povoado",
+      texto: "Em 1979, os moradores se organizam para formar o povoado. Segundo o Museu Virtual de Rondônia, em julho o administrador do distrito de Presidente Médici, Antônio Geraldo da Silva, o Toninho, visita o sítio Alvorada a convite de João Távora, e uma reunião em 13 de julho aprova a área do povoado.\n\nEm agosto a organização avança. Em 5 de agosto, são definidos quem coordena o desmatamento (Arinaldo Alexandre dos Santos), a alimentação do grupo (Sebastião Alves Neves) e a demarcação provisória (Satílio José dos Reis). No relato de Távora, a reunião foi registrada em ata e decidiu abrir uma clareira em quatro quadras iniciais, para atrair comerciantes. Em 10 de agosto começa o desmatamento das primeiras quadras, e em 5 de outubro a área limpa é queimada.",
+      verificar: "as fontes citam duas datas de agosto, 5 de agosto (reunião e definição de tarefas) e 10 de agosto (início da abertura das quadras), e ainda não está definido qual marca o início. O Museu Virtual traz também uma menção a “8 de agosto” que parece erro de data, e os números de trabalhadores no desmatamento não foram conferidos.",
       midia: [],
-      fonte: '',
-      fonteUrl: ''
+      fontes: [
+        { fonte: "Rondônia Dinâmica, 20 de maio de 2024", fonteUrl: "" },
+        { fonte: "Museu Virtual de Rondônia", fonteUrl: "https://museuvirtualrondonia.com/alvorada-doeste" },
+        { fonte: "Entrevista de João Távora Filho (blog Zekatraca)", fonteUrl: "https://silviozekatraca.blogspot.com/2014/05/alvorad-doeste-o-sonho-de-um-pia.html" }
+      ]
     },
     {
-      id: 'ev-1980-igreja',
-      ano: '1980',
-      rotulo: 'Antiga igreja católica',
-      aproximado: true,
-      titulo: 'A antiga igreja católica',
-      texto: 'As fotografias mostram a antiga igreja católica de Alvorada d’Oeste. A data é aproximada: os registros são datados por volta de 1980.',
-      midia: ['foto-igreja-antiga-a', 'foto-igreja-antiga-b'],
-      fonte: '',
-      fonteUrl: ''
+      id: "ev-1979-escola",
+      ano: "1979",
+      rotulo: "Escola Santa Ana",
+      titulo: "Início das atividades da Escola Santa Ana",
+      texto: "A escola começa antes de o povoado ser demarcado. Segundo o Museu Virtual de Rondônia e o histórico da Prefeitura, em 20 de abril de 1979 os moradores decidem construir uma escola para cerca de 20 crianças, em terreno de Antônio dos Santos, no km 47,5 da BR-429. Pelo Museu Virtual, as aulas começam em 2 de maio, com Zenaide Távora como primeira professora, e em 2 de agosto o administrador autoriza a Escola Santa Ana, de pau a pique. O blog da Escola Santa Ana registra o início das atividades em 1979, com 22 alunos, ensino multisseriado e instalações simples.\n\nAtenção: a fotografia ao lado é provavelmente dos anos 1980. Ela serve apenas como ilustração histórica da escola e não é um registro de 1979.",
+      verificar: "o relato de Távora (blog Zekatraca) situa a fundação da escola em 1981, e os detalhes do relato de Zenaide Távora, como datas e locais, ainda estão sendo conferidos. Mantém-se 1979. O número de alunos também varia: cerca de 20 crianças previstas e 22 no registro da escola.",
+      midia: ["foto-escola-santa-ana-anos-1980"],
+      fontes: [
+        { fonte: "Blog da Escola Santa Ana (eeefmsantaana.blogspot.com)", fonteUrl: "https://eeefmsantaana.blogspot.com" },
+        { fonte: "Entrevista com Zenaide Távora", fonteUrl: "" },
+        { fonte: "Museu Virtual de Rondônia", fonteUrl: "https://museuvirtualrondonia.com/alvorada-doeste" },
+        { fonte: "Histórico da Prefeitura de Alvorada do Oeste", fonteUrl: "https://alvoradadooeste.ro.gov.br/municipio/historico" }
+      ]
     },
     {
-      id: 'ev-madeira',
-      ano: 'Anos 1980–90',
+      id: "ev-1980",
+      ano: "1980",
+      data: "21 de janeiro de 1980",
+      rotulo: "Primeira missa campal",
+      titulo: "Primeira missa campal e a antiga igreja",
+      texto: "Em 21 de janeiro de 1980, o Padre Romano celebra a primeira missa campal do povoado. Segundo o relato publicado no blog Zekatraca, na ocasião também foram realizados um casamento e batizados, e lançada a pedra fundamental da futura Matriz.\n\nAs fotografias ao lado mostram a antiga igreja católica de Alvorada d’Oeste, em registros de data aproximada (por volta de 1980). Ainda não está confirmado se ela corresponde ao templo cuja pedra fundamental foi lançada na missa.",
+      midia: ["foto-igreja-antiga-a", "foto-igreja-antiga-b"],
+      fontes: [
+        { fonte: "Entrevista de João Távora Filho (blog Zekatraca)", fonteUrl: "https://silviozekatraca.blogspot.com/2014/05/alvorad-doeste-o-sonho-de-um-pia.html" }
+      ]
+    },
+    {
+      id: "ev-1980-organizacao",
+      ano: "1980",
+      rotulo: "Organização inicial",
+      titulo: "Organização inicial do povoado",
+      texto: "Em abril de 1980, o administrador Toninho volta ao povoado e reúne os pioneiros. Pelo Museu Virtual de Rondônia (2 e 3 de abril) e pelo relato de Távora (3 de abril), são aprovados o sistema de distribuição dos lotes urbanos e a abertura manual das primeiras ruas, e Satílio José dos Reis fica responsável por distribuir os lotes.\n\nEm 22 de abril, o governador Jorge Teixeira de Oliveira, o Teixeirão, visita o povoado. João Távora pede um posto médico e a estrada BR-429; segundo o Museu Virtual, em 24 horas o helicóptero do governador volta com o médico Manoel Lamego.\n\nOs relatos também explicam o nome: “Alvorada” teria sido proposto por João Távora e confirmado por Toninho, e “D’Oeste” acrescentado por Assis Canuto, prefeito de Ji-Paraná. As fontes não indicam a data.",
+      verificar: "a visita do governador aparece com o ano de 1980 no Museu Virtual; no relato de Távora o ano não está claro. A data de abril (2–3 ou 3) e a grafia do sobrenome de Assis (Canuto ou Canudo) variam entre as fontes.",
+      midia: [],
+      fontes: [
+        { fonte: "Museu Virtual de Rondônia", fonteUrl: "https://museuvirtualrondonia.com/alvorada-doeste" },
+        { fonte: "Entrevista de João Távora Filho (blog Zekatraca)", fonteUrl: "https://silviozekatraca.blogspot.com/2014/05/alvorad-doeste-o-sonho-de-um-pia.html" }
+      ]
+    },
+    {
+      id: "ev-madeira",
+      ano: "Anos 1980–90",
       ordem: 1980,
-      rotulo: 'Extração de madeira',
+      rotulo: "Extração de madeira",
       aproximado: true,
-      titulo: 'Extração de madeira',
-      texto: 'A fotografia registra a extração de madeira na região, atividade presente na história de Alvorada d’Oeste. A data é aproximada, entre o início dos anos 1980 e os anos 1990.',
-      midia: ['foto-extracao-madeira'],
-      fonte: '',
-      fonteUrl: ''
+      titulo: "Extração de madeira",
+      texto: "A fotografia registra a extração de madeira na região, atividade presente na história de Alvorada d’Oeste. A data é aproximada, entre o início dos anos 1980 e os anos 1990.",
+      midia: ["foto-extracao-madeira"],
+      fontes: [
+
+      ]
     },
     {
-      id: 'ev-1982',
-      ano: '1982',
-      titulo: 'Comício em Alvorada d’Oeste',
-      texto: 'Registro fotográfico de um comício em Alvorada d’Oeste, identificado com este ano no acervo de Ovídio Amélio.',
-      midia: ['foto-comicio-1982'],
-      fonte: 'Acervo de Ovídio Amélio',
-      fonteUrl: ''
+      id: "ev-1982",
+      ano: "1982",
+      titulo: "Comício em Alvorada d’Oeste",
+      texto: "Registro fotográfico de um comício em Alvorada d’Oeste, identificado com este ano no acervo de Ovídio Amélio.",
+      midia: ["foto-comicio-1982"],
+      fontes: [
+        { fonte: "Acervo de Ovídio Amélio", fonteUrl: "" }
+      ]
     },
     {
-      id: 'ev-1984-desfile',
-      ano: '1984',
-      rotulo: 'Desfile de 7 de Setembro',
-      titulo: 'Desfile de 7 de Setembro',
-      texto: 'Registro do desfile cívico de 7 de Setembro de 1984 em Alvorada d’Oeste.',
-      midia: ['foto-desfile-7-setembro-1984'],
-      fonte: '',
-      fonteUrl: ''
+      id: "ev-1984",
+      ano: "1984",
+      rotulo: "Vida no povoado",
+      titulo: "A vida no povoado em 1984",
+      texto: "Em 1984, o povoado já se movimentava. As fotografias registram o desfile cívico de 7 de Setembro e o professor Geraldo Didi França na Escola Monte Alegre. O Museu Virtual de Rondônia descreve o povoado desse período como em crescimento, com ruas de terra, empoeiradas na seca e enlameadas na chuva.",
+      verificar: "o Museu Virtual de Rondônia cita um desfile de 7 de Setembro de 1985 que reuniu muita gente. O ano de 1984 da fotografia vem da identificação do acervo e ainda não foi cruzado com essa informação.",
+      midia: ["foto-desfile-7-setembro-1984", "foto-professor-didi-1984"],
+      fontes: [
+        { fonte: "Museu Virtual de Rondônia", fonteUrl: "https://museuvirtualrondonia.com/alvorada-doeste" }
+      ]
     },
     {
-      id: 'ev-1984-escola',
-      ano: '1984',
-      rotulo: 'Escola Monte Alegre',
-      titulo: 'Professor Geraldo Didi França na Escola Monte Alegre',
-      texto: 'Em 1984, o professor Geraldo Didi França aparece em registro na Escola Monte Alegre.',
-      midia: ['foto-professor-didi-1984'],
-      fonte: '',
-      fonteUrl: ''
-    },
-    {
-      id: 'ev-1986',
-      ano: '1986',
-      data: '20 de maio de 1986',
-      rotulo: 'Criação do município',
+      id: "ev-1986",
+      ano: "1986",
+      data: "20 de maio de 1986",
+      rotulo: "Criação do município",
       destaque: true,
-      titulo: 'Criação oficial do município',
-      texto: 'O município de Alvorada d’Oeste é criado pela Lei Estadual nº 103, de 20 de maio de 1986, por desmembramento de Presidente Médici.',
+      titulo: "Criação oficial do município",
+      texto: "Em 20 de maio de 1986, a Lei Estadual nº 103, assinada pelo governador Ângelo Angelim, cria o município de Alvorada d’Oeste, desmembrado de Presidente Médici. O projeto é do deputado estadual Gersi Badocha. A emancipação dá ao povoado governo e administração próprios.\n\nO processo começa em 1985, com uma comissão de moradores. No plebiscito de 23 de fevereiro de 1986, de 1.402 eleitores inscritos, 790 votaram: 766 a favor, 9 contra, 1 em branco e 14 nulos, segundo o Museu Virtual de Rondônia. João Ferreira Martins, o João Suruí, é nomeado prefeito interino em 1986, e os vereadores são eleitos em 15 de novembro e empossados em 31 de dezembro de 1986.",
+      verificar: "o histórico da Prefeitura registra a instalação do município em 1.º de janeiro de 1989, com o nome “Alvorada do Oeste”, enquanto o Museu Virtual indica prefeito interino em 1986 e vereadores empossados em 31 de dezembro de 1986. A diferença entre as fontes ainda precisa ser verificada.",
       midia: [],
-      fonte: 'Lei Estadual nº 103, de 20 de maio de 1986',
-      fonteUrl: 'https://sapl.al.ro.leg.br/norma/626'
+      fontes: [
+        { fonte: "Lei Estadual nº 103, de 20 de maio de 1986", fonteUrl: "https://sapl.al.ro.leg.br/norma/626" },
+        { fonte: "Museu Virtual de Rondônia", fonteUrl: "https://museuvirtualrondonia.com/alvorada-doeste" }
+      ]
     },
     {
-      id: 'ev-1989',
-      ano: '1989',
-      rotulo: 'Mis Estudantil',
-      titulo: 'Mis Estudantil',
-      texto: 'Registro do concurso Mis Estudantil realizado em 1989.',
-      midia: ['foto-mis-estudantil-1989'],
-      fonte: '',
-      fonteUrl: ''
+      id: "ev-1989",
+      ano: "1989",
+      rotulo: "Mis Estudantil",
+      titulo: "Mis Estudantil",
+      texto: "Registro do concurso Mis Estudantil realizado em 1989.",
+      midia: ["foto-mis-estudantil-1989"],
+      fontes: [
+
+      ]
     },
     {
-      id: 'ev-1998',
-      ano: '1998',
-      rotulo: '12 anos do município',
-      titulo: 'Os 12 anos do município no jornal “O Alvorada”',
-      texto: 'Um recorte do jornal “O Alvorada” (Ano I, nº 2, 2ª quinzena de maio de 1998) trata dos 12 anos do município e cita a pavimentação da BR-429.',
-      midia: ['doc-jornal-o-alvorada-1998'],
-      fonte: '',
-      fonteUrl: ''
+      id: "ev-1998",
+      ano: "1998",
+      rotulo: "12 anos do município",
+      titulo: "Os 12 anos do município no jornal “O Alvorada”",
+      texto: "Um recorte do jornal “O Alvorada” (Ano I, nº 2, 2ª quinzena de maio de 1998) trata dos 12 anos do município e cita a pavimentação da BR-429.",
+      midia: ["doc-jornal-o-alvorada-1998"],
+      fontes: [
+
+      ]
     },
     {
-      id: 'ev-2020',
-      ano: '2020',
-      data: '17 de abril de 2020',
-      rotulo: 'Energia elétrica',
-      titulo: 'Subestação da Energisa entra em operação',
-      texto: 'Segundo reportagem de 17 de abril de 2020, a subestação da Energisa entra em operação e conecta o município ao sistema de transmissão.',
+      id: "ev-2020",
+      ano: "2020",
+      data: "17 de abril de 2020",
+      rotulo: "Energia elétrica",
+      titulo: "Subestação da Energisa entra em operação",
+      texto: "Segundo reportagem de 17 de abril de 2020, a subestação da Energisa entra em operação e conecta o município ao sistema de transmissão.",
       midia: [],
-      fonte: 'Expressão Rondônia, 17 de abril de 2020',
-      fonteUrl: ''
+      fontes: [
+        { fonte: "Expressão Rondônia, 17 de abril de 2020", fonteUrl: "" }
+      ]
     }
   ],
 
@@ -360,7 +370,9 @@ window.MUSEU_DATA = {
       { titulo: 'Entrevista de João Távora Filho', detalhe: '', url: '' },
       { titulo: 'Acervo de Ovídio Amélio', detalhe: '', url: '' },
       { titulo: 'Rondônia Dinâmica, 20 de maio de 2024', detalhe: 'Linha 52 e formação do povoado', url: '' },
-      { titulo: 'Entrevista publicada no blog Zekatraca', detalhe: 'Reunião de 5 de agosto de 1979', url: '' },
+      { titulo: 'Entrevista publicada no blog Zekatraca', detalhe: 'Relato de João Távora Filho (2014)', url: 'https://silviozekatraca.blogspot.com/2014/05/alvorad-doeste-o-sonho-de-um-pia.html' },
+      { titulo: 'Museu Virtual de Rondônia — Alvorada d’Oeste', detalhe: 'Fonte complementar: ocupação da região, formação do povoado e emancipação. Informações a conferir com outras fontes.', url: 'https://museuvirtualrondonia.com/alvorada-doeste' },
+      { titulo: 'Prefeitura de Alvorada do Oeste — Histórico', detalhe: 'Histórico institucional do município', url: 'https://alvoradadooeste.ro.gov.br/municipio/historico' },
       { titulo: 'Blog da Escola Santa Ana', detalhe: 'Início das atividades escolares', url: 'https://eeefmsantaana.blogspot.com' },
       { titulo: 'Google — Diretrizes de uso de Google Maps, Google Earth e Street View', detalhe: 'Diretrizes oficiais sobre utilização de imagens, atribuição de créditos e condições de uso do conteúdo do Google Earth.', url: 'https://about.google/brand-resource-center/products-and-services/geo-guidelines/' },
       { titulo: 'Expressão Rondônia, 17 de abril de 2020', detalhe: 'Subestação da Energisa', url: '' },

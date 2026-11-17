@@ -357,7 +357,8 @@
       const itens = midiaDe(ev.midia);
       $('#tl-data').textContent = [ev.data || ev.ano, ev.aproximado ? 'data aproximada' : '', ev.local].filter(Boolean).join(' · ');
       $('#tl-titulo-ev').textContent = ev.titulo;
-      preencher($('#tl-texto'), paragrafos(ev.texto));
+      preencher($('#tl-texto'), paragrafos(ev.texto),
+        ev.verificar ? el('p', { class: 'tl-verificar' }, el('strong', { text: 'A verificar: ' }), ev.verificar) : null);
       preencherOuOcultar($('#tl-midia'), nosDeMidia(itens));
       corpo.classList.toggle('com-midia', itens.some((it) => it.imagem));
       preencherOuOcultar($('#tl-fonte'), nosDasFontes(ev));
