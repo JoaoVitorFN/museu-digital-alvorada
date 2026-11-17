@@ -227,7 +227,7 @@
     };
     function ajustar() {
       if (!img || !nw || !largura() || !altura()) return;
-      const f = Math.min(largura() / nw, altura() / nh, 1);
+      const f = Math.min(largura() / nw, altura() / nh, 3); // imagens pequenas ampliam até 3x para ocupar o palco
       bw = nw * f; bh = nh * f;
       img.style.width = bw + 'px';
       img.style.height = bh + 'px';
