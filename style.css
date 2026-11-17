@@ -605,7 +605,10 @@ html.anim .reveal.visivel { opacity: 1; transform: none; }
   .vis-corpo { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 54fr) minmax(0, 46fr); }
   .vis-corpo.sem-midia { grid-template-rows: minmax(0, 1fr); }
   .vis-dica { display: none; }
-  .vis-ferr { padding: 8px 12px; }
+  .vis-ferr { padding: 6px 10px; flex-wrap: nowrap; gap: 6px; }
+  .vis-zoom-btns, .vis-paginas { gap: 5px; font-size: .82rem; white-space: nowrap; }
+  .vis-btn { min-width: 40px; min-height: 40px; padding: 0 9px; }
+  .vis-btn-txt { font-size: .82rem; }
   .vis-info { padding: 20px 18px 0; }
   .vis-info h3 { font-size: 1.35rem; }
   .vis-desc { font-size: 1.02rem; line-height: 1.6; }
