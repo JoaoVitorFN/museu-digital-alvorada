@@ -6,11 +6,11 @@
 
    COMO FUNCIONA
    - O ACERVO guarda cada fotografia e cada documento UMA única vez.
-   - A linha do tempo, o mapa e o Antes × Depois apontam para itens do
+   - A linha do tempo e o Antes × Depois apontam para itens do
      acervo pelo  id  (campo  midia  ou  antes / depois).
    - A galeria mostra o acervo, com filtros Todos / Fotografias /
      Documentos. Itens com  galeria: false  aparecem só na linha do tempo
-     (ou no mapa / Antes × Depois), sem repetir na galeria.
+     (ou no Antes × Depois), sem repetir na galeria.
    Assim, uma mesma fotografia pode aparecer em várias seções sem ser
    cadastrada de novo.
 
@@ -285,31 +285,6 @@ window.MUSEU_DATA = {
   ],
 
   /* ===================================================================
-     MAPA HISTÓRICO
-     Enquanto  imagem  estiver vazia, a seção mostra apenas o título.
-     Para ativar: coloque o mapa cartográfico ou a fotografia aérea em
-     images/maps/ e preencha  imagem  e  alt. Em seguida, cadastre os
-     pontos sobre a imagem real.
-     x e y são a posição do ponto em % da largura e da altura da imagem
-     (0 = canto esquerdo/superior, 100 = canto direito/inferior).
-     midia: lista de ids do acervo. eventoId: liga o ponto a um evento
-     da linha do tempo.
-
-     Modelo de ponto:
-       { id: 'pt-igreja', nome: 'Nome do lugar', x: 42, y: 61, periodo: '1980',
-         descricao: 'Texto.', midia: ['foto-1980-missa'], eventoId: 'ev-1980',
-         fonte: '', fonteUrl: '' }
-     =================================================================== */
-  mapa: {
-    imagem: '',
-    alt: '',
-    credito: '',
-    fonte: '',
-    fonteUrl: '',
-    pontos: []
-  },
-
-  /* ===================================================================
      ANTES × DEPOIS
      Cada comparação junta DUAS fotografias do mesmo lugar, já cadastradas
      no acervo, de preferência com o mesmo enquadramento. O período, o
@@ -318,8 +293,9 @@ window.MUSEU_DATA = {
 
      Campos opcionais da comparação: titulo (no lugar de "Local: ..."),
      intervalo (frase sobre o tempo entre os registros), creditos ([{rotulo, texto}]) e observacao (atribuição das imagens, logo abaixo da comparação) e dados
-     ({ titulo, tabela: [{ano, populacao, tipo}], notas: [], fontes: [{titulo, url}] }),
-     mostrados num bloco recolhível sob a comparação.
+     ({ titulo, aberto, grafico: {imagem, alt, link}, tabela: [{ano, populacao, tipo}], notas: [], fontes: [{titulo, url}] }),
+     mostrados num bloco recolhível sob a comparação (aberto: true = já aberto);
+     o gráfico aparece ao lado da tabela.
 
      Modelo:
        { id: 'ad-praca', local: 'Nome do lugar', descricao: 'Texto opcional.',
@@ -341,6 +317,12 @@ window.MUSEU_DATA = {
       descricao: 'Entre maio de 2007 e julho de 2024, Alvorada d’Oeste passou por transformações que podem ser observadas nas imagens de satélite. O traçado geral das ruas e quadras permaneceu relativamente parecido, enquanto algumas vias receberam pavimentação, novas construções surgiram e a paisagem ao redor da área urbana se modificou.\n\nApesar dessas mudanças, a expansão da área urbanizada parece ter sido limitada quando comparada ao intervalo de 17 anos. Esse cenário também pode ser observado junto à redução da população municipal: segundo o IBGE, Alvorada d’Oeste passou de 16.853 habitantes em 2010 para 13.117 em 2022.\n\nA migração ajuda a compreender parte desse cenário. Entre 2017 e 2022, o município registrou mais pessoas saindo do que chegando, segundo estimativas elaboradas a partir dos dados do Censo 2022. A comparação revela não apenas as mudanças na paisagem, mas também os desafios de desenvolvimento e permanência da população no município.',
       dados: {
         titulo: 'Dados populacionais e fontes',
+        aberto: true,
+        grafico: {
+          imagem: 'images/antes-depois/grafico-populacao-alvorada.png',
+          alt: 'Gráfico de linha da população de Alvorada d’Oeste, com dados do IBGE: 19.820 habitantes em 2000, 16.485 em 2007 (contagem populacional), 16.853 em 2010 e 13.117 em 2022.',
+          link: 'Abrir o gráfico em tamanho maior (nova aba)'
+        },
         tabela: [
           { ano: '2000', populacao: '19.820', tipo: 'Censo demográfico' },
           { ano: '2007', populacao: '16.485', tipo: 'Contagem populacional do IBGE' },

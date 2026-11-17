@@ -12,10 +12,9 @@
    3. Abertura cinematográfica
    4. Menu responsivo
    5. Linha do tempo
-   6. Mapa histórico
-   7. Antes × Depois
-   8. Galeria e visualizador
-   9. Sobre, referências e créditos
+   6. Antes × Depois
+   7. Galeria e visualizador
+   8. Sobre, referências e créditos
    10. Voltar ao topo e animações de entrada
    11. Inicialização
    ===================================================================== */
@@ -181,7 +180,7 @@
   /* ------------------------------------------------------------------
      2. ACERVO
      Fotografias e documentos são cadastrados uma vez em data.js (acervo)
-     e usados pela galeria, pela linha do tempo, pelo mapa e pelo
+     e usados pela galeria, pela linha do tempo e pelo
      Antes × Depois através do id.
      ------------------------------------------------------------------ */
   const TIPOS = [
@@ -199,7 +198,7 @@
   const periodoDe = (item) => item.data || item.ano || '';
 
   // Funções que dependem de outros módulos (preenchidas mais abaixo).
-  const api = { irParaEvento: () => {}, abrirAcervo: () => {}, verNaGaleria: () => {} };
+  const api = { abrirAcervo: () => {}, verNaGaleria: () => {} };
 
   /**
    * Zoom e deslocamento de uma imagem dentro de um palco: pinça e arrasto com
@@ -354,7 +353,7 @@
   }
 
   /**
-   * Monta a mídia ligada a um evento ou ponto do mapa: fotografias viram
+   * Monta a mídia ligada a um evento da linha do tempo: fotografias viram
    * figuras que abrem ampliadas ao clicar; documentos sem imagem viram botões.
    */
   function nosDeMidia(itens) {
@@ -563,89 +562,11 @@
       if (alvo >= 0 && alvo < total) selecionar(alvo, { foco: true, anunciar: true });
     });
 
-    api.irParaEvento = function (id) {
-      const i = EVENTOS.findIndex((ev) => ev.id === id);
-      if (i < 0) return;
-      selecionar(i, { anunciar: true });
-      $('#linha-do-tempo').scrollIntoView({ behavior: comportamentoRolagem(), block: 'start' });
-    };
-
     selecionar(0);
   }
 
   /* ------------------------------------------------------------------
-     6. MAPA HISTÓRICO
-     Sem imagem de mapa em data.js, a seção mostra só o título.
-     ------------------------------------------------------------------ */
-  function iniciarMapa() {
-    const cfg = DADOS.mapa || {};
-    const conteudo = $('#mapa-conteudo');
-    const layout = $('#mapa-layout');
-    const area = $('#mapa-area');
-    const info = $('#mapa-info');
-    if (!conteudo || !layout || !area || !info) return;
-
-    const semMapa = () => { conteudo.hidden = true; secaoSemConteudo('mapa-historico'); };
-    if (!cfg.imagem) { semMapa(); return; }
-
-    const pontos = (Array.isArray(cfg.pontos) ? cfg.pontos : [])
-      .filter((p) => p && p.nome && Number.isFinite(parseFloat(p.x)) && Number.isFinite(parseFloat(p.y)));
-
-    area.prepend(criarImagem(cfg.imagem, cfg.alt || 'Mapa de Alvorada d’Oeste', { classe: 'mapa-img', imediata: true, aoErro: semMapa }));
-    conteudo.hidden = false;
-
-    preencherOuOcultar($('#mapa-fonte'), juntarPartes(nosDoCredito(cfg.credito), nosDaFonte(cfg)));
-
-    // Sem pontos cadastrados: só o mapa, em largura total.
-    if (pontos.length === 0) {
-      layout.classList.add('sem-info');
-      info.hidden = true;
-      return;
-    }
-
-    $('#mapa-dica').hidden = false;
-    preencherOuOcultar($('#mapa-legenda'),
-      el('li', null, el('span', { class: 'leg-simbolo', 'aria-hidden': 'true' }), 'Ponto de interesse'),
-      el('li', null, el('span', { class: 'leg-simbolo ativo', 'aria-hidden': 'true' }), 'Ponto selecionado'));
-
-    const botoes = pontos.map((p, i) => {
-      const x = Math.min(100, Math.max(0, parseFloat(p.x)));
-      const y = Math.min(100, Math.max(0, parseFloat(p.y)));
-      const botao = el('button', {
-        type: 'button', class: 'marcador',
-        style: 'left:' + x + '%;top:' + y + '%;--atraso:' + (i * 0.45) + 's',
-        'aria-pressed': 'false', 'aria-controls': 'mapa-info',
-        'aria-label': 'Ponto ' + (i + 1) + ': ' + p.nome,
-        onclick: () => selecionar(i)
-      }, String(i + 1));
-      area.append(botao);
-      return botao;
-    });
-
-    function selecionar(i) {
-      const p = pontos[i];
-      botoes.forEach((b, k) => b.setAttribute('aria-pressed', String(k === i)));
-      const evento = EVENTOS.find((ev) => ev.id === p.eventoId);
-      const itens = midiaDe(p.midia);
-
-      preencher(info,
-        p.periodo ? el('p', { class: 'periodo', text: p.periodo }) : null,
-        el('h3', { text: p.nome }),
-        paragrafos(p.descricao),
-        itens.length ? el('div', { class: 'info-midia' }, nosDeMidia(itens)) : null,
-        p.fonte ? el('p', { class: 'fonte' }, nosDaFonte(p)) : null,
-        evento ? el('button', {
-          type: 'button', class: 'btn btn-sec link-evento',
-          onclick: () => api.irParaEvento(evento.id)
-        }, 'Ver na linha do tempo: ' + evento.ano) : null);
-      reanimar(info, 'entra');
-    }
-
-    preencher(info, el('p', { class: 'vazio', text: 'Selecione um ponto numerado no mapa para ver aqui o local, a descrição e a fonte.' }));
-  }
-
-  /* ------------------------------------------------------------------
-     7. ANTES × DEPOIS
+     6. ANTES × DEPOIS
      Cada comparação usa duas fotografias do acervo (campos antes/depois).
      Sem comparações válidas, a seção mostra só o título.
      ------------------------------------------------------------------ */
@@ -696,14 +617,17 @@
     /** Bloco discreto e recolhível com tabela de dados, notas e fontes (links). */
     function desenharDados(d) {
       const caixa = $('#comp-dados');
+      const graf = d && d.grafico && caminhoSeguro(d.grafico.imagem) ? d.grafico : null;
       const linhas = d && Array.isArray(d.tabela) ? d.tabela.filter((l) => l && l.ano) : [];
       const notas = d && Array.isArray(d.notas) ? d.notas.filter(Boolean) : [];
       const fontes = d && Array.isArray(d.fontes) ? d.fontes.filter((f) => f && f.titulo) : [];
-      if (!linhas.length && !notas.length && !fontes.length) { caixa.hidden = true; preencher(caixa); return; }
+      if (!linhas.length && !notas.length && !fontes.length && !graf) { caixa.hidden = true; preencher(caixa); return; }
       caixa.hidden = false;
+      caixa.open = d.aberto === true;
       preencher(caixa,
         el('summary', { text: d.titulo || 'Dados e fontes' }),
-        linhas.length ? el('table', { class: 'comp-tabela' },
+        (linhas.length || graf) ? el('div', { class: 'comp-dados-grade' },
+          linhas.length ? el('table', { class: 'comp-tabela' },
           el('caption', { text: 'População de Alvorada d’Oeste' }),
           el('thead', null, el('tr', null,
             el('th', { scope: 'col', text: 'Ano' }),
@@ -712,7 +636,11 @@
           el('tbody', null, linhas.map((l) => el('tr', null,
             el('th', { scope: 'row', text: l.ano }),
             el('td', { class: 'num', text: l.populacao || '' }),
-            el('td', { text: l.tipo || '' }))))) : null,
+            el('td', { text: l.tipo || '' })))))  : null,
+          graf ? el('figure', { class: 'comp-grafico' }, el('a', {
+            href: caminhoSeguro(graf.imagem), target: '_blank', rel: 'noopener noreferrer',
+            'aria-label': graf.link || 'Abrir o gráfico em tamanho maior'
+          }, criarImagem(caminhoSeguro(graf.imagem), graf.alt || 'Gráfico da população'))) : null) : null,
         notas.map((n) => el('p', { class: 'comp-nota', text: n })),
         fontes.length ? el('div', { class: 'comp-fontes' },
           el('h4', { text: 'Fontes' }),
@@ -789,7 +717,7 @@
   }
 
   /* ------------------------------------------------------------------
-     8. GALERIA E VISUALIZADOR
+     7. GALERIA E VISUALIZADOR
      Filtros: Todos, Fotografias e Documentos. Lugar, evento etc. aparecem
      como etiquetas de cada item. Sem itens no acervo, só o título.
      ------------------------------------------------------------------ */
@@ -800,7 +728,7 @@
     const status = $('#gal-status');
     const vis = $('#visualizador');
     if (!conteudo || !grade || !filtros || !vis) return;
-    // Itens com  galeria: false  aparecem só onde são citados (linha do tempo, mapa...).
+    // Itens com  galeria: false  aparecem só onde são citados (linha do tempo...).
     const GALERIA = ACERVO.filter((it) => it.galeria !== false);
     if (GALERIA.length === 0) { conteudo.hidden = true; secaoSemConteudo('galeria'); return; }
     conteudo.hidden = false;
@@ -973,7 +901,7 @@
   }
 
   /* ------------------------------------------------------------------
-     9. SOBRE, REFERÊNCIAS E CRÉDITOS
+     8. SOBRE, REFERÊNCIAS E CRÉDITOS
      Cartões sem conteúdo ficam escondidos.
      ------------------------------------------------------------------ */
   function iniciarSobre() {
@@ -1055,7 +983,6 @@
   tentar('abertura', iniciarAbertura);
   tentar('menu', iniciarMenu);
   tentar('linha do tempo', iniciarLinhaDoTempo);
-  tentar('mapa', iniciarMapa);
   tentar('antes e depois', iniciarComparador);
   tentar('galeria', iniciarGaleria);
   tentar('sobre', iniciarSobre);

@@ -10,8 +10,8 @@ museu-digital-alvorada/
 ├── index.html      estrutura do site (abertura, menu, seções, visualizador)
 ├── style.css       visual, responsividade, animações e movimento reduzido
 ├── script.js       interações (lê os dados do data.js)
-├── data.js         TODO o conteúdo editável (acervo, linha do tempo, mapa, comparações, sobre)
-├── images/         imagens do acervo, mapas etc. (crie as subpastas que precisar, ex.: images/acervo/)
+├── data.js         TODO o conteúdo editável (acervo, linha do tempo, comparações, sobre)
+├── images/         imagens do acervo, comparações etc. (crie as subpastas que precisar, ex.: images/acervo/)
 └── documents/      PDFs de documentos
 ```
 
@@ -32,7 +32,6 @@ Fotografias e documentos são cadastrados **uma única vez**, no `acervo` do `da
 |---|---|---|
 | Galeria | todo o acervo, com filtros **Todos / Fotografias / Documentos** | automático |
 | Linha do tempo | um evento por ano, em ordem cronológica | `midia: ['id-1', 'id-2']` no evento |
-| Mapa histórico | mapa real com pontos clicáveis | `midia: [...]` em cada ponto |
 | Antes × Depois | divisor entre duas fotografias do mesmo lugar | `antes: 'id'` e `depois: 'id'` |
 
 "Lugar", "Evento" etc. não são mais filtros: entram como `etiquetas` do item (ex.: `etiquetas: ['Lugar']`).
@@ -44,7 +43,6 @@ Fotografias e documentos são cadastrados **uma única vez**, no `acervo` do `da
 | Cadastrar uma fotografia ou documento | `acervo`: copie o modelo comentado no topo da lista (`tipo`: `'fotografia'` ou `'documento'`) e coloque o arquivo em `images/` ou `documents/` |
 | Acrescentar ou ampliar um evento | `linhaDoTempo`: copie um bloco e mude `id` e `ano` (a ordem é automática). Campos opcionais: `data`, `local`, `midia`, `fonte`, `fonteUrl` |
 | Ligar uma foto a um evento | cadastre a foto no `acervo` e escreva o `id` dela em `midia` do evento |
-| Ativar o mapa | coloque o mapa ou a foto aérea em `images/maps/`, preencha `mapa.imagem` e `mapa.alt` e cadastre `pontos` (`x` e `y` em % da imagem) |
 | Ativar uma comparação Antes × Depois | cadastre as duas fotos no `acervo` e acrescente `{ id, local, antes, depois }` em `antesDepois` |
 | Referências, créditos e agradecimentos | `sobre` (cartões vazios não aparecem) |
 
@@ -74,9 +72,9 @@ Para desfazer uma alteração que deu problema: `git log --oneline`, ache o comm
 ## Testes
 
 Testado de forma automática no Chromium (computador, 375 px e 320 px): abertura, menu e menu móvel, linha do tempo
-(clique, setas, teclado, ordem cronológica, textos longos), seções sem conteúdo, mapa, comparador (mouse, toque e teclado),
+(clique, setas, teclado, ordem cronológica, textos longos), seções sem conteúdo, comparador (mouse, toque e teclado),
 filtros e visualizador da galeria, voltar ao topo, imagens ausentes, movimento reduzido, ausência de rolagem horizontal
-e de erros no console. Os recursos que dependem de conteúdo (mapa, comparador, galeria, fotos nos eventos) foram testados
+e de erros no console. Os recursos que dependem de conteúdo (comparador, galeria, fotos nos eventos) foram testados
 com dados de teste temporários, que não fazem parte do site.
 
 Falta testar à mão: celular de verdade (Android/Chrome e iPhone/Safari), Firefox e Safari no computador,

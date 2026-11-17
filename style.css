@@ -8,13 +8,12 @@
    5. Início (hero)
    6. Seções
    7. Linha do tempo
-   8. Mapa histórico
-   9. Antes × Depois
-   10. Galeria e visualizador
-   11. Sobre, rodapé, voltar ao topo
-   12. Animações de entrada
-   13. Responsividade
-   14. Movimento reduzido
+   8. Antes × Depois
+   9. Galeria e visualizador
+   10. Sobre, rodapé, voltar ao topo
+   11. Animações de entrada
+   12. Responsividade
+   13. Movimento reduzido
    ===================================================================== */
 
 /* ---------- 1. Variáveis e base ---------- */
@@ -262,7 +261,7 @@ html.com-abertura .abertura { display: flex; }
 .hero-texto h1 { outline: none; }
 .hero-acoes { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 1.6em; }
 
-.atalhos { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 48px; }
+.atalhos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 48px; }
 .atalho {
   display: flex; flex-direction: column; gap: 6px; height: 100%;
   padding: 22px 20px; color: var(--tinta); text-decoration: none;
@@ -340,7 +339,7 @@ html.com-abertura .abertura { display: flex; }
 .tl-texto p:last-child { margin-bottom: 0; }
 .tl-texto .tl-verificar { margin-top: 1.1em; padding: 9px 12px; font-size: .9rem; line-height: 1.5; background: var(--papel-2); border-left: 3px solid var(--couro); border-radius: 0 var(--raio) var(--raio) 0; }
 
-/* mídia (fotografias e documentos) ligada a um evento ou a um ponto do mapa */
+/* mídia (fotografias e documentos) ligada a um evento */
 .tl-midia { display: grid; gap: 22px; margin-top: 1.4em; align-content: start; }
 .fig { margin: 0; }
 .fig .moldura {
@@ -379,45 +378,7 @@ html.com-abertura .abertura { display: flex; }
   .tl-corpo.com-midia .tl-midia { margin-top: 0; }
 }
 
-/* ---------- 8. Mapa histórico ---------- */
-.mapa-layout { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 32px; align-items: start; }
-.mapa-moldura { background: var(--papel-2); border: 1px solid var(--areia); border-radius: var(--raio); box-shadow: var(--sombra); padding: 12px; }
-.mapa-layout.sem-info { grid-template-columns: minmax(0, 1fr); }
-/* a área acompanha a proporção do mapa real; os pontos usam % da imagem */
-.mapa-area { position: relative; overflow: hidden; border: 4px double var(--madeira); background: #E6D6B8; border-radius: 3px; }
-.mapa-img { display: block; width: 100%; height: auto; }
-.mapa-fonte { margin: .8em 6px 4px; }
-
-.marcador {
-  position: absolute; z-index: 2; transform: translate(-50%, -50%);
-  width: 46px; height: 46px; padding: 0; border-radius: 50%;
-  display: grid; place-items: center; font-weight: 800; font-size: 1.05rem;
-  background: var(--papel); color: var(--tinta); border: 3px solid var(--madeira);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, .35);
-  transition: transform .2s ease, background-color .2s ease, color .2s ease;
-}
-.marcador:hover { transform: translate(-50%, -50%) scale(1.12); background: var(--areia); }
-.marcador[aria-pressed="true"] { background: var(--tinta); color: var(--papel); border: 3px solid var(--papel); box-shadow: 0 0 0 3px var(--tinta), 0 6px 14px rgba(0, 0, 0, .45); transform: translate(-50%, -50%) scale(1.18); z-index: 3; }
-.marcador::after {
-  content: ""; position: absolute; inset: -8px; border-radius: 50%; border: 2px solid var(--madeira); opacity: 0;
-}
-.marcador:not([aria-pressed="true"])::after { animation: pulso 2.8s ease-out infinite; animation-delay: var(--atraso, 0s); }
-@keyframes pulso { 0% { transform: scale(.7); opacity: .65; } 100% { transform: scale(1.35); opacity: 0; } }
-
-.mapa-legenda { display: flex; flex-wrap: wrap; gap: 8px 22px; padding: 14px 6px 4px; font-size: .88rem; }
-.mapa-legenda li { display: inline-flex; align-items: center; gap: 8px; }
-.leg-simbolo { width: 22px; height: 22px; border-radius: 50%; flex: none; background: var(--papel); border: 2px solid var(--madeira); }
-.leg-simbolo.ativo { background: var(--tinta); border-color: var(--tinta); box-shadow: 0 0 0 2px var(--papel) inset; }
-
-.mapa-info { background: var(--papel-2); border: 1px solid var(--areia); border-radius: var(--raio); box-shadow: var(--sombra); padding: 26px; min-height: 280px; }
-.mapa-info.entra > * { animation: entra-painel .45s cubic-bezier(.2, .7, .2, 1); }
-.mapa-info .vazio { color: var(--madeira); font-family: var(--serif); font-size: 1.2rem; }
-.mapa-info h3 { font-size: 1.5rem; }
-.mapa-info .periodo { font-family: var(--serif); font-weight: 700; color: var(--madeira); margin-bottom: .3em; }
-.info-midia { display: grid; gap: 18px; margin-top: 1em; }
-.link-evento { margin-top: 1em; }
-
-/* ---------- 9. Antes × Depois ---------- */
+/* ---------- 8. Antes × Depois ---------- */
 .comp-bloco { max-width: 980px; margin-inline: auto; }
 .comp-seletor { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
 .comp-seletor button { min-height: 44px; padding: 0 16px; background: var(--papel-2); border: 2px solid var(--madeira); border-radius: 99px; font-weight: 600; }
@@ -468,7 +429,11 @@ html.com-abertura .abertura { display: flex; }
 .comp-dados { margin: 4px 0 20px; background: var(--papel-2); border: 1px solid var(--areia); border-radius: var(--raio); padding: 0 18px; }
 .comp-dados summary { cursor: pointer; padding: 14px 0; min-height: 44px; font-family: var(--serif); font-weight: 700; }
 .comp-dados[open] summary { border-bottom: 1px solid var(--areia); margin-bottom: 12px; }
-.comp-tabela { width: 100%; max-width: 560px; border-collapse: collapse; font-size: .95rem; }
+.comp-dados-grade { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 28px; align-items: start; }
+.comp-grafico { margin: 0; }
+.comp-grafico a { display: block; border-radius: 4px; overflow: hidden; }
+.comp-grafico img { display: block; width: 100%; height: auto; }
+.comp-tabela { width: 100%; max-width: none; border-collapse: collapse; font-size: .95rem; }
 .comp-tabela caption { text-align: left; font-weight: 600; padding-bottom: 6px; }
 .comp-tabela th, .comp-tabela td { padding: 7px 10px 7px 0; border-bottom: 1px solid var(--areia); text-align: left; font-weight: 400; }
 .comp-tabela thead th, .comp-tabela tbody th { font-weight: 700; }
@@ -485,7 +450,7 @@ html.com-abertura .abertura { display: flex; }
 .comp-leg p { margin: 0 0 .4em; }
 .comp-leg .fonte { margin-top: .6em; }
 
-/* ---------- 10. Galeria e visualizador ---------- */
+/* ---------- 9. Galeria e visualizador ---------- */
 .filtros { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
 .filtro {
   min-height: 46px; padding: 0 20px; background: var(--papel-2); color: var(--tinta);
@@ -562,7 +527,7 @@ body.travado { overflow: hidden; }
 .vis-fechar:hover { transform: rotate(90deg); background: var(--madeira); }
 .vis-fechar:focus-visible { outline-color: var(--tinta); outline-offset: 3px; box-shadow: 0 0 0 6px var(--papel); }
 
-/* ---------- 11. Sobre, rodapé, voltar ao topo ---------- */
+/* ---------- 10. Sobre, rodapé, voltar ao topo ---------- */
 .sobre-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 36px; align-items: start; }
 .sobre-texto { font-size: 1.12rem; }
 .sobre-texto p:first-child::first-letter { font-family: var(--serif); font-size: 3.4em; float: left; line-height: .85; padding: .08em .12em 0 0; color: var(--madeira); }
@@ -589,14 +554,13 @@ body.travado { overflow: hidden; }
 .voltar-topo:hover { background: var(--madeira); }
 .voltar-topo:focus-visible { outline-color: var(--tinta); box-shadow: 0 0 0 6px var(--papel); }
 
-/* ---------- 12. Animações de entrada ---------- */
+/* ---------- 11. Animações de entrada ---------- */
 html.anim .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s cubic-bezier(.2, .7, .2, 1); }
 html.anim .reveal.visivel { opacity: 1; transform: none; }
 
-/* ---------- 13. Responsividade ---------- */
+/* ---------- 12. Responsividade ---------- */
 @media (max-width: 1020px) {
   .atalhos { grid-template-columns: repeat(2, 1fr); }
-  .mapa-layout { grid-template-columns: 1fr; }
   .sobre-grid { grid-template-columns: 1fr; }
 }
 
@@ -633,9 +597,9 @@ html.anim .reveal.visivel { opacity: 1; transform: none; }
   .vis-corpo { grid-template-columns: 1fr; }
   .zoom-palco { height: 52vh; min-height: 220px; }
   .vis-info { padding: 24px 20px 22px; }
-  .mapa-info { padding: 20px; }
+  .comp-dados-grade { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .atalhos li:last-child:nth-child(odd) { grid-column: 1 / -1; }
   .gal-grade { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 16px; }
-  .marcador { width: 44px; height: 44px; }
 }
 
 @media (max-width: 480px) {
@@ -650,7 +614,7 @@ html.anim .reveal.visivel { opacity: 1; transform: none; }
   .marca-txt { font-size: 1.1rem; }
 }
 
-/* ---------- 14. Movimento reduzido ---------- */
+/* ---------- 13. Movimento reduzido ---------- */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: .001ms !important;
@@ -660,6 +624,5 @@ html.anim .reveal.visivel { opacity: 1; transform: none; }
     scroll-behavior: auto !important;
   }
   html.anim .reveal { opacity: 1 !important; transform: none !important; }
-  .fita, .marcador::after { animation: none !important; }
-  .marcador::after { display: none; }
+  .fita { animation: none !important; }
 }
