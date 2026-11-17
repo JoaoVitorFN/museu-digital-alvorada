@@ -199,7 +199,159 @@
   const periodoDe = (item) => item.data || item.ano || '';
 
   // Funções que dependem de outros módulos (preenchidas mais abaixo).
-  const api = { irParaEvento: () => {}, abrirAcervo: () => {} };
+  const api = { irParaEvento: () => {}, abrirAcervo: () => {}, verNaGaleria: () => {} };
+
+  /**
+   * Zoom e deslocamento de uma imagem dentro de um palco: pinça e arrasto com
+   * os dedos, roda e arrasto com o mouse, toque duplo / duplo clique e teclado.
+   * Nenhum recurso externo: usa só Pointer Events e transform.
+   */
+  function criarZoomImagem(palco) {
+    const MAX = 8;
+    let img = null, nw = 0, nh = 0, bw = 0, bh = 0;
+    let s = 1, px = 0, py = 0;
+    const ponteiros = new Map();
+    let arrasto = null, pinca = null, houvePinca = false, moveu = false, ultimoToque = null, ultimoAlternar = 0;
+
+    const largura = () => palco.clientWidth;
+    const altura = () => palco.clientHeight;
+    const limitar = () => {
+      const w = bw * s, h = bh * s;
+      px = w <= largura() ? (largura() - w) / 2 : Math.min(0, Math.max(largura() - w, px));
+      py = h <= altura() ? (altura() - h) / 2 : Math.min(0, Math.max(altura() - h, py));
+    };
+    const aplicar = () => {
+      if (!img) return;
+      limitar();
+      img.style.transform = 'translate(' + px + 'px,' + py + 'px) scale(' + s + ')';
+      palco.classList.toggle('ampliado', s > 1.01);
+    };
+    function ajustar() {
+      if (!img || !nw || !largura() || !altura()) return;
+      const f = Math.min(largura() / nw, altura() / nh, 1);
+      bw = nw * f; bh = nh * f;
+      img.style.width = bw + 'px';
+      img.style.height = bh + 'px';
+      s = 1; px = 0; py = 0;
+      aplicar();
+    }
+    function zoomEm(fator, cx, cy) {
+      const ns = Math.min(MAX, Math.max(1, s * fator));
+      const k = ns / s;
+      px = cx - (cx - px) * k;
+      py = cy - (cy - py) * k;
+      s = ns;
+      aplicar();
+    }
+    const relativo = (e) => { const r = palco.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; };
+    const alternar = (p) => { if (s > 1.01) ajustar(); else zoomEm(2.5, p.x, p.y); };
+    const centro = () => ({ x: largura() / 2, y: altura() / 2 });
+
+    palco.addEventListener('wheel', (e) => {
+      if (!img) return;
+      e.preventDefault();
+      const dy = e.deltaMode === 1 ? e.deltaY * 33 : e.deltaY;
+      zoomEm(Math.exp(-dy * (e.ctrlKey ? 0.01 : 0.0018)), relativo(e).x, relativo(e).y);
+    }, { passive: false });
+
+    palco.addEventListener('pointerdown', (e) => {
+      if (!img || (e.pointerType === 'mouse' && e.button !== 0)) return;
+      try { palco.setPointerCapture(e.pointerId); } catch (_) { /* sem captura */ }
+      const p = relativo(e);
+      ponteiros.set(e.pointerId, p);
+      moveu = false;
+      if (ponteiros.size === 2) {
+        const [a, b] = [...ponteiros.values()];
+        pinca = { d: Math.hypot(a.x - b.x, a.y - b.y) || 1, s0: s, px0: px, py0: py, mx: (a.x + b.x) / 2, my: (a.y + b.y) / 2 };
+        arrasto = null; houvePinca = true;
+      } else if (ponteiros.size === 1) {
+        arrasto = { x: p.x, y: p.y, px, py }; houvePinca = false;
+        palco.classList.add('arrastando');
+      }
+    });
+    palco.addEventListener('pointermove', (e) => {
+      if (!ponteiros.has(e.pointerId)) return;
+      const p = relativo(e);
+      ponteiros.set(e.pointerId, p);
+      if (pinca && ponteiros.size >= 2) {
+        const [a, b] = [...ponteiros.values()];
+        const ns = Math.min(MAX, Math.max(1, pinca.s0 * (Math.hypot(a.x - b.x, a.y - b.y) / pinca.d)));
+        const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+        px = mx - (pinca.mx - pinca.px0) * (ns / pinca.s0);
+        py = my - (pinca.my - pinca.py0) * (ns / pinca.s0);
+        s = ns; moveu = true;
+        aplicar();
+      } else if (arrasto) {
+        const dx = p.x - arrasto.x, dy = p.y - arrasto.y;
+        if (Math.abs(dx) + Math.abs(dy) > 4) moveu = true;
+        px = arrasto.px + dx; py = arrasto.py + dy;
+        aplicar();
+      }
+    });
+    const soltar = (e) => {
+      if (!ponteiros.has(e.pointerId)) return;
+      const p = ponteiros.get(e.pointerId);
+      ponteiros.delete(e.pointerId);
+      if (ponteiros.size === 1) {
+        const [r] = [...ponteiros.values()];
+        arrasto = { x: r.x, y: r.y, px, py }; pinca = null;
+      } else if (ponteiros.size === 0) {
+        arrasto = null; pinca = null;
+        palco.classList.remove('arrastando');
+        // toque duplo (o duplo clique do mouse tem evento próprio)
+        if (e.pointerType === 'touch' && e.type === 'pointerup' && !moveu && !houvePinca) {
+          const agora = Date.now();
+          if (ultimoToque && agora - ultimoToque.t < 320 && Math.hypot(p.x - ultimoToque.x, p.y - ultimoToque.y) < 30) {
+            alternar(p); ultimoToque = null; ultimoAlternar = agora;
+          } else {
+            ultimoToque = { t: agora, x: p.x, y: p.y };
+          }
+        }
+      }
+    };
+    palco.addEventListener('pointerup', soltar);
+    palco.addEventListener('pointercancel', soltar);
+    // o navegador também dispara dblclick após o toque duplo: ignora para não alternar duas vezes
+    palco.addEventListener('dblclick', (e) => { if (img && Date.now() - ultimoAlternar > 700) alternar(relativo(e)); });
+
+    palco.addEventListener('keydown', (e) => {
+      if (!img) return;
+      const c = centro();
+      if (e.key === '+' || e.key === '=') { zoomEm(1.4, c.x, c.y); e.preventDefault(); }
+      else if (e.key === '-' || e.key === '_') { zoomEm(1 / 1.4, c.x, c.y); e.preventDefault(); }
+      else if (e.key === '0') { ajustar(); e.preventDefault(); }
+      else if (s > 1.01 && e.key.startsWith('Arrow')) {
+        const passo = 60;
+        if (e.key === 'ArrowLeft') px += passo;
+        else if (e.key === 'ArrowRight') px -= passo;
+        else if (e.key === 'ArrowUp') py += passo;
+        else py -= passo;
+        aplicar(); e.preventDefault(); e.stopPropagation();
+      }
+    });
+
+    if ('ResizeObserver' in window) new ResizeObserver(() => ajustar()).observe(palco);
+    else window.addEventListener('resize', ajustar);
+
+    return {
+      definir(src, alt, aoErro) {
+        if (img) img.remove();
+        ponteiros.clear(); arrasto = null; pinca = null; nw = nh = 0; s = 1;
+        palco.classList.remove('ampliado', 'arrastando');
+        img = criarImagem(src, alt, {
+          imediata: true, classe: 'zoom-img', aoErro,
+          aoCarregar: (i) => { nw = i.naturalWidth; nh = i.naturalHeight; ajustar(); }
+        });
+        palco.append(img);
+        // imagem já em cache: o evento load pode ter ocorrido antes do ouvinte
+        if (img.complete && img.naturalWidth) { nw = img.naturalWidth; nh = img.naturalHeight; ajustar(); }
+      },
+      limpar() { if (img) img.remove(); img = null; },
+      mais() { const c = centro(); zoomEm(1.4, c.x, c.y); },
+      menos() { const c = centro(); zoomEm(1 / 1.4, c.x, c.y); },
+      ajustar
+    };
+  }
 
   /**
    * Monta a mídia ligada a um evento ou ponto do mapa: fotografias viram
@@ -358,6 +510,9 @@
       $('#tl-data').textContent = [ev.data || ev.ano, ev.aproximado ? 'data aproximada' : '', ev.local].filter(Boolean).join(' · ');
       $('#tl-titulo-ev').textContent = ev.titulo;
       preencher($('#tl-texto'), paragrafos(ev.texto),
+        ev.atalho && ev.atalho.item ? el('p', { class: 'tl-atalho' }, el('button', {
+          type: 'button', class: 'btn btn-sec', onclick: () => api.verNaGaleria(ev.atalho.item)
+        }, ev.atalho.texto || 'Ver na galeria')) : null,
         ev.verificar ? el('p', { class: 'tl-verificar' }, el('strong', { text: 'A verificar: ' }), ev.verificar) : null);
       preencherOuOcultar($('#tl-midia'), nosDeMidia(itens));
       corpo.classList.toggle('com-midia', itens.some((it) => it.imagem));
@@ -699,7 +854,9 @@
     const corpoVis = $('#vis-corpo');
     const colunaMidia = $('#vis-midia-col');
     const midia = $('#vis-midia');
-    const botaoZoom = $('#vis-zoom');
+    const zoom = criarZoomImagem(midia);
+    const barraPaginas = $('#vis-paginas');
+    let pagina = 0;
     const botaoAnterior = $('#vis-ant');
     const botaoProximo = $('#vis-prox');
 
@@ -707,24 +864,30 @@
       if (valor) dl.append(el('dt', { text: rotulo }), el('dd', { text: valor }));
     }
 
+    // Documentos com várias páginas (item.paginas) mostram uma página por vez.
+    const paginasDe = (item) => (Array.isArray(item.paginas) ? item.paginas.filter((p) => caminhoSeguro(p)) : []);
+    function desenharImagem(item) {
+      const paginas = paginasDe(item);
+      const varias = paginas.length > 1;
+      const src = varias ? paginas[pagina] : item.imagem;
+      const alt = (item.alt || item.titulo) + (varias ? ' (página ' + (pagina + 1) + ' de ' + paginas.length + ')' : '');
+      zoom.definir(src, alt, () => { colunaMidia.hidden = true; corpoVis.classList.add('sem-midia'); });
+      barraPaginas.hidden = !varias;
+      if (varias) {
+        $('#vis-pag-txt').textContent = 'Página ' + (pagina + 1) + ' de ' + paginas.length;
+        $('#vis-pag-ant').disabled = pagina === 0;
+        $('#vis-pag-prox').disabled = pagina === paginas.length - 1;
+      }
+    }
+
     function mostrar() {
       const item = listaAtual[indice];
 
-      midia.classList.remove('ampliada');
-      botaoZoom.setAttribute('aria-pressed', 'false');
-      botaoZoom.textContent = 'Ampliar imagem';
+      pagina = 0;
       const temImagem = Boolean(item.imagem);
       colunaMidia.hidden = !temImagem;
       corpoVis.classList.toggle('sem-midia', !temImagem);
-      if (temImagem) {
-        preencher(midia, criarImagem(item.imagem, item.alt || item.titulo, {
-          imediata: true,
-          aoErro: () => { colunaMidia.hidden = true; corpoVis.classList.add('sem-midia'); }
-        }));
-        midia.scrollTo(0, 0);
-      } else {
-        preencher(midia);
-      }
+      if (temImagem) desenharImagem(item); else zoom.limpar();
 
       $('#vis-cat').textContent = tipoDe(item).singular;
       preencher($('#vis-etiquetas'), etiquetasDe(item).map((t) => el('span', { class: 'etiqueta', text: t })));
@@ -740,7 +903,7 @@
 
       preencherOuOcultar($('#vis-fonte'), nosDaFonte(item));
       const arquivo = caminhoSeguro(item.arquivo);
-      preencherOuOcultar($('#vis-arquivo'), arquivo ? el('a', { href: arquivo, target: '_blank', rel: 'noopener noreferrer', text: 'Abrir o arquivo do documento' }) : null);
+      preencherOuOcultar($('#vis-arquivo'), arquivo ? el('a', { href: arquivo, target: '_blank', rel: 'noopener noreferrer', text: /\.pdf$/i.test(arquivo) ? 'Abrir o PDF completo em nova aba' : 'Abrir o arquivo do documento' }) : null);
 
       const varios = listaAtual.length > 1;
       $('.vis-nav', vis).hidden = !varios;
@@ -786,12 +949,25 @@
       else if (e.key === 'ArrowRight' && indice < listaAtual.length - 1) { indice++; mostrar(); }
     });
 
-    botaoZoom.addEventListener('click', () => {
-      if (!midia.querySelector('img')) return;
-      const ativa = midia.classList.toggle('ampliada');
-      botaoZoom.setAttribute('aria-pressed', String(ativa));
-      botaoZoom.textContent = ativa ? 'Reduzir imagem' : 'Ampliar imagem';
+    $('#vis-mais').addEventListener('click', () => zoom.mais());
+    $('#vis-menos').addEventListener('click', () => zoom.menos());
+    $('#vis-ajustar').addEventListener('click', () => zoom.ajustar());
+    $('#vis-pag-ant').addEventListener('click', () => { if (pagina > 0) { pagina--; desenharImagem(listaAtual[indice]); } });
+    $('#vis-pag-prox').addEventListener('click', () => {
+      if (pagina < paginasDe(listaAtual[indice]).length - 1) { pagina++; desenharImagem(listaAtual[indice]); }
     });
+
+    // Atalho vindo da linha do tempo: filtra pelo tipo do item, vai à galeria e abre o item.
+    api.verNaGaleria = (id) => {
+      const item = GALERIA.find((it) => it.id === id);
+      if (!item) return;
+      filtro = item.tipo;
+      $$('.filtro', filtros).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.filtro === filtro)));
+      desenharGrade();
+      const secao = $('#galeria');
+      if (secao) window.scrollTo({ top: secao.getBoundingClientRect().top + window.scrollY, behavior: 'instant' });
+      abrir(id, visiveis);
+    };
 
     desenharGrade();
   }

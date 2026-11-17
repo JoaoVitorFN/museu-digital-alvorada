@@ -314,8 +314,20 @@
   <dialog id="visualizador" class="vis" aria-labelledby="vis-titulo">
     <div class="vis-corpo" id="vis-corpo">
       <div class="vis-midia-col" id="vis-midia-col">
-        <div class="vis-midia" id="vis-midia"></div>
-        <button class="vis-zoom" id="vis-zoom" type="button" aria-pressed="false">Ampliar imagem</button>
+        <div class="vis-midia zoom-palco" id="vis-midia" tabindex="0" role="group" aria-label="Imagem ampliada. Use + e − para ampliar, 0 para ajustar e as setas para mover."></div>
+        <div class="vis-ferr">
+          <div class="vis-paginas" id="vis-paginas" hidden>
+            <button type="button" class="vis-btn" id="vis-pag-ant" aria-label="Página anterior">‹</button>
+            <span id="vis-pag-txt" aria-live="polite"></span>
+            <button type="button" class="vis-btn" id="vis-pag-prox" aria-label="Próxima página">›</button>
+          </div>
+          <div class="vis-zoom-btns">
+            <button type="button" class="vis-btn" id="vis-menos" aria-label="Reduzir">−</button>
+            <button type="button" class="vis-btn vis-btn-txt" id="vis-ajustar">Ajustar</button>
+            <button type="button" class="vis-btn" id="vis-mais" aria-label="Ampliar">+</button>
+          </div>
+        </div>
+        <p class="vis-dica">Pinça no celular ou roda do mouse no computador para ampliar. Arraste para mover.</p>
       </div>
       <div class="vis-info">
         <p class="chips"><span class="chip" id="vis-cat"></span><span id="vis-etiquetas"></span></p>

@@ -47,7 +47,8 @@ window.MUSEU_DATA = {
        credito: 'Quem cedeu ou fotografou',
        fonte: 'Acervo, livro, entrevista...',
        fonteUrl: 'https://...',        // opcional
-       galeria: false                  // opcional: tira o item da galeria
+       galeria: false,                 // opcional: tira o item da galeria
+       paginas: ['images/...-1.jpg', 'images/...-2.jpg'] // opcional: documento com várias páginas
      }
      Itens com  galeria: false  e sem uso na linha do tempo ficam guardados
      aqui, sem aparecer no site, até que a relação com Alvorada d’Oeste
@@ -93,7 +94,8 @@ window.MUSEU_DATA = {
     {"id": "foto-desfile-7-setembro-1984", "tipo": "fotografia", "titulo": "Desfile de 7 de Setembro", "descricao": "Desfile de 7 de Setembro de 1984. Outra fonte cita um desfile de 7 de Setembro de 1985; o ano ainda precisa ser conferido.", "ano": "1984", "imagem": "images/acervo/37-desfile-7-de-setembro-1984.jpg", "alt": "Fotografia antiga: Desfile de 7 de Setembro", "credito": "", "fonte": "", "galeria": false},
     {"id": "foto-professor-didi-1984", "tipo": "fotografia", "titulo": "Professor Geraldo Didi França", "descricao": "O professor Geraldo Didi França na Escola Monte Alegre, em 1984.", "ano": "1984", "imagem": "images/acervo/39-professor-didi-1984.jpg", "alt": "Fotografia antiga: Professor Geraldo Didi França", "credito": "", "fonte": "", "galeria": false},
     {"id": "foto-satelite-2007", "tipo": "fotografia", "titulo": "Imagem de satélite de Alvorada d’Oeste", "descricao": "Imagem de satélite da área urbana de Alvorada d’Oeste e do entorno.", "ano": "2007", "data": "26 de maio de 2007", "imagem": "images/antes-depois/satelite-2007-05-26.png", "alt": "Imagem de satélite de Alvorada d’Oeste em 26 de maio de 2007: área urbana em quadras, cortada por uma avenida em diagonal, cercada por pastos, lavouras e matas", "credito": "", "fonte": "", "galeria": false},
-    {"id": "foto-satelite-2024", "tipo": "fotografia", "titulo": "Imagem de satélite de Alvorada d’Oeste", "descricao": "Imagem de satélite da mesma área, com enquadramento e orientação semelhantes aos da imagem de 2007.", "ano": "2024", "data": "16 de julho de 2024", "imagem": "images/antes-depois/satelite-2024-07-16.png", "alt": "Imagem de satélite de Alvorada d’Oeste em 16 de julho de 2024: a mesma área urbana em quadras, cortada por uma avenida em diagonal, cercada por pastos, lavouras e matas", "credito": "", "fonte": "", "galeria": false}
+    {"id": "foto-satelite-2024", "tipo": "fotografia", "titulo": "Imagem de satélite de Alvorada d’Oeste", "descricao": "Imagem de satélite da mesma área, com enquadramento e orientação semelhantes aos da imagem de 2007.", "ano": "2024", "data": "16 de julho de 2024", "imagem": "images/antes-depois/satelite-2024-07-16.png", "alt": "Imagem de satélite de Alvorada d’Oeste em 16 de julho de 2024: a mesma área urbana em quadras, cortada por uma avenida em diagonal, cercada por pastos, lavouras e matas", "credito": "", "fonte": "", "galeria": false},
+    {"id": "doc-lei-103-1986", "tipo": "documento", "titulo": "Lei Estadual nº 103, de 20 de maio de 1986", "descricao": "Lei do Governo do Estado de Rondônia que criou o município de Alvorada d’Oeste, com sede na cidade do mesmo nome, por desmembramento do território de Presidente Médici. Digitalização do documento original, em três páginas.", "ano": "1986", "data": "20 de maio de 1986", "imagem": "images/acervo/lei-103-1986-pagina-1.jpg", "paginas": ["images/acervo/lei-103-1986-pagina-1.jpg", "images/acervo/lei-103-1986-pagina-2.jpg", "images/acervo/lei-103-1986-pagina-3.jpg"], "arquivo": "documents/lei-103-1986.pdf", "alt": "Primeira página da Lei Estadual nº 103, de 20 de maio de 1986, datilografada em papel timbrado do Governo do Estado de Rondônia", "autor": "Governo do Estado de Rondônia", "credito": "", "fonte": "Casa Civil de Rondônia — Lei nº 103/1986", "fonteUrl": "https://ditel.casacivil.ro.gov.br/COTEL/Livros/Files/L103-PL.pdf"}
   ],
 
   /* ===================================================================
@@ -102,6 +104,7 @@ window.MUSEU_DATA = {
      em qualquer posição. Copie um bloco e mude  id  e  ano.
      Campos opcionais: data, local, midia (lista de ids do acervo), fonte, fonteUrl,
      fontes (lista de { fonte, fonteUrl } quando há mais de uma),
+     atalho ({ texto, item }: botão que abre um item do acervo na galeria),
      verificar (nota “A verificar” sobre divergências entre fontes),
      rotulo (subtítulo na trilha, útil quando há vários eventos no mesmo ano),
      aproximado: true (mostra "data aproximada"), destaque: true (marco principal),
@@ -235,9 +238,10 @@ window.MUSEU_DATA = {
       rotulo: "Criação do município",
       destaque: true,
       titulo: "Criação oficial do município",
-      texto: "Em 20 de maio de 1986, a Lei Estadual nº 103, assinada pelo governador Ângelo Angelim, cria o município de Alvorada d’Oeste, desmembrado de Presidente Médici. O projeto é do deputado estadual Gersi Badocha. A emancipação dá ao povoado governo e administração próprios.\n\nO processo começa em 1985, com uma comissão de moradores. No plebiscito de 23 de fevereiro de 1986, de 1.402 eleitores inscritos, 790 votaram: 766 a favor, 9 contra, 1 em branco e 14 nulos, segundo o Museu Virtual de Rondônia. João Ferreira Martins, o João Suruí, é nomeado prefeito interino em 1986, e os vereadores são eleitos em 15 de novembro e empossados em 31 de dezembro de 1986.",
-      verificar: "o histórico da Prefeitura registra a instalação do município em 1.º de janeiro de 1989, com o nome “Alvorada do Oeste”, enquanto o Museu Virtual indica prefeito interino em 1986 e vereadores empossados em 31 de dezembro de 1986. A diferença entre as fontes ainda precisa ser verificada.",
-      midia: [],
+      texto: "Em 20 de maio de 1986, a Lei Estadual nº 103, assinada pelo governador Ângelo Angelin, cria o município de Alvorada d’Oeste, com sede na cidade do mesmo nome, desmembrado da área territorial de Presidente Médici. A lei define os limites do novo município e mantém como sua comarca a de Presidente Médici. A emancipação dá ao povoado governo e administração próprios. O projeto é do deputado estadual Gersi Badocha, segundo o Museu Virtual de Rondônia.\n\nO processo começa em 1985, com uma comissão de moradores. No plebiscito de 23 de fevereiro de 1986, de 1.402 eleitores inscritos, 790 votaram: 766 a favor, 9 contra, 1 em branco e 14 nulos (Museu Virtual de Rondônia).\n\nO artigo 4º da lei determina que o município seja instalado em 1.º de janeiro de 1989, com a posse de prefeito, vice-prefeito e vereadores a serem eleitos em 15 de novembro de 1988.",
+      verificar: "o Museu Virtual de Rondônia cita um prefeito interino nomeado em 1986 e vereadores eleitos em 15 de novembro e empossados em 31 de dezembro de 1986, o que não coincide com as datas do artigo 4º da lei (eleição em 1988 e instalação em 1989). A diferença entre as fontes ainda precisa ser verificada.",
+      atalho: { texto: 'Ver o documento completo na galeria', item: 'doc-lei-103-1986' },
+      midia: ["doc-lei-103-1986"],
       fontes: [
         { fonte: "Lei Estadual nº 103, de 20 de maio de 1986", fonteUrl: "https://sapl.al.ro.leg.br/norma/626" },
         { fonte: "Museu Virtual de Rondônia", fonteUrl: "https://museuvirtualrondonia.com/alvorada-doeste" }
